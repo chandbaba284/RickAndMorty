@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.rememberNavController
+import com.example.rickandmorty.presentation.HomesScreen
 import com.example.rickandmorty.presentation.RickAndMortyAppBar
 import com.example.rickandmorty.ui.theme.RickAndMortyTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,16 +28,5 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun HomesScreen() {
-    val navController = rememberNavController()
-    val context = LocalContext.current
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        topBar = { RickAndMortyAppBar(context.getString(R.string.app_name)) }, content = {innerPadding->
-            NavigationController(navController,innerPadding)
-        }
-    )
-}
 
 
