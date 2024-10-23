@@ -17,26 +17,31 @@ import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 
 @Composable
-fun CharactersListItem(imageUrl: String, text: String) {
+fun CharactersListItem(
+    imageUrl: String,
+    text: String,
+) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .aspectRatio(1f) // Ensures the grid items are square
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .aspectRatio(1f), // Ensures the grid items are square
     ) {
         val painter = rememberAsyncImagePainter(imageUrl)
         Image(
             painter = painter,
             contentDescription = "Grid Image",
             contentScale = ContentScale.Crop,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
         )
         Text(
             text = text,
             fontSize = 16.sp,
             color = MaterialTheme.colorScheme.onPrimary,
-            modifier = Modifier
-                .align(Alignment.BottomCenter)
-                .padding(8.dp)
+            modifier =
+                Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(8.dp),
         )
     }
 }

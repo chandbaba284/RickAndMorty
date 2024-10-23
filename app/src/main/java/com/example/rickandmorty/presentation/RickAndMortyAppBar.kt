@@ -17,12 +17,13 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun RickAndMortyAppBar(title: String) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(70.dp)
-            .background(MaterialTheme.colorScheme.background),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(70.dp)
+                .background(MaterialTheme.colorScheme.background),
         horizontalArrangement = Arrangement.Center,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(title, style = TextStyle(fontSize = 16.sp), color = MaterialTheme.colorScheme.onBackground)
     }

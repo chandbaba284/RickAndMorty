@@ -7,6 +7,4 @@ class RickAndMortyApplication : Application() {
     val appComponent by lazy {
         DaggerAppComponent.builder().build()
     }
-
-
 }

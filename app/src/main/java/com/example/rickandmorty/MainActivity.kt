@@ -11,6 +11,7 @@ import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {
     @Inject lateinit var viewModel: CharactersViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         (application as RickAndMortyApplication).appComponent.inject(this)
@@ -22,6 +23,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-
-

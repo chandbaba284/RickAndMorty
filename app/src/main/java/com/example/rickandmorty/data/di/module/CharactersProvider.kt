@@ -9,20 +9,18 @@ import javax.inject.Singleton
 
 @Module
 class CharactersProvider {
-
     @Provides
     @Singleton
     fun provideApolloClient(): ApolloClient {
-        val apolloClient = ApolloClient.Builder()
-            .serverUrl("https://rickandmortyapi.com/graphql")
-            .build()
+        val apolloClient =
+            ApolloClient
+                .Builder()
+                .serverUrl("https://rickandmortyapi.com/graphql")
+                .build()
         return apolloClient
     }
 
     @Provides
     @Singleton
-    fun provideCharacters(apolloClient: ApolloClient): CharactersRepository {
-        return CharactersRepositoryImpl(apolloClient)
-    }
-
+    fun provideCharacters(apolloClient: ApolloClient): CharactersRepository = CharactersRepositoryImpl(apolloClient)
 }

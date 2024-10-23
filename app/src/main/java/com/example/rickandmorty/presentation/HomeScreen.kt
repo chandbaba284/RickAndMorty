@@ -15,8 +15,8 @@ fun HomesScreen() {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = { RickAndMortyAppBar(stringResource(R.string.app_name)) },
-        content = {innerPadding->
-            NavigationController(navController,innerPadding)
-        }
+        content = { innerPadding ->
+            NavigationController(navController, innerPadding)
+        },
     )
 }

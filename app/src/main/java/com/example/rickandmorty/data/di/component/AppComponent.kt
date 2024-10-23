@@ -11,6 +11,6 @@ import javax.inject.Singleton
 @Component(modules = [CharactersProvider::class, ViewModelModule::class])
 interface AppComponent {
     fun inject(activity: MainActivity)
-    fun viewModelFactory(): ViewModelProvider.Factory // Expose ViewModelFactory
 
+    fun viewModelFactory(): ViewModelProvider.Factory // Expose ViewModelFactory
 }

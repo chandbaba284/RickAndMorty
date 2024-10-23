@@ -4,9 +4,9 @@ import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.api.Optional
 import com.exmple.rickandmorty.GetCharactersQuery
 
-class CharacterPagingSource(private val apolloClient: ApolloClient) :
-    PagingSource<Int, GetCharactersQuery.Result>() {
-
+class CharacterPagingSource(
+    private val apolloClient: ApolloClient,
+) : PagingSource<Int, GetCharactersQuery.Result>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, GetCharactersQuery.Result> {
         val page = params.key ?: 1
 
@@ -17,13 +17,26 @@ class CharacterPagingSource(private val apolloClient: ApolloClient) :
             if (response.hasErrors()) {
                 LoadResult.Error(Exception(response.errors?.joinToString(", ") { it.message }))
             } else {
-                val characters = response.data?.characters?.results?.filterNotNull() ?: emptyList()
-                val nextKey = if (response.data?.characters?.info?.next != null) page + 1 else null
+                val characters =
+                    response.data
+                        ?.characters
+                        ?.results
+                        ?.filterNotNull() ?: emptyList()
+                val nextKey =
+                    if (response.data
+                            ?.characters
+                            ?.info
+                            ?.next != null
+                    ) {
+                        page + 1
+                    } else {
+                        null
+                    }
 
                 LoadResult.Page(
                     data = characters,
                     prevKey = if (page == 1) null else page - 1,
-                    nextKey = nextKey // Convert nextKey to Optional
+                    nextKey = nextKey, // Convert nextKey to Optional
                 )
             }
         } catch (e: Exception) {
@@ -31,10 +44,9 @@ class CharacterPagingSource(private val apolloClient: ApolloClient) :
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, GetCharactersQuery.Result>): Int? {
-        return state.anchorPosition?.let { anchorPosition ->
+    override fun getRefreshKey(state: PagingState<Int, GetCharactersQuery.Result>): Int? =
+        state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
-    }
 }

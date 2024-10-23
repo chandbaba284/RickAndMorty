@@ -4,5 +4,5 @@ import androidx.paging.Pager
 import com.exmple.rickandmorty.GetCharactersQuery
 
 interface CharactersRepository {
-    suspend fun getCharacters() : Pager<Int, GetCharactersQuery.Result>
+    suspend fun getCharacters(): Pager<Int, GetCharactersQuery.Result>
 }
