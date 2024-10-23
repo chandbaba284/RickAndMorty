@@ -8,7 +8,6 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.rickandmorty.presentation.characters.AllCharacters
-import com.example.rickandmorty.presentation.characters.CharacterDetailsScreen
 import com.example.rickandmorty.utills.NavigationRoutes
 
 @Composable
@@ -19,7 +18,6 @@ fun NavigationController(navController: NavHostController,paddingValues: Padding
             AllCharacters()
         }
         composable(NavigationRoutes.CharacterDetails.name){
-            CharacterDetailsScreen()
         }
     }
 }
