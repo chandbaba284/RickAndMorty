@@ -9,6 +9,11 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
+
+    }
+
+    plugins {
+        id("org.jmailen.kotlinter") version "4.4.1"
     }
 }
 dependencyResolutionManagement {

@@ -1,12 +1,19 @@
 package com.example.rickandmorty.presentation.uistate
 
-import androidx.paging.Pager
+import androidx.paging.PagingData
 import com.exmple.rickandmorty.GetCharactersQuery
+import kotlinx.coroutines.flow.Flow
 
-object UiState {
-    data class CharactersScreenState(
-        val isLoading: Boolean? = false,
-        val error: String? = "",
-        val data: Pager<Int, GetCharactersQuery.Result>? = null,
-    )
+sealed class UiState {
+    data object Empty : UiState()
+
+    data object Loading : UiState()
+
+    data class Success(
+        val data: Flow<PagingData<GetCharactersQuery.Result>>,
+    ) : UiState()
+
+    data class Error(
+        val exception: Exception,
+    ) : UiState()
 }

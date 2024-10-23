@@ -48,3 +48,5 @@ ktlint-cli = { module = "com.pinterest.ktlint:ktlint-cli", version.ref = "ktlint
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinter = { id = "org.jmailen.kotlinter", version = "4.4.1" }
+

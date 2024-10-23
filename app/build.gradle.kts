@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("com.apollographql.apollo").version("4.0.1")
     kotlin("kapt") // For annotation processing
-    id("org.jmailen.kotlinter") version "4.4.1"
+    alias(libs.plugins.kotlinter)
 }
 
 android {
