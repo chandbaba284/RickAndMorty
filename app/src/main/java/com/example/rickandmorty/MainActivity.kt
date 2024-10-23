@@ -5,11 +5,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.compose.rememberNavController
+import com.example.rickandmorty.presentation.HomesScreen
 import com.example.rickandmorty.presentation.RickAndMortyAppBar
-import com.example.rickandmorty.presentation.characters.AllCharacters
 import com.example.rickandmorty.ui.theme.RickAndMortyTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,13 +22,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             RickAndMortyTheme {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    topBar = { RickAndMortyAppBar(this.getString(R.string.app_name)) }) { innerPadding ->
-
-                    AllCharacters(Modifier.padding(innerPadding))
-                }
+                HomesScreen()
             }
         }
     }
 }
+
+
+

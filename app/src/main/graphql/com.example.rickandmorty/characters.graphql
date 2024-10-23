@@ -1,9 +1,7 @@
 query GetCharacters($page: Int) {
     characters(page: $page) {
         results {
-            id
-            name
-            image
+            ...character
         }
         info {
             next
@@ -11,5 +9,15 @@ query GetCharacters($page: Int) {
             pages
             count
         }
+    }
+}
+
+fragment character on Character{
+    name
+    id
+    image
+    location {
+        name
+        id
     }
 }

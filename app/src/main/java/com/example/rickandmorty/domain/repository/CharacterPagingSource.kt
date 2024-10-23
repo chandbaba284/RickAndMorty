@@ -11,7 +11,6 @@ class CharacterPagingSource(private val apolloClient: ApolloClient) :
         val page = params.key ?: 1
 
         return try {
-            // Execute the query asynchronously
             val response = apolloClient.query(GetCharactersQuery(Optional.present(page))).execute()
 
             // Check for errors in the response
