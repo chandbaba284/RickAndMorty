@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     id("com.apollographql.apollo").version("4.0.1")
     kotlin("kapt") // For annotation processing
-    id("dagger.hilt.android.plugin") // Hilt plugin
+    id("org.jmailen.kotlinter") version "4.4.1"
 }
 
 android {
@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.rickandmorty"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -41,9 +41,13 @@ android {
     buildFeatures {
         compose = true
     }
+    kapt {
+        correctErrorTypes = true
+    }
 
 
 }
+
 
 dependencies {
 
@@ -63,20 +67,14 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.apollo.runtime)
-    implementation ("com.google.dagger:hilt-android:2.48")
-    kapt ("com.google.dagger:hilt-compiler:2.48")
-    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.paging.compose) // or the latest version
+    implementation(libs.androidx.paging.runtime)
 
-    // For instrumentation tests
-    androidTestImplementation  ("com.google.dagger:hilt-android-testing:2.48")
-    kaptAndroidTest ("com.google.dagger:hilt-compiler:2.48")
+    implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
+    implementation(libs.androidx.navigation.compose)
 
-    // For local unit tests
-    testImplementation ("com.google.dagger:hilt-android-testing:2.48")
-    kaptTest ("com.google.dagger:hilt-compiler:2.48")
-    implementation("io.coil-kt:coil-compose:2.4.0")
-    implementation("androidx.paging:paging-compose:3.3.2") // or the latest version
-    implementation("androidx.paging:paging-runtime:3.3.2")
 }
 
 apollo {

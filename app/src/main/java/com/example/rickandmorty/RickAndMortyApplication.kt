@@ -1,8 +1,12 @@
 package com.example.rickandmorty
 
 import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import com.example.rickandmorty.data.di.component.DaggerAppComponent
 
-@HiltAndroidApp
 class RickAndMortyApplication : Application() {
+    val appComponent by lazy {
+        DaggerAppComponent.builder().build()
+    }
+
+
 }

@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.rickandmorty.domain.repository.usecase.CharacterUseCase
 import com.example.rickandmorty.presentation.uistate.UiState
 import com.example.rickandmorty.utills.NetWorkResult
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -13,7 +12,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
 class CharactersViewModel @Inject constructor(private val charactersUseCase: CharacterUseCase) :
     ViewModel() {
     val _charactersstate = MutableStateFlow(UiState.CharactersScreenState())
