@@ -18,8 +18,8 @@ class CharactersViewModel
     constructor(
         private val charactersUseCase: CharacterUseCase,
     ) : ViewModel() {
-        val _charactersstate: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
-        val charactersState: StateFlow<UiState> get() = _charactersstate.asStateFlow()
+        private val _charactersState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
+        val charactersState: StateFlow<UiState> get() = _charactersState.asStateFlow()
 
         init {
             fetchData()
@@ -30,10 +30,10 @@ class CharactersViewModel
                 charactersUseCase
                     .invokeCharacters()
                     .onStart {
-                        _charactersstate.update { UiState.Loading }
+                        _charactersState.update { UiState.Loading }
                     }.catch { UiState.Empty }
                     .collect {
-                        _charactersstate.update { UiState.Success(charactersUseCase.invokeCharacters()) }
+                        _charactersState.update { UiState.Success(charactersUseCase.invokeCharacters()) }
                     }
             }
         }
