@@ -44,3 +44,4 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 kotlinter = { id = "org.jmailen.kotlinter", version = "4.4.1" }
 apollo = {id = "com.apollographql.apollo",version = "4.0.1"}
 
+

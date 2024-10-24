@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rickandmorty.domain.repository.usecase.CharacterUseCase
 import com.example.rickandmorty.presentation.uistate.UiState
+import com.exmple.rickandmorty.GetCharactersQuery
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,8 +19,8 @@ class CharactersViewModel
     constructor(
         private val charactersUseCase: CharacterUseCase,
     ) : ViewModel() {
-        private val _charactersState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
-        val charactersState: StateFlow<UiState> get() = _charactersState.asStateFlow()
+        private val _charactersState: MutableStateFlow<UiState<GetCharactersQuery.Result>> = MutableStateFlow(UiState.Empty())
+        val charactersState: StateFlow<UiState<GetCharactersQuery.Result>> get() = _charactersState.asStateFlow()
 
         init {
             fetchData()
@@ -30,8 +31,8 @@ class CharactersViewModel
                 charactersUseCase
                     .invokeCharacters()
                     .onStart {
-                        _charactersState.update { UiState.Loading }
-                    }.catch { UiState.Empty }
+                        _charactersState.update { UiState.Loading() }
+                    }.catch { _charactersState.update { UiState.Empty() } }
                     .collect {
                         _charactersState.update { UiState.Success(charactersUseCase.invokeCharacters()) }
                     }

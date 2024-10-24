@@ -8,7 +8,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class CharactersProvider {
+class CharactersModule {
     @Provides
     @Singleton
     fun provideApolloClient(): ApolloClient {

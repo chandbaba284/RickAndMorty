@@ -11,10 +11,6 @@ pluginManagement {
         gradlePluginPortal()
 
     }
-
-    plugins {
-        id("org.jmailen.kotlinter") version "4.4.1"
-    }
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)

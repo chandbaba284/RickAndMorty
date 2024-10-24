@@ -31,16 +31,15 @@ fun AllCharacters() {
         remember {
             ViewModelProvider(activity, viewModelFactory).get(CharactersViewModel::class.java)
         }
-
-    val uistate = viewModel.charactersState.collectAsState()
-    when (uistate.value) {
+    val uistate = viewModel.charactersState.collectAsState().value
+    when (uistate) {
         is UiState.Empty -> {}
         is UiState.Error -> {}
         is UiState.Loading -> {
             CircularProgressIndicator(modifier = Modifier.height(100.dp).width(100.dp))
         }
         is UiState.Success -> {
-            val lazyPagingItems = (uistate.value as UiState.Success).data.collectAsLazyPagingItems()
+            val lazyPagingItems = (uistate).data.collectAsLazyPagingItems()
             val charactersList = remember { lazyPagingItems }
             CharactersList(charactersList)
         }
