@@ -3,8 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.apollo)
-    kotlin("kapt") // For annotation processing
     alias(libs.plugins.kotlinter)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -41,11 +41,6 @@ android {
     buildFeatures {
         compose = true
     }
-    kapt {
-        correctErrorTypes = true
-    }
-
-
 }
 
 
@@ -72,7 +67,7 @@ dependencies {
     implementation(libs.androidx.paging.runtime)
 
     implementation(libs.dagger)
-    kapt(libs.dagger.compiler)
+    ksp(libs.dagger.compiler)
     implementation(libs.androidx.navigation.compose)
 
 }
