@@ -40,20 +40,18 @@ class CharactersViewModelTest {
     }
 
     @Test
-    fun `test fetching characters updates UiState to Success`() = testScope.runTest {
-        charactersViewModel.fetchData()
+    fun `test fetching characters updates UiState to Success`() =
+        testScope.runTest {
+            charactersViewModel.fetchData()
 
-        useCase.invokeCharacters()
-            .onStart {
-                assertEquals(UiState.Loading, charactersViewModel.charactersState.value)
-
-            }.catch {
-                assertEquals(UiState.Empty, charactersViewModel.charactersState.value)
-
-            }.collect { data ->
-                assertEquals(data, charactersViewModel.charactersState.value)
-
-            }
-    }
+            useCase
+                .invokeCharacters()
+                .onStart {
+                    assertEquals(UiState.Loading, charactersViewModel.charactersState.value)
+                }.catch {
+                    assertEquals(UiState.Empty, charactersViewModel.charactersState.value)
+                }.collect { data ->
+                    assertEquals(data, charactersViewModel.charactersState.value)
+                }
+        }
 }
-

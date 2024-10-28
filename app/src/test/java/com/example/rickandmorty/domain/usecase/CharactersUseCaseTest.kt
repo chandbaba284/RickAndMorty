@@ -11,7 +11,6 @@ import org.junit.Test
 
 @ExperimentalCoroutinesApi
 class CharactersUseCaseTest {
-
     private lateinit var useCase: CharacterUseCase
     private lateinit var repository: CharactersTestRepository
 
@@ -22,9 +21,10 @@ class CharactersUseCaseTest {
     }
 
     @Test
-    fun `test invoke returns dummy characters`() = runBlocking {
-        val expectedCharacters = repository.getCharacters().toList()
-        val result = useCase.invokeCharacters().toList()
-        assertEquals(expectedCharacters, result)
-    }
+    fun `test invoke returns dummy characters`() =
+        runBlocking {
+            val expectedCharacters = repository.getCharacters().toList()
+            val result = useCase.invokeCharacters().toList()
+            assertEquals(expectedCharacters, result)
+        }
 }

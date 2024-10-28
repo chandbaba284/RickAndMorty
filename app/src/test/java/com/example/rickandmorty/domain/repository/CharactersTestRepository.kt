@@ -11,18 +11,23 @@ class CharactersTestRepository : CharactersRepository {
         val items =
             listOf(
                 GetCharactersQuery.Result(
-                    "", Character(
-                        name = "", "", "",
-                        Character.Location("", "")
-                    )
+                    "",
+                    Character(
+                        name = "",
+                        "",
+                        "",
+                        Character.Location("", ""),
+                    ),
                 ),
                 GetCharactersQuery.Result(
-                    "", Character(
-                        name = "", "", "",
-                        Character.Location("", "")
-                    )
-                )
-
+                    "",
+                    Character(
+                        name = "",
+                        "",
+                        "",
+                        Character.Location("", ""),
+                    ),
+                ),
             )
 
         return flow { PagingData.from(items) }
