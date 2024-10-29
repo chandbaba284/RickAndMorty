@@ -10,7 +10,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -22,7 +21,6 @@ class CharactersViewModelTest {
     private lateinit var useCase: CharacterUseCase
     private lateinit var charactersViewModel: CharactersViewModel
     private val testDispatcher = StandardTestDispatcher()
-    private val testScope = TestScope(testDispatcher)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
@@ -33,17 +31,10 @@ class CharactersViewModelTest {
         charactersViewModel = CharactersViewModel(useCase)
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
-    @After
-    fun tearDown() {
-        Dispatchers.resetMain()
-    }
-
     @Test
-    fun `test fetching characters updates UiState to Success`() =
-        testScope.runTest {
+    fun testFetchCharacterUpdatesToUi() =
+        runTest(testDispatcher) {
             charactersViewModel.fetchData()
-
             useCase
                 .invokeCharacters()
                 .onStart {
@@ -54,4 +45,10 @@ class CharactersViewModelTest {
                     assertEquals(data, charactersViewModel.charactersState.value)
                 }
         }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @After
+    fun tearDown() {
+        Dispatchers.resetMain()
+    }
 }

@@ -68,7 +68,8 @@ dependencies {
     implementation(libs.dagger)
     ksp(libs.dagger.compiler)
     implementation(libs.androidx.navigation.compose)
-    testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0") // or the latest version
+    testImplementation(libs.kotlinx.coroutines.test)
+
 
 
 }
