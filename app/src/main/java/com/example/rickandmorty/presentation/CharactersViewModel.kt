@@ -7,10 +7,8 @@ import com.example.rickandmorty.presentation.uistate.UiState
 import com.exmple.rickandmorty.GetCharactersQuery
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,7 +18,7 @@ class CharactersViewModel
         private val charactersUseCase: CharacterUseCase,
     ) : ViewModel() {
         private val _charactersState: MutableStateFlow<UiState<GetCharactersQuery.Result>> = MutableStateFlow(UiState.Empty())
-        val charactersState: StateFlow<UiState<GetCharactersQuery.Result>> get() = _charactersState.asStateFlow()
+        val charactersState: StateFlow<UiState<GetCharactersQuery.Result>> get() = _charactersState
 
         init {
             fetchData()
@@ -31,10 +29,10 @@ class CharactersViewModel
                 charactersUseCase
                     .invokeCharacters()
                     .onStart {
-                        _charactersState.update { UiState.Loading() }
-                    }.catch { _charactersState.update { UiState.Empty() } }
+                        _charactersState.emit(UiState.Loading())
+                    }.catch { _charactersState.emit(UiState.Empty()) }
                     .collect {
-                        _charactersState.update { UiState.Success(charactersUseCase.invokeCharacters()) }
+                        _charactersState.emit(UiState.Success(charactersUseCase.invokeCharacters()))
                     }
             }
         }

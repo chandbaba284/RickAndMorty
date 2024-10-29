@@ -1,8 +1,7 @@
 package com.example.rickandmorty.presentation.characters
 
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -36,11 +35,10 @@ fun AllCharacters() {
         is UiState.Empty -> {}
         is UiState.Error -> {}
         is UiState.Loading -> {
-            CircularProgressIndicator(modifier = Modifier.height(100.dp).width(100.dp))
+            CircularProgressIndicator(modifier = Modifier.size(100.dp))
         }
         is UiState.Success -> {
-            val lazyPagingItems = (uistate).data.collectAsLazyPagingItems()
-            val charactersList = remember { lazyPagingItems }
+            val charactersList = uistate.data.collectAsLazyPagingItems()
             CharactersList(charactersList)
         }
     }
