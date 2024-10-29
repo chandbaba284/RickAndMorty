@@ -18,13 +18,11 @@ fun CharactersList(charactersList: LazyPagingItems<GetCharactersQuery.Result>?) 
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(8.dp),
         horizontalArrangement = Arrangement.spacedBy(20.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
-
+        verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         items(charactersList?.itemCount ?: 0) { index ->
             val item = charactersList?.get(index)
             CharactersListItem(item?.character?.image ?: "", item?.character?.name ?: "")
         }
-
     }
 }

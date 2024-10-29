@@ -1,7 +1,5 @@
 package com.example.rickandmorty
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -11,13 +9,19 @@ import com.example.rickandmorty.presentation.characters.AllCharacters
 import com.example.rickandmorty.utills.NavigationRoutes
 
 @Composable
-fun NavigationController(navController: NavHostController,paddingValues: PaddingValues)  {
-    NavHost(navController,NavigationRoutes.AllCharacters.name,
-        modifier = Modifier.padding(paddingValues)) {
-        composable(NavigationRoutes.AllCharacters.name){
+fun NavigationController(
+    navController: NavHostController,
+    modifier: Modifier,
+) {
+    NavHost(
+        navController,
+        NavigationRoutes.AllCharacters.name,
+        modifier = modifier,
+    ) {
+        composable(NavigationRoutes.AllCharacters.name) {
             AllCharacters()
         }
-        composable(NavigationRoutes.CharacterDetails.name){
+        composable(NavigationRoutes.CharacterDetails.name) {
         }
     }
 }

@@ -4,58 +4,36 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rickandmorty.domain.repository.usecase.CharacterUseCase
 import com.example.rickandmorty.presentation.uistate.UiState
-import com.example.rickandmorty.utills.NetWorkResult
-import dagger.hilt.android.lifecycle.HiltViewModel
+import com.exmple.rickandmorty.GetCharactersQuery
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@HiltViewModel
-class CharactersViewModel @Inject constructor(private val charactersUseCase: CharacterUseCase) :
-    ViewModel() {
-    val _charactersstate = MutableStateFlow(UiState.CharactersScreenState())
-    val charactersState: StateFlow<UiState.CharactersScreenState> get() = _charactersstate.asStateFlow()
+class CharactersViewModel
+    @Inject
+    constructor(
+        private val charactersUseCase: CharacterUseCase,
+    ) : ViewModel() {
+        private val _charactersState: MutableStateFlow<UiState<GetCharactersQuery.Result>> = MutableStateFlow(UiState.Empty())
+        val charactersState: StateFlow<UiState<GetCharactersQuery.Result>> get() = _charactersState
 
-    init {
-        fetchData()
-    }
-
-    private fun fetchData() {
-        viewModelScope.launch {
-            _charactersstate.emit(UiState.CharactersScreenState(isLoading = true))
-            charactersUseCase.invokeFunction().collect { netWorkResult ->
-                when (netWorkResult) {
-                    is NetWorkResult.Loading -> {
-                        _charactersstate.update { UiState.CharactersScreenState() }
-                    }
-
-                    is NetWorkResult.Success -> {
-                        netWorkResult.data?.flow?.collect {
-                            _charactersstate.update {
-                                UiState.CharactersScreenState(
-                                    data = netWorkResult.data
-                                )
-                            }
-
-                        }
-                    }
-                    is NetWorkResult.Error -> {
-                        _charactersstate.update {
-                            UiState.CharactersScreenState(
-                                error = netWorkResult.message.toString()
-                            )
-
-                        }
-
-                    }
-                }
-            }
+        init {
+            fetchData()
         }
 
+        private fun fetchData() {
+            viewModelScope.launch {
+                charactersUseCase
+                    .invokeCharacters()
+                    .onStart {
+                        _charactersState.emit(UiState.Loading())
+                    }.catch { _charactersState.emit(UiState.Empty()) }
+                    .collect {
+                        _charactersState.emit(UiState.Success(charactersUseCase.invokeCharacters()))
+                    }
+            }
+        }
     }
-
-}
-
