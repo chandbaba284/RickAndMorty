@@ -65,10 +65,12 @@ dependencies {
     implementation(libs.coil.compose)
     implementation(libs.androidx.paging.compose) // or the latest version
     implementation(libs.androidx.paging.runtime)
-
     implementation(libs.dagger)
     ksp(libs.dagger.compiler)
     implementation(libs.androidx.navigation.compose)
+    testImplementation(libs.kotlinx.coroutines.test)
+
+
 
 }
 

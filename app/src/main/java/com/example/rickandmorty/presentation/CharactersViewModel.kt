@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rickandmorty.domain.repository.usecase.CharacterUseCase
 import com.example.rickandmorty.presentation.uistate.UiState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -25,8 +26,8 @@ class CharactersViewModel
             fetchData()
         }
 
-        private fun fetchData() {
-            viewModelScope.launch {
+        fun fetchData() {
+            viewModelScope.launch(Dispatchers.IO) {
                 charactersUseCase
                     .invokeCharacters()
                     .onStart {
