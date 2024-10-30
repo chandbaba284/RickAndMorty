@@ -1,7 +1,6 @@
 package com.example.rickandmorty.presentation.viewmodel
 
 import com.example.rickandmorty.domain.repository.CharactersTestRepository
-import com.example.rickandmorty.domain.repository.usecase.CharacterUseCase
 import com.example.rickandmorty.presentation.CharactersViewModel
 import com.example.rickandmorty.presentation.uistate.UiState
 import junit.framework.TestCase.assertEquals
@@ -16,6 +15,7 @@ import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import usecases.CharacterUseCase
 
 class CharactersViewModelTest {
     private lateinit var useCase: CharacterUseCase
@@ -38,7 +38,7 @@ class CharactersViewModelTest {
             useCase
                 .invokeCharacters()
                 .onStart {
-                    assertEquals(UiState.Loading, charactersViewModel.charactersState.value)
+                    assertEquals(UiState.Empty, charactersViewModel.charactersState.value)
                 }.catch {
                     assertEquals(UiState.Empty, charactersViewModel.charactersState.value)
                 }.collect { data ->

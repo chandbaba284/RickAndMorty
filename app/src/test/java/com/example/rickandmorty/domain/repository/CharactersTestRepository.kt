@@ -5,6 +5,7 @@ import com.exmple.rickandmorty.GetCharactersQuery
 import com.exmple.rickandmorty.fragment.Character
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import repository.CharactersRepository
 
 class CharactersTestRepository : CharactersRepository {
     override suspend fun getCharacters(): Flow<PagingData<GetCharactersQuery.Result>> {
