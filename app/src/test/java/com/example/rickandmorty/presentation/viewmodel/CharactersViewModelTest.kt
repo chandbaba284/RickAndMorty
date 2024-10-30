@@ -38,7 +38,7 @@ class CharactersViewModelTest {
             useCase
                 .invokeCharacters()
                 .onStart {
-                    assertEquals(UiState.Empty, charactersViewModel.charactersState.value)
+                    assertEquals(UiState.Loading, charactersViewModel.charactersState.value)
                 }.catch {
                     assertEquals(UiState.Empty, charactersViewModel.charactersState.value)
                 }.collect { data ->
