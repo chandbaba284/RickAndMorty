@@ -1,14 +1,13 @@
-package com.example.rickandmorty.data.di.module
+package com.example.common.module
 
 import com.apollographql.apollo.ApolloClient
-import com.example.rickandmorty.data.repository.CharactersRepositoryImpl
-import com.example.rickandmorty.domain.repository.CharactersRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class CharactersModule {
+object ApolloModule {
+
     @Provides
     @Singleton
     fun provideApolloClient(): ApolloClient {
@@ -19,8 +18,4 @@ class CharactersModule {
                 .build()
         return apolloClient
     }
-
-    @Provides
-    @Singleton
-    fun provideCharacters(apolloClient: ApolloClient): CharactersRepository = CharactersRepositoryImpl(apolloClient)
 }

@@ -45,7 +45,9 @@ android {
 
 
 dependencies {
-
+    implementation(project(":data"))
+    implementation(project(":domain"))
+    implementation(project(":common"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -74,12 +76,3 @@ dependencies {
 
 }
 
-apollo {
-    service("rickAndMorty"){
-        packageName.set("com.exmple.rickandmorty")
-        introspection {
-            endpointUrl.set("https://rickandmortyapi.com/graphql")
-            schemaFile.set(file("src/main/graphql/com/example/rickandmorty/schema.sdl"))
-        }
-    }
-}

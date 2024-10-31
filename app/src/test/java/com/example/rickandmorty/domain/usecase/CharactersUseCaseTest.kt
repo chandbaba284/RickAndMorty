@@ -1,7 +1,6 @@
 package com.example.rickandmorty.domain.usecase
 
 import com.example.rickandmorty.domain.repository.CharactersTestRepository
-import com.example.rickandmorty.domain.repository.usecase.CharacterUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
@@ -13,6 +12,7 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import usecases.CharacterUseCase
 
 @ExperimentalCoroutinesApi
 class CharactersUseCaseTest {

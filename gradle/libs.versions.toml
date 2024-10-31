@@ -14,6 +14,8 @@ composeBom = "2024.10.00"
 navigationCompose = "2.8.3"
 pagingCompose = "3.3.2"
 kotlinx-coroutines = "1.8.0"
+appcompat = "1.7.0"
+material = "1.12.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -38,6 +40,8 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 
 [plugins]
@@ -47,5 +51,7 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 kotlinter = { id = "org.jmailen.kotlinter", version = "4.4.1" }
 apollo = {id = "com.apollographql.apollo",version = "4.0.1"}
 ksp = {id = "com.google.devtools.ksp",version = "2.0.0-1.0.22"}
+androidLibrary = { id = "com.android.library"}
+
 
 
