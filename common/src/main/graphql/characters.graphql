@@ -16,8 +16,16 @@ fragment character on Character{
     name
     id
     image
+    status
+    species
+    gender
     location {
-        name
-        id
+        ...location
     }
+}
+
+fragment location on Location{
+    id
+    name
+    dimension
 }
