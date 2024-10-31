@@ -1,8 +1,9 @@
-package com.example.rickandmorty.presentation
+package com.example.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.rickandmorty.presentation.uistate.UiState
+import com.example.presentation.uistate.UiState
+import com.exmple.rickandmorty.GetCharactersQuery
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,8 +18,8 @@ class CharactersViewModel
     constructor(
         private val charactersUseCase: CharacterUseCase,
     ) : ViewModel() {
-        private val _charactersState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
-        val charactersState: StateFlow<UiState> get() = _charactersState
+    private val _charactersState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
+    val charactersState: StateFlow<UiState> get() = _charactersState
 
         init {
             fetchData()
