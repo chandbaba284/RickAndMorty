@@ -1,4 +1,4 @@
-package com.example.rickandmorty.presentation.uistate
+package com.example.presentation.uistate
 
 import androidx.paging.PagingData
 import com.exmple.rickandmorty.GetCharactersQuery

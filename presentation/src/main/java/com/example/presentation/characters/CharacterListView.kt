@@ -1,4 +1,4 @@
-package com.example.rickandmorty.presentation.characters
+package com.example.presentation.characters
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues

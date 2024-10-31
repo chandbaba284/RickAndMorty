@@ -1,4 +1,4 @@
-package com.example.rickandmorty.utills
+package com.example.common.utills
 
 enum class NavigationRoutes {
     AllCharacters,
