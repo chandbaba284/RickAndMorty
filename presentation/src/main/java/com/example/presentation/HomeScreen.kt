@@ -1,4 +1,4 @@
-package com.example.rickandmorty.presentation
+package com.example.presentation
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -7,17 +7,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.rememberNavController
-import com.example.rickandmorty.NavigationController
-import com.example.rickandmorty.R
+import com.example.presentation.navigation.NavigationController
+import com.example.presentation.viewmodel.CharactersViewModel
 
 @Composable
-fun HomesScreen() {
+fun HomesScreen(viewModel: CharactersViewModel) {
     val navController = rememberNavController()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = { RickAndMortyAppBar(stringResource(R.string.app_name)) },
         content = { innerPadding ->
-            NavigationController(navController, Modifier.padding(innerPadding))
+            NavigationController(navController, Modifier.padding(innerPadding),viewModel)
         },
     )
 }
