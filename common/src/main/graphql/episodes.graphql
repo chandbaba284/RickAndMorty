@@ -1,0 +1,7 @@
+fragment GetAllEpisodes on Episodes{
+    results {
+        episode
+        name
+    }
+
+}
