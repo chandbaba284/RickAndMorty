@@ -17,8 +17,11 @@ class CharactersTestRepository : CharactersRepository {
                     Character(
                         name = "",
                         "",
-                        "","","","",
-                        location = Character.Location("", Location("","",""))
+                        "",
+                        "",
+                        "",
+                        "",
+                        location = Character.Location("", Location("", "", "")),
                     ),
                 ),
                 GetCharactersQuery.Result(
@@ -26,11 +29,17 @@ class CharactersTestRepository : CharactersRepository {
                     Character(
                         name = "",
                         "",
-                        "","","","",
-                        Character.Location("", Location("","",""),
+                        "",
+                        "",
+                        "",
+                        "",
+                        Character.Location(
+                            "",
+                            Location("", "", ""),
+                        ),
                     ),
                 ),
-            ))
+            )
 
         return flow { PagingData.from(items) }
     }
