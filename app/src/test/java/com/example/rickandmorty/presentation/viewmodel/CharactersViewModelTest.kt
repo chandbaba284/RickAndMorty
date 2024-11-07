@@ -40,24 +40,24 @@ class CharactersViewModelTest {
             val mockPagingData = testCharactersRepository.getCharacters()
             coEvery { useCase.invokeCharacters() } returns mockPagingData
             charactersViewModel.fetchData()
-            val job = launch {
-                charactersViewModel.charactersState.collect { state ->
-                    println(state)
-                    when (state) {
-                        is UiState.Success -> {
-                            println(mockPagingData)
-                            println(state.data)
-                            assertEquals(mockPagingData,state.data)
+            val job =
+                launch {
+                    charactersViewModel.charactersState.collect { state ->
+                        println(state)
+                        when (state) {
+                            is UiState.Success -> {
+                                println(mockPagingData)
+                                println(state.data)
+                                assertEquals(mockPagingData, state.data)
+                            }
+                            UiState.Empty -> {}
+                            is UiState.Error -> {}
+                            UiState.Loading -> {}
                         }
-                        UiState.Empty -> {}
-                        is UiState.Error -> {}
-                        UiState.Loading -> {}
                     }
                 }
-            }
             testDispatcher.scheduler.advanceUntilIdle()
             job.cancel()
-
         }
 
     @OptIn(ExperimentalCoroutinesApi::class)
