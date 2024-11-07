@@ -11,6 +11,7 @@ class CharacterUseCase
 constructor(
     private val charactersRepository: CharactersRepository,
 ) {
-    suspend fun invokeCharacters(): Flow<PagingData<GetCharactersQuery.Result>> =
-        charactersRepository.getCharacters()
+    suspend fun invokeCharacters(): Flow<PagingData<GetCharactersQuery.Result>>{
+        return charactersRepository.getCharacters()
+    }
 }

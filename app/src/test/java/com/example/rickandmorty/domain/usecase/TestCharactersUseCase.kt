@@ -1,6 +1,8 @@
 package com.example.rickandmorty.domain.usecase
 
-import com.example.rickandmorty.domain.repository.CharactersTestRepository
+import com.example.rickandmorty.domain.repository.TestCharactersRepository
+import io.mockk.coEvery
+import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.toList
@@ -12,24 +14,27 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
+import repository.CharactersRepository
 import usecases.CharacterUseCase
 
 @ExperimentalCoroutinesApi
-class CharactersUseCaseTest {
+class TestCharactersUseCase {
     private lateinit var useCase: CharacterUseCase
-    private lateinit var repository: CharactersTestRepository
+    private var repository: CharactersRepository = mockk()
     private val testDispatcher = StandardTestDispatcher()
+    private lateinit var testCharactersRepository: TestCharactersRepository
 
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        repository = CharactersTestRepository()
+        testCharactersRepository = TestCharactersRepository()
         useCase = CharacterUseCase(repository)
     }
 
     @Test
     fun testInvokeCharactersWithRepository() =
         runTest(testDispatcher) {
+            coEvery { repository.getCharacters() } returns testCharactersRepository.getCharacters()
             val expectedCharacters = repository.getCharacters().toList()
             val result = useCase.invokeCharacters().toList()
             assertEquals(expectedCharacters, result)

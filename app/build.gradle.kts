@@ -72,6 +72,9 @@ dependencies {
     ksp(libs.dagger.compiler)
     implementation(libs.androidx.navigation.compose)
     testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation (libs.androidx.core.testing)
+
 
 
 
