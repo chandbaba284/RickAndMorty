@@ -10,7 +10,7 @@ class CharacterDetailsRepositoryImpl(val apolloClient: ApolloClient) : Character
         val response = apolloClient.query(GetCharacterDetailsByIdQuery(id)).execute()
         if (!response.hasErrors()){
             response.data?.character?.character?.let {
-                return CharacterDetails(it.id?:"",it.name?:"",it.image?:"",it.status?:"",it.species?:"",it.gender?:"")
+                return CharacterDetails(id = it.id?:"", name = it.name?:"", image = it.image?:"", status = it.status?:"", species = it.species?:"", gender = it.gender?:"")
 
             }
         }
