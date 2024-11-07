@@ -14,27 +14,25 @@ import usecases.CharacterUseCase
 import javax.inject.Inject
 
 class CharactersViewModel
-    @Inject
-    constructor(
-        private val charactersUseCase: CharacterUseCase,
-    ) : ViewModel() {
-    private val _charactersState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Empty)
+@Inject
+constructor(
+    private val charactersUseCase: CharacterUseCase,
+) : ViewModel() {
+    private val _charactersState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Loading)
     val charactersState: StateFlow<UiState> get() = _charactersState
 
-        init {
-            fetchData()
-        }
+    init {
+        fetchData()
+    }
 
-        fun fetchData() {
-            viewModelScope.launch(Dispatchers.IO) {
-                charactersUseCase
-                    .invokeCharacters()
-                    .onStart {
-                        _charactersState.emit(UiState.Loading)
-                    }.catch { _charactersState.emit(UiState.Empty) }
-                    .collect {
-                        _charactersState.emit(UiState.Success(charactersUseCase.invokeCharacters()))
-                    }
-            }
+    fun fetchData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            _charactersState.emit(UiState.Loading)
+            charactersUseCase
+                .invokeCharacters().collect {
+                    _charactersState.emit(UiState.Success(it))
+                }
+
         }
     }
+}

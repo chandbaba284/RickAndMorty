@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -12,6 +13,7 @@ import com.example.presentation.uistate.UiState.Empty
 import com.example.presentation.uistate.UiState.Success
 import com.example.presentation.uistate.UiState.Error
 import com.example.presentation.uistate.UiState.Loading
+import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun AllCharacters(viewModel: CharactersViewModel) {
@@ -23,7 +25,7 @@ fun AllCharacters(viewModel: CharactersViewModel) {
             CircularProgressIndicator(modifier = Modifier.size(100.dp))
         }
         is Success -> {
-            val charactersList = uistate.data.collectAsLazyPagingItems()
+            val charactersList = remember { flowOf(uistate.data) }.collectAsLazyPagingItems()
             CharactersList(charactersList)
         }
         else -> Unit
