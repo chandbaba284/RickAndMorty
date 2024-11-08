@@ -1,6 +1,8 @@
 package com.example.presentation.characters
 
+import AspectRatios
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,22 +14,29 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.example.common.utills.NavigationRoutes
+import com.example.presentation.R
+import com.exmple.rickandmorty.GetCharactersQuery
 
 @Composable
 fun CharactersListItem(
-    imageUrl: String,
-    text: String,
+    navController: NavController,
+    item: GetCharactersQuery.Result?
 ) {
     Box(
         modifier =
             Modifier
                 .fillMaxWidth()
-                .aspectRatio(1f), // Ensures the grid items are square
+                .aspectRatio(AspectRatios.AspectRatio_List_Item).clickable {
+                    navController.navigate(NavigationRoutes.CharacterDetails.createRoute(item?.character?.id?:""))
+                }
     ) {
-        val painter = rememberAsyncImagePainter(imageUrl)
+        val painter = rememberAsyncImagePainter(item?.character?.image)
         Image(
             painter = painter,
             contentDescription = "Grid Image",
@@ -35,13 +44,12 @@ fun CharactersListItem(
             modifier = Modifier.fillMaxSize(),
         )
         Text(
-            text = text,
-            fontSize = 16.sp,
+            text = item?.character?.name?:"", style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onPrimary,
             modifier =
                 Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(8.dp),
+                    .padding(dimensionResource(R.dimen.character_list_item_padding)),
         )
     }
 }

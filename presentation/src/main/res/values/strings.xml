@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">presentation</string>
+    <string name="status">STATUS:</string>
+    <string name="species">SPECIES:</string>
+    <string name="gender">GENDER:</string>
+    <string name="origin">ORIGIN:</string>
+    <string name="origin_name">Name:</string>
+    <string name="origin_dimension">Dimension:</string>
+    <string name="location">Location:</string>
+    <string name="location_name">Name:</string>
+    <string name="location_dimension">Dimension:</string>
 </resources>

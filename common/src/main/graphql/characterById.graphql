@@ -2,4 +2,11 @@ query GetCharacterDetailsById($id: ID!){
     character(id: $id){
         ...character
     }
+    episodes{
+       info {
+           prev
+       }
+
+    }
+
 }

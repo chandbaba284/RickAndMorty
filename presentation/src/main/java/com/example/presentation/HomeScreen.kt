@@ -4,20 +4,24 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.compose.rememberNavController
 import com.example.presentation.navigation.NavigationController
-import com.example.presentation.viewmodel.CharactersViewModel
 
 @Composable
-fun HomesScreen(viewModel: CharactersViewModel) {
+fun HomesScreen(viewModelFactory: ViewModelProvider.Factory) {
     val navController = rememberNavController()
+    var topBarTitle by remember { mutableStateOf("") }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { RickAndMortyAppBar(stringResource(R.string.app_name)) },
+        topBar = { RickAndMortyAppBar(topBarTitle) },
         content = { innerPadding ->
-            NavigationController(navController, Modifier.padding(innerPadding),viewModel)
+            NavigationController(onTitleChange = {newTitle -> topBarTitle = newTitle},navController, Modifier.padding(innerPadding),viewModelFactory)
         },
     )
 }
