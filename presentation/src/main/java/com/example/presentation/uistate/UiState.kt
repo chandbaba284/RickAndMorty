@@ -10,7 +10,7 @@ sealed class UiState {
     data object Loading : UiState()
 
     data class Success(
-        val data: Flow<PagingData<GetCharactersQuery.Result>>,
+        val data: PagingData<GetCharactersQuery.Result>,
     ) : UiState()
 
     data class Error(
