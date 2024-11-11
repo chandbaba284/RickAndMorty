@@ -1,13 +1,16 @@
-package com.example.rickandmorty.presentation.viewmodel
+package com.example.presentation.characters
 
+import androidx.paging.PagingData
 import app.cash.turbine.test
 import com.example.presentation.uistate.UiState
 import com.example.presentation.viewmodel.CharactersViewModel
-import com.example.rickandmorty.domain.repository.TestCharactersRepository
+import com.exmple.rickandmorty.GetCharactersQuery
+import com.exmple.rickandmorty.fragment.Character
+import com.exmple.rickandmorty.fragment.Location
+import com.google.common.truth.Truth.assertThat
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.mockk
-import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
@@ -26,7 +29,6 @@ class CharactersViewModelTest {
     private var useCase: CharacterUseCase = mockk(relaxed = true)
     private lateinit var charactersViewModel: CharactersViewModel
     private val testDispatcher = StandardTestDispatcher()
-    private lateinit var testCharactersRepository: TestCharactersRepository
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
@@ -34,23 +36,23 @@ class CharactersViewModelTest {
         MockKAnnotations.init(this)
         Dispatchers.setMain(testDispatcher)
         charactersViewModel = CharactersViewModel(useCase)
-        testCharactersRepository = TestCharactersRepository()
+
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun testFetchCharacterUpdatesToUi() =
         runTest(testDispatcher) {
-            val mockPagingData = flowOf(testCharactersRepository.getCharacters())
+            val mockPagingData = flowOf(getCharacters())
             coEvery { useCase.invokeCharacters() } returns mockPagingData
             charactersViewModel.charactersState.test {
                 charactersViewModel.fetchData()
-                assertEquals(UiState.Loading, awaitItem())
+                assertThat(awaitItem()).isEqualTo(UiState.Loading)
                 val successState = awaitItem()
-                assert(successState is UiState.Success) { "Expected Success but was $successState" }
+                assertThat(successState).isInstanceOf(UiState.Success::class.java)
                 val expectedCharacters = mockPagingData.toList()
                 val actualCharacters = flowOf((successState as UiState.Success).data).toList()
-                assertEquals(expectedCharacters, actualCharacters)
+                assertThat(actualCharacters).isEqualTo(expectedCharacters)
                 cancelAndConsumeRemainingEvents()
                 advanceUntilIdle()
             }
@@ -61,4 +63,40 @@ class CharactersViewModelTest {
     fun tearDown() {
         Dispatchers.resetMain()
     }
+
+    private fun getCharacters(): PagingData<GetCharactersQuery.Result> {
+        val items =
+            listOf(
+                GetCharactersQuery.Result(
+                    "",
+                    Character(
+                        name = "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        location = Character.Location("", Location("", "", "")),
+                    ),
+                ),
+                GetCharactersQuery.Result(
+                    "",
+                    Character(
+                        name = "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        Character.Location(
+                            "",
+                            Location("", "", ""),
+                        ),
+                    ),
+                ),
+            )
+
+        return PagingData.from(items)
+    }
+
 }

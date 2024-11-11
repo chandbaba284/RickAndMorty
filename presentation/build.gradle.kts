@@ -53,4 +53,9 @@ dependencies {
     implementation(libs.androidx.paging.compose)
     implementation(libs.androidx.paging.runtime)
     implementation(libs.apollo.runtime)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    testImplementation (libs.androidx.core.testing)
+    testImplementation(libs.turbine)
+    testImplementation(libs.truth)
 }
