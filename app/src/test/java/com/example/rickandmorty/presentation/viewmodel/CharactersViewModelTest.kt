@@ -52,8 +52,10 @@ class CharactersViewModelTest {
                 val actualCharacters = flowOf((successState as UiState.Success).data).toList()
                 assertEquals(expectedCharacters, actualCharacters)
                 cancelAndConsumeRemainingEvents()
+                advanceUntilIdle()
+
             }
-            advanceUntilIdle()
+
         }
 
     @OptIn(ExperimentalCoroutinesApi::class)
