@@ -5,6 +5,7 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
@@ -34,9 +35,11 @@ class TestCharactersUseCase {
     @Test
     fun testInvokeCharactersWithRepository() =
         runTest(testDispatcher) {
-            coEvery { repository.getCharacters() } returns testCharactersRepository.getCharacters()
+            coEvery { repository.getCharacters() } returns flowOf(testCharactersRepository.getCharacters())
             val expectedCharacters = repository.getCharacters().toList()
             val result = useCase.invokeCharacters().toList()
+            println(expectedCharacters)
+            println(result)
             assertEquals(expectedCharacters, result)
         }
 
