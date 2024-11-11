@@ -1,5 +1,6 @@
 package com.example.rickandmorty.presentation.viewmodel
 
+import app.cash.turbine.test
 import com.example.presentation.uistate.UiState
 import com.example.presentation.viewmodel.CharactersViewModel
 import com.example.rickandmorty.domain.repository.TestCharactersRepository
@@ -9,8 +10,10 @@ import io.mockk.mockk
 import junit.framework.TestCase.assertEquals
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -34,30 +37,23 @@ class CharactersViewModelTest {
         testCharactersRepository = TestCharactersRepository()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun testFetchCharacterUpdatesToUi() =
         runTest(testDispatcher) {
-            val mockPagingData = testCharactersRepository.getCharacters()
+            val mockPagingData = flowOf(testCharactersRepository.getCharacters())
             coEvery { useCase.invokeCharacters() } returns mockPagingData
-            charactersViewModel.fetchData()
-            val job =
-                launch {
-                    charactersViewModel.charactersState.collect { state ->
-                        println(state)
-                        when (state) {
-                            is UiState.Success -> {
-                                println(mockPagingData)
-                                println(state.data)
-                                assertEquals(mockPagingData, state.data)
-                            }
-                            UiState.Empty -> {}
-                            is UiState.Error -> {}
-                            UiState.Loading -> {}
-                        }
-                    }
-                }
-            testDispatcher.scheduler.advanceUntilIdle()
-            job.cancel()
+            charactersViewModel.charactersState.test {
+                charactersViewModel.fetchData()
+                assertEquals(UiState.Loading, awaitItem())
+                val successState = awaitItem()
+                assert(successState is UiState.Success) { "Expected Success but was $successState" }
+                val expectedCharacters = mockPagingData.toList()
+                val actualCharacters = flowOf((successState as UiState.Success).data).toList()
+                assertEquals(expectedCharacters, actualCharacters)
+                cancelAndConsumeRemainingEvents()
+            }
+            advanceUntilIdle()
         }
 
     @OptIn(ExperimentalCoroutinesApi::class)

@@ -4,11 +4,9 @@ import androidx.paging.PagingData
 import com.exmple.rickandmorty.GetCharactersQuery
 import com.exmple.rickandmorty.fragment.Character
 import com.exmple.rickandmorty.fragment.Location
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 
 class TestCharactersRepository {
-    fun getCharacters(): Flow<PagingData<GetCharactersQuery.Result>> {
+    fun getCharacters(): PagingData<GetCharactersQuery.Result> {
         val items =
             listOf(
                 GetCharactersQuery.Result(
@@ -40,6 +38,6 @@ class TestCharactersRepository {
                 ),
             )
 
-        return flow { PagingData.from(items) }
+        return PagingData.from(items)
     }
 }
