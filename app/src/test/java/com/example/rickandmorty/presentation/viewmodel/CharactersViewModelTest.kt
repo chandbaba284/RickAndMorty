@@ -53,9 +53,7 @@ class CharactersViewModelTest {
                 assertEquals(expectedCharacters, actualCharacters)
                 cancelAndConsumeRemainingEvents()
                 advanceUntilIdle()
-
             }
-
         }
 
     @OptIn(ExperimentalCoroutinesApi::class)
