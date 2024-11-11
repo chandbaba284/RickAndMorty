@@ -30,14 +30,18 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/build.gradle', '**/settings.gradle')
           restore-keys: |
             ${{ runner.os }}-gradle
 
       # Step 4: Build the project
       - name: Build with Gradle
         run: ./gradlew build
+      
+      #Step5 : Clean and Build with Gradle
+      - name: Clean and Build with Gradle
+        run: ./gradlew clean build  
 
-      # Step 5: Run unit tests
+      # Step 6: Run unit tests
       - name: Run unit tests
         run: ./gradlew test
