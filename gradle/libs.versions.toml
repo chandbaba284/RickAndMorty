@@ -20,6 +20,7 @@ appcompat = "1.7.0"
 material = "1.12.0"
 material3Android = "1.3.0"
 lifecycleLivedataKtx = "2.6.2"
+robolectric = "4.10"
 truth = "1.1.3"
 turbine = "1.0.0"
 
@@ -52,6 +53,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
