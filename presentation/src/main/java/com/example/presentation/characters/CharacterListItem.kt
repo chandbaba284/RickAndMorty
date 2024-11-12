@@ -16,16 +16,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.common.utills.NavigationRoutes
 import com.example.presentation.R
+import com.example.presentation.navigation.Navigator
 import com.exmple.rickandmorty.GetCharactersQuery
 
 @Composable
 fun CharactersListItem(
-    navController: NavController,
+    navController: Navigator,
     item: GetCharactersQuery.Result?
 ) {
     Box(
@@ -33,7 +32,7 @@ fun CharactersListItem(
             Modifier
                 .fillMaxWidth()
                 .aspectRatio(AspectRatios.AspectRatio_List_Item).clickable {
-                    navController.navigate(NavigationRoutes.CharacterDetails.createRoute(item?.character?.id?:""))
+                    navController.navigateTo(NavigationRoutes.CharacterDetails.createRoute(item?.character?.id?:""))
                 }
     ) {
         val painter = rememberAsyncImagePainter(item?.character?.image)

@@ -10,7 +10,7 @@ class CharacterDetailsUseCase
 constructor(
     private val characterDetailsRepository : CharacterDetailsRepository,
 ){
-    suspend fun invokeCharacterDetails(id : String): Result<CharacterDetailsMapper> {
+    suspend fun invoke(id : String): Result<CharacterDetailsMapper> {
         return characterDetailsRepository.getCharacterDetailsById(id)
     }
 }

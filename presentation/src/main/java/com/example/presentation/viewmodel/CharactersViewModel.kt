@@ -23,12 +23,20 @@ constructor(
     private val _charactersState: MutableStateFlow<UiState<PagingData<GetCharactersQuery.Result>>> = MutableStateFlow(UiState.Loading)
     val charactersState: StateFlow<UiState<PagingData<GetCharactersQuery.Result>>> get() = _charactersState
 
+    init {
+        fetchData()
+    }
     fun fetchData() {
         viewModelScope.launch(Dispatchers.IO) {
-            _charactersState.emit(UiState.Loading)
             charactersUseCase
-                .invokeCharacters()
+                .invoke()
                 .cachedIn(viewModelScope)
+                .onStart {
+                    _charactersState.emit(UiState.Loading)
+                }
+                .catch {
+                    _charactersState.emit(UiState.Error(Exception(it.message)))
+                }
                 .collect {
                     _charactersState.emit(UiState.Success(it))
                 }

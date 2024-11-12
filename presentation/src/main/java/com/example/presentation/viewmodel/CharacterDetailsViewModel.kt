@@ -10,17 +10,18 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CharacterDetailsViewModel @Inject constructor(val characterDetailsUseCase : CharacterDetailsUseCase) : ViewModel() {
+class CharacterDetailsViewModel @Inject constructor(private val characterDetailsUseCase : CharacterDetailsUseCase) : ViewModel() {
 
-    val _characterDetails : MutableStateFlow<UiState<CharacterDetailsMapper>> = MutableStateFlow(UiState.Loading)
+    private val _characterDetails : MutableStateFlow<UiState<CharacterDetailsMapper>> = MutableStateFlow(UiState.Loading)
     val characterDetails : StateFlow<UiState<CharacterDetailsMapper>> = _characterDetails
-    private var characterName = ""
+    var characterNameForTopBar= ""
+        private set
 
     fun getCharacterDetails(characterId : String){
         viewModelScope.launch {
-          val result = characterDetailsUseCase.invokeCharacterDetails(characterId)
+          val result = characterDetailsUseCase.invoke(characterId)
             result.onSuccess {characterDetails->
-                characterName = characterDetails.name?:""
+                characterNameForTopBar = characterDetails.name?:""
                 _characterDetails.emit(UiState.Success(characterDetails))
             }.onFailure {
                 _characterDetails.emit(UiState.Error(Exception("Character Details are Empty")))
@@ -30,6 +31,6 @@ class CharacterDetailsViewModel @Inject constructor(val characterDetailsUseCase 
     }
 
     fun getCharacterName(): String {
-        return characterName
+        return characterNameForTopBar
     }
 }

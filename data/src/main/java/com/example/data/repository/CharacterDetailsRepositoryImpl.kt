@@ -1,8 +1,6 @@
 package com.example.data.repository
 
-import androidx.compose.ui.res.stringResource
 import com.apollographql.apollo.ApolloClient
-import com.example.data.R
 import com.example.domain.mapper.CharacterDetailsMapper
 import com.example.domain.repository.CharacterDetailsRepository
 import com.exmple.rickandmorty.GetCharacterDetailsByIdQuery

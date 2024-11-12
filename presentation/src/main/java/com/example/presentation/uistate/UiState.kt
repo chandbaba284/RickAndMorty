@@ -2,9 +2,7 @@ package com.example.presentation.uistate
 
 
 sealed class UiState<out T> {
-     object Empty : UiState<Nothing>()
-
-     object Loading : UiState<Nothing>()
+    object Loading : UiState<Nothing>()
 
     data class Success<T>(
         val data: T
