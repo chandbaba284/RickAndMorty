@@ -47,7 +47,7 @@ class CharactersViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun testFetchCharacterUpdatesToUi() =
+    fun givenValidCharacters_whenInvokeIsCalledInUseCase_thenEmitsMockedPagingDataToStateFlow() =
         runTest(testDispatcher) {
             val mockPagingData = getCharacters()
             coEvery { useCase.invoke() } returns flowOf(mockPagingData)

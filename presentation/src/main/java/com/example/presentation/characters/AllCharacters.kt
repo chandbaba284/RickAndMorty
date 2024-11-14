@@ -1,6 +1,7 @@
 package com.example.presentation.characters
 
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -24,8 +25,8 @@ import kotlinx.coroutines.flow.flowOf
 @Composable
 fun AllCharacters(
     allCharacters: StateFlow<UiState<PagingData<GetCharactersQuery.Result>>>,
-    innerPadding: PaddingValues,
-    onNavigate: (String) -> Unit
+    modifier: Modifier,
+    onNavigateToCharacterDetails: (String) -> Unit
     ) {
     val uistate = allCharacters.collectAsState().value
     when (uistate) {
@@ -37,7 +38,7 @@ fun AllCharacters(
         }
         is Success<PagingData<GetCharactersQuery.Result>> -> {
             val charactersList = remember { flowOf(uistate.data) }.collectAsLazyPagingItems()
-            CharactersList(charactersList,innerPadding,onNavigate)
+            CharactersList(charactersList = charactersList,modifier.padding(), onNavigateToCharacterDetails = onNavigateToCharacterDetails)
         }
         else -> Unit
     }

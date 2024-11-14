@@ -16,19 +16,24 @@ import com.exmple.rickandmorty.GetCharactersQuery
 @Composable
 fun CharactersList(
     charactersList: LazyPagingItems<GetCharactersQuery.Result>?,
-    innerPadding: PaddingValues,
-    onNavigate: (String) -> Unit
+    modifier: Modifier,
+    onNavigateToCharacterDetails: (String) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        modifier = Modifier.fillMaxSize().padding(innerPadding),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(),
         contentPadding = PaddingValues(dimensionResource(R.dimen.character_list_grid_padding)),
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.character_list_grid_spacing)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.character_list_grid_spacing)),
     ) {
         items(charactersList?.itemCount ?: 0) { index ->
             val item = charactersList?.get(index)
-            CharactersListItem(onNavigate,item)
+            CharactersListItem(
+                onNavigateToCharacterDetails = onNavigateToCharacterDetails,
+                item = item
+            )
         }
     }
 }

@@ -3,6 +3,8 @@ package com.example.presentation.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -17,24 +19,23 @@ import com.example.presentation.R
 import com.example.presentation.characterdetails.CharacterDetails
 import com.example.presentation.viewmodel.CharacterDetailsViewModel
 import com.example.presentation.viewmodel.CharactersViewModel
-import com.example.presentation.viewmodel.HomeViewModel
 
 @Composable
 fun NavigationController(
     viewModelFactory: ViewModelProvider.Factory,
 ) {
-    val homeViewModel: HomeViewModel = viewModel(factory = viewModelFactory)
-    val topBarTitle by homeViewModel.topBarTitle.collectAsState()
+    val topBarTitle = remember { mutableStateOf("") }
     val navController = rememberNavController()
-    val navigate: (String) -> Unit = { route: String -> navController.navigate(route) }
+    val onNavigateCharacterDetails: (String) -> Unit = { characterId: String -> navController.navigate(NavigationRoutes.CharacterDetails.createRoute(characterId)) }
+
     NavHost(
         navController = navController,
         startDestination = NavigationRoutes.AllCharacters.route
     ) {
         composable(NavigationRoutes.AllCharacters.route) {
             val viewModel: CharactersViewModel = viewModel(factory = viewModelFactory)
-            homeViewModel.updateAppBarTitle(stringResource(R.string.app_name))
-            HomeScreen(viewModel.charactersState, topBarTitle, navigate)
+            topBarTitle.value = stringResource(R.string.app_name)
+            HomeScreen(allCharacters = viewModel.charactersState, topBarTitle = topBarTitle.value, onNavigateToCharacterDetails = onNavigateCharacterDetails)
         }
         composable(
             route = NavigationRoutes.CharacterDetails.route,
@@ -42,10 +43,11 @@ fun NavigationController(
         ) { navBackStackEntry ->
             val characterId = navBackStackEntry.arguments?.getString("CharacterId")
             val viewModel: CharacterDetailsViewModel = viewModel(factory = viewModelFactory)
-            characterId.orEmpty().let { viewModel.getCharacterDetails(it) }
-            homeViewModel.updateAppBarTitle(viewModel.getCharacterName())
-            CharacterDetails(viewModel.characterDetails, topBarTitle)
-
+            characterId?.let{
+                viewModel.getCharacterDetails(it)
+                topBarTitle.value = viewModel.getCharacterName()
+                CharacterDetails(characterDetails = viewModel.characterDetails, topBarTitle = topBarTitle.value)
+            }
         }
     }
 }

@@ -34,7 +34,7 @@ class TestCharactersUseCase {
     }
 
     @Test
-    fun testInvokeCharactersWithRepository() =
+    fun givenValidCharacters_whenGetCharactersCalled_thenReturnsMatchingCharacterList() =
         runTest(testDispatcher) {
             coEvery { repository.getCharacters() } returns flowOf(getCharacters())
             val expectedCharacters = repository.getCharacters().toList()

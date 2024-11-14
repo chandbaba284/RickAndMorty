@@ -23,7 +23,7 @@ import com.exmple.rickandmorty.GetCharactersQuery
 
 @Composable
 fun CharactersListItem(
-    onNavigate : (String) -> Unit,
+    onNavigateToCharacterDetails : (String) -> Unit,
     item: GetCharactersQuery.Result?
 ) {
     Box(
@@ -31,7 +31,7 @@ fun CharactersListItem(
             Modifier
                 .fillMaxWidth()
                 .aspectRatio(AspectRatios.AspectRatio_List_Item).clickable {
-                    onNavigate(NavigationRoutes.CharacterDetails.createRoute(item?.character?.id?:""))
+                    onNavigateToCharacterDetails(item?.character?.id?:"")
                 }
     ) {
         val painter = rememberAsyncImagePainter(item?.character?.image)
