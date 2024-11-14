@@ -35,12 +35,12 @@ jobs:
             ${{ runner.os }}-gradle
 
       # Step 4: Lint check
-      - name: Run Kotlinter check (ktlintCheck)
-        run: ./gradlew ktlintCheck
+      - name: Run Kotlinter check
+        run: ./gradlew lintKotlin
 
       # Step 5: Format Check
-      - name: Run Kotlinter format (ktlintFormat)
-        run: ./gradlew ktlintFormat
+      - name: Run Kotlinter format
+        run: ./gradlew formatKotlin
 
 
       # Step 6: Build the project

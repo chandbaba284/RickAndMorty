@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+
 android {
     namespace = "com.example.rickandmorty"
     compileSdk = 34
@@ -40,6 +41,7 @@ android {
     buildFeatures {
         compose = true
     }
+
 }
 
 
