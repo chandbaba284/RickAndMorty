@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.apollo)
+    alias(libs.plugins.kotlin.serialization)
+
 }
 
 android {
@@ -55,4 +57,6 @@ dependencies {
     testImplementation (libs.androidx.core.testing)
     testImplementation(libs.turbine)
     testImplementation(libs.truth)
+    implementation(libs.kotlinx.serialization.json)
+
 }
