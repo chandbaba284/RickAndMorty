@@ -38,20 +38,15 @@ jobs:
       - name: Run Kotlinter check
         run: ./gradlew lintKotlin
 
-      # Step 5: Format Check
-      - name: Run Kotlinter format
-        run: ./gradlew formatKotlin
-
-
-      # Step 6: Build the project
+      # Step 5: Build the project
       - name: Build with Gradle
         run: ./gradlew build
 
 
-      #Step7 : Clean and Build with Gradle
+      #Step 6 : Clean and Build with Gradle
       - name: Clean and Build with Gradle
         run: ./gradlew clean build
 
-      # Step 8: Run unit tests
+      # Step 7: Run unit tests
       - name: Run unit tests
         run: ./gradlew test
