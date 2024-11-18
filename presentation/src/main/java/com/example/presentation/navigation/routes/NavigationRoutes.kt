@@ -4,7 +4,7 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-object  HomeScreen
+object  RouteHome
 
 @Serializable
-data class  CharacterDetailsScreen(val characterId : String)
+data class  RouteCharacterDetails(val characterId : String)

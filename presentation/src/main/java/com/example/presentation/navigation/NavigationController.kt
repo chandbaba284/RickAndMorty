@@ -13,8 +13,8 @@ import androidx.navigation.toRoute
 import com.example.presentation.HomeScreen
 import com.example.presentation.R
 import com.example.presentation.characterdetails.CharacterDetails
-import com.example.presentation.navigation.routes.CharacterDetailsScreen
-import com.example.presentation.navigation.routes.HomeScreen
+import com.example.presentation.navigation.routes.RouteCharacterDetails
+import com.example.presentation.navigation.routes.RouteHome
 import com.example.presentation.viewmodel.CharacterDetailsViewModel
 import com.example.presentation.viewmodel.CharactersViewModel
 
@@ -24,25 +24,24 @@ fun NavigationController(
 ) {
     val topBarTitle = remember { mutableStateOf("") }
     val navController = rememberNavController()
-    val onNavigateCharacterDetails: (String) -> Unit = { characterId: String -> navController.navigate(CharacterDetailsScreen(characterId = characterId)) }
+    val onNavigateCharacterDetails: (String) -> Unit = { characterId: String -> navController.navigate(RouteCharacterDetails(characterId = characterId)) }
 
     NavHost(
         navController = navController,
-        startDestination = HomeScreen
+        startDestination = RouteHome
     ) {
-        composable<HomeScreen> {
+        composable<RouteHome> {
             val viewModel: CharactersViewModel = viewModel(factory = viewModelFactory)
             topBarTitle.value = stringResource(R.string.app_name)
             HomeScreen(allCharacters = viewModel.charactersState, topBarTitle = topBarTitle.value, onNavigateToCharacterDetails = onNavigateCharacterDetails)
         }
-        composable<CharacterDetailsScreen> { navBackStackEntry ->
-            val characterDetails : CharacterDetailsScreen = navBackStackEntry.toRoute()
+        composable<RouteCharacterDetails> { navBackStackEntry ->
+            val characterDetails : RouteCharacterDetails = navBackStackEntry.toRoute()
             val viewModel: CharacterDetailsViewModel = viewModel(factory = viewModelFactory)
-            characterDetails.characterId.let{
-                viewModel.getCharacterDetails(it)
-                topBarTitle.value = viewModel.getCharacterName()
-                CharacterDetails(characterDetails = viewModel.characterDetails, topBarTitle = topBarTitle.value)
-            }
+            viewModel.getCharacterDetails(characterDetails.characterId)
+            topBarTitle.value = viewModel.getCharacterName()
+            CharacterDetails(characterDetails = viewModel.characterDetails, topBarTitle = topBarTitle.value)
+
         }
     }
 }
