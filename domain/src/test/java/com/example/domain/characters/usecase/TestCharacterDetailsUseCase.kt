@@ -15,7 +15,6 @@ import org.junit.Test
 class TestCharacterDetailsUseCase {
     private lateinit var characterDetailsUseCase: CharacterDetailsUseCase
     private  var characterDetailsRepository : CharacterDetailsRepository = mockk()
-    private val testDispatcher = StandardTestDispatcher()
 
 
     @Before
@@ -25,7 +24,7 @@ class TestCharacterDetailsUseCase {
 
     @Test
     fun givenCharacterDetails_whenGetCharacterDetailsCalled_thenMatchResultOfUseCase(){
-        runTest(testDispatcher) {
+        runTest {
             //Given
             val characterId = "1"
             val characterDetails = Result.success(
@@ -55,7 +54,7 @@ class TestCharacterDetailsUseCase {
 
     @Test
     fun givenCharacterDetails_whenGetCharacterIdIsWrongShouldReturnException(){
-        runTest(testDispatcher) {
+        runTest {
             //Given
             val characterId = "1"
             coEvery { characterDetailsRepository.getCharacterDetailsById(characterId)} returns Result.failure(Exception("No Data Found"))
