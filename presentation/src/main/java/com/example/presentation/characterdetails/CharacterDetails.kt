@@ -1,6 +1,7 @@
 package com.example.presentation.characterdetails
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,7 +43,10 @@ import kotlinx.coroutines.flow.StateFlow
 @Composable
 fun CharacterDetails(
     characterDetails: StateFlow<DataState<CharacterDetails>>,
+    topBarTitle : String,
+    onNavigateToEpisodeDetails: (String) -> Unit,
     modifier: Modifier = Modifier
+
 ) {
     val uiState = characterDetails.collectAsState().value
     Column(
@@ -83,7 +87,8 @@ private fun ProgressBar(modifier: Modifier = Modifier) {
 @Composable
 private fun CharacterDetailItems(
     item: CharacterDetails,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onNavigateToEpisodeDetails: (String) -> Unit
 ) {
     Column(
         modifier = modifier.verticalScroll(rememberScrollState())
@@ -248,6 +253,7 @@ private fun EpisodeListItem(item: Episode, index: Int, modifier: Modifier = Modi
         modifier = modifier
             .size(dimensionResource(R.dimen.episode_item_size))
             .background(color = colorResource(R.color.episode_background_color))
+            .clickable(onClick = {onNavigateToEpisodeDetails(item?.episodeId.orEmpty())})
     ) {
         Column(
             modifier = Modifier.matchParentSize(),

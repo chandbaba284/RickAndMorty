@@ -12,11 +12,13 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.presentation.R
 import com.example.presentation.characterdetails.CharacterDetails
-import com.example.presentation.characters.HomeScreen
+import com.example.presentation.episodedetails.EpisodeDetails
 import com.example.presentation.navigation.routes.RouteCharacterDetails
+import com.example.presentation.navigation.routes.RouteEpisodeDetails
 import com.example.presentation.navigation.routes.RouteHome
 import com.example.presentation.viewmodel.CharacterDetailsViewModel
 import com.example.presentation.viewmodel.CharactersViewModel
+import com.example.presentation.viewmodel.EpisodeDetailsViewModel
 
 @Composable
 fun NavigationController(
@@ -35,11 +37,9 @@ fun NavigationController(
     ) {
         composable<RouteHome> {
             val viewModel: CharactersViewModel = viewModel(factory = viewModelFactory)
-            onTopBarTitleChange(stringResource(R.string.app_name))
-            HomeScreen(
-                allCharacters = viewModel.charactersState,
-                onNavigateToCharacterDetails = onNavigateCharacterDetails
-            )
+            topBarTitle.value = stringResource(R.string.app_name)
+            val onNavigateCharacterDetails: (String) -> Unit = { characterId: String -> navController.navigate(RouteCharacterDetails(characterId = characterId)) }
+            HomeScreen(allCharacters = viewModel.charactersState, topBarTitle = topBarTitle.value, onNavigateToCharacterDetails = onNavigateCharacterDetails)
         }
         composable<RouteCharacterDetails> { navBackStackEntry ->
             val characterDetails: RouteCharacterDetails = navBackStackEntry.toRoute()
@@ -47,6 +47,19 @@ fun NavigationController(
             viewModel.getCharacterDetails(characterDetails.characterId)
             onTopBarTitleChange(viewModel.getCharacterName())
             CharacterDetails(characterDetails = viewModel.characterDetails)
+            topBarTitle.value = viewModel.getCharacterName()
+            val onNavigateToEpisodeDetails : (String) -> Unit = {episodeId : String -> navController.navigate(RouteEpisodeDetails(episodeId = episodeId))}
+            CharacterDetails(characterDetails = viewModel.characterDetails, topBarTitle = topBarTitle.value,onNavigateToEpisodeDetails)
+
+        }
+        composable<RouteEpisodeDetails> { navBackStackEntry ->
+          val episodeDetails : RouteEpisodeDetails = navBackStackEntry.toRoute()
+          val viewModel : EpisodeDetailsViewModel = viewModel(factory = viewModelFactory)
+          val episodeId = episodeDetails.episodeId
+          viewModel.getEpisodeDetailsByUsingEpisodeId(episodeId)
+          topBarTitle.value = viewModel.getEpisodeTitle()
+           EpisodeDetails(topBarTitle = topBarTitle.value)
+
         }
     }
 }

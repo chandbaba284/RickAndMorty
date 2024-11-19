@@ -5,6 +5,7 @@ import com.example.common.R
 import com.example.common.module.DataState
 import com.example.domain.mapper.EpisodeDetails
 import com.example.domain.mapper.toEpisodeDetailsMapper
+import com.example.domain.repository.EpisodeDetailsRepository
 import com.exmple.rickandmorty.GetEpisodeDetailsByIdQuery
 
 class EpisodeDetailsRepositoryImpl(private val apolloClient: ApolloClient) {

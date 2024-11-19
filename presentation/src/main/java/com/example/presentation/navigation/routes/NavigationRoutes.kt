@@ -7,3 +7,6 @@ object RouteHome
 
 @Serializable
 data class RouteCharacterDetails(val characterId: String)
+
+@Serializable
+data class  RouteEpisodeDetails(val episodeId : String)
