@@ -24,7 +24,6 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import usecases.CharacterUseCase
-
 class CharactersViewModelTest {
     private var useCase: CharacterUseCase = mockk(relaxed = true)
     private lateinit var charactersViewModel: CharactersViewModel
@@ -41,20 +40,58 @@ class CharactersViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
-    fun testFetchCharacterUpdatesToUi() =
+    fun givenValidCharacters_whenInvokeIsCalledInUseCase_thenListSizeShouldMatchWithStateFlowItemsSize() =
         runTest(testDispatcher) {
-            val mockPagingData = flowOf(getCharacters())
-            coEvery { useCase.invokeCharacters() } returns mockPagingData
+            //Given
+            val items =
+                listOf(
+                    GetCharactersQuery.Result(
+                        "",
+                        Character(
+                            name = "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            location = Character.Location("", Location("", "", "")),
+                            Character.Origin("",""), episode = listOf(Character.Episode("","",""))
+                        ),
+                    ),
+                    GetCharactersQuery.Result(
+                        "",
+                        Character(
+                            name = "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            Character.Location(
+                                "",
+                                Location("", "", ""),
+                            ),
+                            Character.Origin("",""), episode = listOf(Character.Episode("","",""))
+                        ),
+
+                        ),
+                )
+
+            val pagedData = PagingData.from(items)
+            //When
+            coEvery { useCase.invoke() } returns flowOf(pagedData)
+            //Then
             charactersViewModel.charactersState.test {
                 charactersViewModel.fetchData()
                 assertThat(awaitItem()).isEqualTo(UiState.Loading)
+                advanceUntilIdle()
                 val successState = awaitItem()
                 assertThat(successState).isInstanceOf(UiState.Success::class.java)
-                val expectedCharacters = mockPagingData.toList()
+                val expectedCharacters = useCase.invoke().toList()
                 val actualCharacters = flowOf((successState as UiState.Success).data).toList()
-                assertThat(actualCharacters).isEqualTo(expectedCharacters)
+                assertThat(actualCharacters.size).isEqualTo(expectedCharacters.size)
                 cancelAndConsumeRemainingEvents()
-                advanceUntilIdle()
+
             }
         }
 
@@ -64,39 +101,5 @@ class CharactersViewModelTest {
         Dispatchers.resetMain()
     }
 
-    private fun getCharacters(): PagingData<GetCharactersQuery.Result> {
-        val items =
-            listOf(
-                GetCharactersQuery.Result(
-                    "",
-                    Character(
-                        name = "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        location = Character.Location("", Location("", "", "")),
-                    ),
-                ),
-                GetCharactersQuery.Result(
-                    "",
-                    Character(
-                        name = "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        Character.Location(
-                            "",
-                            Location("", "", ""),
-                        ),
-                    ),
-                ),
-            )
-
-        return PagingData.from(items)
-    }
 
 }

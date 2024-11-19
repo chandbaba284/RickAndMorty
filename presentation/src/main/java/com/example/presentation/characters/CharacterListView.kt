@@ -9,28 +9,31 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
-import com.example.presentation.navigation.LocalNavigator
 import com.example.presentation.R
 import com.exmple.rickandmorty.GetCharactersQuery
 
 @Composable
 fun CharactersList(
     charactersList: LazyPagingItems<GetCharactersQuery.Result>?,
-    innerPadding: PaddingValues
+    modifier: Modifier,
+    onNavigateToCharacterDetails: (String) -> Unit
 ) {
-    val navigator = LocalNavigator.current
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
-        modifier = Modifier.fillMaxSize().padding(innerPadding),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(),
         contentPadding = PaddingValues(dimensionResource(R.dimen.character_list_grid_padding)),
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.character_list_grid_spacing)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.character_list_grid_spacing)),
     ) {
         items(charactersList?.itemCount ?: 0) { index ->
             val item = charactersList?.get(index)
-            CharactersListItem(navigator,item)
+            CharactersListItem(
+                onNavigateToCharacterDetails = onNavigateToCharacterDetails,
+                item = item
+            )
         }
     }
 }

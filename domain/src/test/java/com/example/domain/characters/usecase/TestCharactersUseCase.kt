@@ -34,11 +34,11 @@ class TestCharactersUseCase {
     }
 
     @Test
-    fun testInvokeCharactersWithRepository() =
+    fun givenValidCharacters_whenGetCharactersCalled_thenReturnsMatchingCharacterList() =
         runTest(testDispatcher) {
             coEvery { repository.getCharacters() } returns flowOf(getCharacters())
             val expectedCharacters = repository.getCharacters().toList()
-            val result = useCase.invokeCharacters().toList()
+            val result = useCase.invoke().toList()
             println(expectedCharacters)
             println(result)
             Truth.assertThat(expectedCharacters).isEqualTo(result)
@@ -62,6 +62,7 @@ class TestCharactersUseCase {
                         "",
                         "",
                         location = Character.Location("", Location("", "", "")),
+                        Character.Origin("",""), episode = listOf(Character.Episode("","",""))
                     ),
                 ),
                 GetCharactersQuery.Result(
@@ -76,7 +77,10 @@ class TestCharactersUseCase {
                         Character.Location(
                             "",
                             Location("", "", ""),
-                        ),
+                            ),
+                        Character.Origin("",""), episode = listOf(Character.Episode("","",""))
+
+
                     ),
                 ),
             )
