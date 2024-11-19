@@ -3,10 +3,10 @@ package com.example.domain.mapper
 import com.exmple.rickandmorty.GetCharacterDetailsByIdQuery
 import com.exmple.rickandmorty.GetEpisodeDetailsByIdQuery
 
-fun GetCharacterDetailsByIdQuery.Character.toCharacterDetailsMapper(): CharacterDetailsMapper {
+fun GetCharacterDetailsByIdQuery.Character.toCharacterDetailsMapper(): CharacterDetails {
     val character = this.character
     val episodes = character.episode
-    return CharacterDetailsMapper(
+    return CharacterDetails(
         id = character.id,
         name = character.name,
         image = character.image,
@@ -20,10 +20,10 @@ fun GetCharacterDetailsByIdQuery.Character.toCharacterDetailsMapper(): Character
     )
 }
 
-fun GetEpisodeDetailsByIdQuery.Data.toEpisodeDetailsMapper() : EpisodeDetailsMapper{
+fun GetEpisodeDetailsByIdQuery.Data.toEpisodeDetailsMapper() : EpisodeDetails{
     val episodeDetails = this.episode
     val characters = episodeDetails?.characters
-    return EpisodeDetailsMapper(
+    return EpisodeDetails(
         id = episodeDetails?.id,
         airDate = episodeDetails?.air_date,
         title = episodeDetails?.name,

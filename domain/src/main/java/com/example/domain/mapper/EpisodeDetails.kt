@@ -1,7 +1,7 @@
 package com.example.domain.mapper
 
 
-data class EpisodeDetailsMapper(
+data class EpisodeDetails(
     val id: String? = "",
     val airDate: String? = "",
     val title: String? = "",

@@ -15,8 +15,8 @@ import javax.inject.Inject
 
 class CharacterDetailsViewModel @Inject constructor(private val characterDetailsUseCase : CharacterDetailsUseCase, @IoDispatcher private val ioDispatcher: CoroutineDispatcher,) : ViewModel() {
 
-    private val _characterDetails : MutableStateFlow<UiState<CharacterDetailsMapper>> = MutableStateFlow(UiState.Loading)
-    val characterDetails : StateFlow<UiState<CharacterDetailsMapper>> = _characterDetails
+    private val _characterDetails : MutableStateFlow<UiState<CharacterDetails>> = MutableStateFlow(UiState.Loading)
+    val characterDetails : StateFlow<UiState<CharacterDetails>> = _characterDetails
     var characterNameForTopBar= ""
         private set
 

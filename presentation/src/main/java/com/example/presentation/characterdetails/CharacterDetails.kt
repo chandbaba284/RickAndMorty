@@ -19,7 +19,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,17 +32,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.example.domain.mapper.CharacterDetailsMapper
+import com.example.domain.mapper.CharacterDetails
 import com.example.presentation.R
 import com.example.presentation.RickAndMortyAppBar
-import com.example.presentation.characters.AllCharacters
 import com.example.presentation.uistate.UiState
 import com.exmple.rickandmorty.fragment.Character
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun CharacterDetails(
-    characterDetails: StateFlow<UiState<CharacterDetailsMapper>>,
+    characterDetails: StateFlow<UiState<CharacterDetails>>,
     topBarTitle : String
 ) {
     val uiState = characterDetails.collectAsState().value
@@ -67,18 +65,18 @@ fun CharacterDetails(
     }
 }
 @Composable
-fun CharacterDetailsScreen(characterDetailsMapper: CharacterDetailsMapper,topBarTitle: String){
+fun CharacterDetailsScreen(characterDetailS: CharacterDetails, topBarTitle: String){
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = { RickAndMortyAppBar(topBarTitle) },
         content = { innerPadding ->
-          CharacterDetailItems(characterDetailsMapper,innerPadding)
+          CharacterDetailItems(characterDetailS,innerPadding)
         },
     )
 }
 
 @Composable
-fun CharacterDetailItems(item: CharacterDetailsMapper,paddingValues: PaddingValues) {
+fun CharacterDetailItems(item: CharacterDetails, paddingValues: PaddingValues) {
     val painter = rememberAsyncImagePainter(item.image)
 
     Column(
@@ -100,7 +98,7 @@ fun CharacterDetailItems(item: CharacterDetailsMapper,paddingValues: PaddingValu
 }
 
 @Composable
-fun CharacterStatus(item: CharacterDetailsMapper) {
+fun CharacterStatus(item: CharacterDetails) {
     Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_status_padding)))
     Row {
         Text(
@@ -115,7 +113,7 @@ fun CharacterStatus(item: CharacterDetailsMapper) {
 }
 
 @Composable
-fun CharacterSpecies(item: CharacterDetailsMapper) {
+fun CharacterSpecies(item: CharacterDetails) {
     Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_spacer)))
 
     Row {
@@ -131,7 +129,7 @@ fun CharacterSpecies(item: CharacterDetailsMapper) {
 }
 
 @Composable
-fun CharacterGender(item: CharacterDetailsMapper) {
+fun CharacterGender(item: CharacterDetails) {
     Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_spacer)))
 
     Row {
@@ -147,7 +145,7 @@ fun CharacterGender(item: CharacterDetailsMapper) {
 }
 
 @Composable
-fun CharacterOrigin(item: CharacterDetailsMapper) {
+fun CharacterOrigin(item: CharacterDetails) {
     Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_origin_spacer)))
     Text(text = stringResource(R.string.origin), style = MaterialTheme.typography.titleLarge)
     Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_spacer)))
@@ -165,7 +163,7 @@ fun CharacterOrigin(item: CharacterDetailsMapper) {
 }
 
 @Composable
-fun CharacterOriginDimension(item: CharacterDetailsMapper) {
+fun CharacterOriginDimension(item: CharacterDetails) {
     Row {
         Text(
             text = stringResource(R.string.origin_dimension),
@@ -178,7 +176,7 @@ fun CharacterOriginDimension(item: CharacterDetailsMapper) {
 }
 
 @Composable
-fun CharacterLocation(item: CharacterDetailsMapper) {
+fun CharacterLocation(item: CharacterDetails) {
     Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_origin_spacer)))
     Text(text = stringResource(R.string.location), style = MaterialTheme.typography.titleLarge)
     Spacer(modifier = Modifier.padding(top = 5.dp))
@@ -195,7 +193,7 @@ fun CharacterLocation(item: CharacterDetailsMapper) {
 }
 
 @Composable
-fun CharacterLocationDimension(item: CharacterDetailsMapper) {
+fun CharacterLocationDimension(item: CharacterDetails) {
     Row {
         Text(
             text = stringResource(R.string.location_dimension),
@@ -208,7 +206,7 @@ fun CharacterLocationDimension(item: CharacterDetailsMapper) {
 }
 
 @Composable
-fun EpisodesList(item: CharacterDetailsMapper) {
+fun EpisodesList(item: CharacterDetails) {
     LazyRow(
         contentPadding = PaddingValues(dimensionResource(R.dimen.character_list_item_padding)),
         horizontalArrangement = Arrangement.spacedBy(

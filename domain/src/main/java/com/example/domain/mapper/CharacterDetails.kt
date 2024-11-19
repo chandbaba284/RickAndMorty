@@ -2,7 +2,7 @@ package com.example.domain.mapper
 
 import com.exmple.rickandmorty.fragment.Character
 
-data class CharacterDetailsMapper(
+data class CharacterDetails(
     val id: String? = "",
     val name: String? = "",
     val image: String? = "",
