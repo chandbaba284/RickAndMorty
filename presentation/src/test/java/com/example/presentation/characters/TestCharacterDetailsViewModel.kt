@@ -25,6 +25,7 @@ class TestCharacterDetailsViewModel {
 
     @Before
     fun setUp() {
+        Dispatchers.setMain(testDispatcher)
         characterDetailsViewModel = CharacterDetailsViewModel(characterDetailsUseCase)
 
     }
