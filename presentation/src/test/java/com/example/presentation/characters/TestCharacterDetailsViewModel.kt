@@ -25,9 +25,8 @@ class TestCharacterDetailsViewModel {
 
     @Before
     fun setUp() {
-        Dispatchers.setMain(testDispatcher)
-        characterDetailsViewModel = CharacterDetailsViewModel(characterDetailsUseCase)
-
+        characterDetailsViewModel =
+            CharacterDetailsViewModel(characterDetailsUseCase, testDispatcher)
     }
 
     @Test
@@ -71,7 +70,11 @@ class TestCharacterDetailsViewModel {
         runTest(testDispatcher) {
             //Given
             val characterId = "-1"
-            coEvery { characterDetailsUseCase.invoke(characterId) } returns Result.failure(Exception("Character Details are Empty"))
+            coEvery { characterDetailsUseCase.invoke(characterId) } returns Result.failure(
+                Exception(
+                    "Character Details are Empty"
+                )
+            )
             //When
             characterDetailsViewModel.getCharacterDetails(characterId)
             //Then
