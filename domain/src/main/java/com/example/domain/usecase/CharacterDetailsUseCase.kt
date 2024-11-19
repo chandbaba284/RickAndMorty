@@ -1,6 +1,6 @@
 package com.example.domain.usecase
 
-import com.example.domain.mapper.CharacterDetails
+import com.example.domain.mapper.CharacterDetailsMapper
 import com.example.domain.repository.CharacterDetailsRepository
 import javax.inject.Inject
 
@@ -10,7 +10,7 @@ class CharacterDetailsUseCase
 constructor(
     private val characterDetailsRepository : CharacterDetailsRepository,
 ){
-    suspend fun invokeCharacterDetails(id : String): CharacterDetails? {
+    suspend fun invoke(id : String): Result<CharacterDetailsMapper> {
         return characterDetailsRepository.getCharacterDetailsById(id)
     }
 }

@@ -22,6 +22,16 @@ fragment character on Character{
     location {
         ...location
     }
+    origin {
+        name
+        dimension
+    }
+    episode {
+        air_date
+        name
+        episode
+
+    }
 }
 
 fragment location on Location{
@@ -29,3 +39,4 @@ fragment location on Location{
     name
     dimension
 }
+

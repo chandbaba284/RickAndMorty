@@ -2,6 +2,8 @@ package com.example.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.example.presentation.uistate.UiState
 import com.exmple.rickandmorty.GetCharactersQuery
 import kotlinx.coroutines.Dispatchers
@@ -18,21 +20,26 @@ class CharactersViewModel
 constructor(
     private val charactersUseCase: CharacterUseCase,
 ) : ViewModel() {
-    private val _charactersState: MutableStateFlow<UiState> = MutableStateFlow(UiState.Loading)
-    val charactersState: StateFlow<UiState> get() = _charactersState
+    private val _charactersState: MutableStateFlow<UiState<PagingData<GetCharactersQuery.Result>>> = MutableStateFlow(UiState.Loading)
+    val charactersState: StateFlow<UiState<PagingData<GetCharactersQuery.Result>>> get() = _charactersState
 
     init {
         fetchData()
     }
-
     fun fetchData() {
         viewModelScope.launch(Dispatchers.IO) {
-            _charactersState.emit(UiState.Loading)
             charactersUseCase
-                .invokeCharacters().collect {
+                .invoke()
+                .cachedIn(viewModelScope)
+                .onStart {
+                    _charactersState.emit(UiState.Loading)
+                }
+                .catch {
+                    _charactersState.emit(UiState.Error(Exception(it.message)))
+                }
+                .collect {
                     _charactersState.emit(UiState.Success(it))
                 }
-
         }
     }
 }

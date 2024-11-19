@@ -1,23 +1,22 @@
 package com.example.presentation
 
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
-import androidx.navigation.compose.rememberNavController
-import com.example.presentation.navigation.NavigationController
-import com.example.presentation.viewmodel.CharactersViewModel
+import androidx.paging.PagingData
+import com.example.presentation.characters.AllCharacters
+import com.example.presentation.uistate.UiState
+import com.exmple.rickandmorty.GetCharactersQuery
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
-fun HomesScreen(viewModel: CharactersViewModel) {
-    val navController = rememberNavController()
+fun HomeScreen(allCharacters: StateFlow<UiState<PagingData<GetCharactersQuery.Result>>>,topBarTitle : String) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = { RickAndMortyAppBar(stringResource(R.string.app_name)) },
+        topBar = { RickAndMortyAppBar(topBarTitle) },
         content = { innerPadding ->
-            NavigationController(navController, Modifier.padding(innerPadding),viewModel)
+            AllCharacters(allCharacters,innerPadding)
         },
     )
 }

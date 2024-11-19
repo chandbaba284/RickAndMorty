@@ -10,7 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.dimensionResource
 
 @Composable
 fun RickAndMortyAppBar(title: String) {
@@ -18,11 +18,11 @@ fun RickAndMortyAppBar(title: String) {
         modifier =
             Modifier
                 .fillMaxWidth()
-                .height(70.dp)
-                .background(MaterialTheme.colorScheme.background),
+                .height(dimensionResource(R.dimen.app_bar_height))
+                .background(MaterialTheme.colorScheme.surface),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(title, style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onBackground)
+        Text(title, style = MaterialTheme.typography.titleLarge, color = MaterialTheme.colorScheme.onSurface)
     }
 }
