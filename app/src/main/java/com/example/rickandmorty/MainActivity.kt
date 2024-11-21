@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
+import com.example.presentation.RickAndMortyTheme
 import com.example.presentation.navigation.NavigationController
-import com.example.rickandmorty.ui.theme.RickAndMortyTheme
 import javax.inject.Inject
 
 class MainActivity : ComponentActivity() {

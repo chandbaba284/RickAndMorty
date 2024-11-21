@@ -1,4 +1,4 @@
-package com.example.rickandmorty.ui.theme
+package com.example.presentation
 
 import androidx.compose.ui.graphics.Color
 

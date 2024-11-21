@@ -50,3 +50,7 @@ jobs:
       # Step 7: Run unit tests
       - name: Run unit tests
         run: ./gradlew test
+
+      # Step 8: Run Detekt linting
+      - name: Run Detekt (Linting)
+        run: ./gradlew detekt

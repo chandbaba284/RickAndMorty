@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.apollo)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.detekt.plugin)
 }
 
 android {

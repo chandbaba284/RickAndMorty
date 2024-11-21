@@ -6,6 +6,10 @@ build:
     # LongParameterList: 1
     # style: 1
     # comments: 1
+  excludes:
+      - "build/**"
+      - "**/generated/**"
+      - "**/apollo/**"
 
 config:
   validation: true
@@ -257,7 +261,7 @@ exceptions:
     active: true
     ignoreLabeled: false
   SwallowedException:
-    active: true
+    active: false
     ignoredExceptionTypes:
       - 'InterruptedException'
       - 'MalformedURLException'

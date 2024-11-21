@@ -1,4 +1,4 @@
-package com.example.rickandmorty.ui.theme
+package com.example.presentation
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -40,7 +40,6 @@ private val LightColorScheme =
 @Composable
 fun RickAndMortyTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit,
 ) {

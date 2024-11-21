@@ -38,16 +38,6 @@ android {
     buildFeatures {
         compose = true
     }
-    kotlin {
-        jvmToolchain {
-            languageVersion.set(JavaLanguageVersion.of(17)) // Set JVM target to Java 11
-        }
-    }
-    java {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(17)) // Set to Java 21
-        }
-    }
 }
 
 dependencies {
@@ -74,8 +64,4 @@ dependencies {
     implementation(libs.dagger)
     ksp(libs.dagger.compiler)
     implementation(libs.androidx.navigation.compose)
-
-    constraints {
-        implementation("org.jetbrains.kotlinx:kotlinx-html-jvm:0.8.1") // Explicitly define the latest available version
-    }
 }

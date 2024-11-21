@@ -1,4 +1,5 @@
 import io.gitlab.arturbosch.detekt.Detekt
+import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.exclude
 import org.jetbrains.kotlin.js.translate.context.Namer.kotlin
 
 plugins {
@@ -17,10 +18,9 @@ detekt {
     source.setFrom(
         fileTree(input) {
             exclude(exclude)
-            include("src/main/kotlin", "src/main/java")  // Explicitly include the source directories
-
         }
     )
+
     parallel = true // Run Detekt in parallel
 }
 
