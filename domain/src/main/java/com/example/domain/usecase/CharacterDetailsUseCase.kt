@@ -1,5 +1,6 @@
 package com.example.domain.usecase
 
+import com.example.common.module.DataState
 import com.example.domain.mapper.CharacterDetails
 import com.example.domain.repository.CharacterDetailsRepository
 import javax.inject.Inject
@@ -10,7 +11,7 @@ class CharacterDetailsUseCase
 constructor(
     private val characterDetailsRepository : CharacterDetailsRepository,
 ){
-    suspend fun invoke(id : String): Result<CharacterDetails> {
+    suspend fun invoke(id : String): DataState<CharacterDetails> {
         return characterDetailsRepository.getCharacterDetailsById(id)
     }
 }
