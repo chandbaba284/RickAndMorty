@@ -41,7 +41,8 @@ import kotlinx.coroutines.flow.StateFlow
 @Composable
 fun CharacterDetails(
     characterDetails: StateFlow<DataState<CharacterDetails>>,
-    topBarTitle : String
+    topBarTitle : String,
+    modifier: Modifier = Modifier
 ) {
     val uiState = characterDetails.collectAsState().value
     when (uiState) {
@@ -51,7 +52,7 @@ fun CharacterDetails(
         }
         DataState.Loading -> {
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -64,10 +65,12 @@ fun CharacterDetails(
         }
     }
 }
+
 @Composable
-private fun CharacterDetailsScreen(characterDetailS: CharacterDetails, topBarTitle: String){
+private fun CharacterDetailsScreen(characterDetailS: CharacterDetails, topBarTitle: String,    modifier: Modifier = Modifier
+){
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         topBar = { RickAndMortyAppBar(topBarTitle) },
         content = { innerPadding ->
           CharacterDetailItems(characterDetailS,innerPadding)
@@ -76,11 +79,15 @@ private fun CharacterDetailsScreen(characterDetailS: CharacterDetails, topBarTit
 }
 
 @Composable
-private fun CharacterDetailItems(item: CharacterDetails, paddingValues: PaddingValues) {
+private fun CharacterDetailItems(
+    item: CharacterDetails,
+    paddingValues: PaddingValues,
+    modifier: Modifier = Modifier
+) {
     val painter = rememberAsyncImagePainter(item.image)
 
     Column(
-        modifier = Modifier.padding(paddingValues)
+        modifier = modifier.padding(paddingValues)
     ) {
         Image(
             painter = painter,
@@ -98,133 +105,139 @@ private fun CharacterDetailItems(item: CharacterDetails, paddingValues: PaddingV
 }
 
 @Composable
-private fun CharacterStatus(item: CharacterDetails) {
-    Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_status_padding)))
-    Row {
-        Text(
-            text = stringResource(R.string.status),
-            style = MaterialTheme.typography.titleMedium
-        )
-        Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
-        CustomTextWithStyleMediumColorPrimary(text = item.status?.uppercase().orEmpty())
+private fun CharacterStatus(item: CharacterDetails, modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_status_padding)))
+        Row {
+            Text(
+                text = stringResource(R.string.status),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
+            CustomTextWithStyleMediumColorPrimary(text = item.status?.uppercase().orEmpty())
+        }
+        CharacterSpecies(item)
     }
-    CharacterSpecies(item)
-
 }
 
 @Composable
-private fun CharacterSpecies(item: CharacterDetails) {
-    Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_spacer)))
-
-    Row {
-        Text(
-            text = stringResource(R.string.species),
-            style = MaterialTheme.typography.titleMedium
-        )
-        Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
-        CustomTextWithStyleMediumColorPrimary(text = item.species?.uppercase().orEmpty())
+private fun CharacterSpecies(item: CharacterDetails, modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_spacer)))
+        Row {
+            Text(
+                text = stringResource(R.string.species),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
+            CustomTextWithStyleMediumColorPrimary(text = item.species?.uppercase().orEmpty())
+        }
+        CharacterGender(item)
     }
-    CharacterGender(item)
-
 }
 
 @Composable
-private fun CharacterGender(item: CharacterDetails) {
-    Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_spacer)))
-
-    Row {
-        Text(
-            text = stringResource(R.string.gender),
-            style = MaterialTheme.typography.titleMedium
-        )
-        Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
-        CustomTextWithStyleMediumColorPrimary(text = item.gender?.uppercase().orEmpty())
-
+private fun CharacterGender(item: CharacterDetails, modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_spacer)))
+        Row {
+            Text(
+                text = stringResource(R.string.gender),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
+            CustomTextWithStyleMediumColorPrimary(text = item.gender?.uppercase().orEmpty())
+        }
+        CharacterOrigin(item)
     }
-    CharacterOrigin(item)
 }
 
 @Composable
-private fun CharacterOrigin(item: CharacterDetails) {
-    Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_origin_spacer)))
-    Text(text = stringResource(R.string.origin), style = MaterialTheme.typography.titleLarge)
-    Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_spacer)))
-    Row {
-        Text(
-            text = stringResource(R.string.origin_name),
-            style = MaterialTheme.typography.titleMedium
-        )
-        Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
-        CustomTextWithStyleMediumColorPrimary(text = item.originName.uppercase())
-
+private fun CharacterOrigin(item: CharacterDetails, modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_origin_spacer)))
+        Text(text = stringResource(R.string.origin), style = MaterialTheme.typography.titleLarge)
+        Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_spacer)))
+        Row {
+            Text(
+                text = stringResource(R.string.origin_name),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
+            CustomTextWithStyleMediumColorPrimary(text = item.originName?.uppercase().orEmpty())
+        }
+        CharacterOriginDimension(item)
     }
-    CharacterOriginDimension(item)
-
 }
 
 @Composable
-private fun CharacterOriginDimension(item: CharacterDetails) {
-    Row {
-        Text(
-            text = stringResource(R.string.origin_dimension),
-            style = MaterialTheme.typography.titleMedium
-        )
-        Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
-        CustomTextWithStyleMediumColorPrimary(text = item.originDimension?.uppercase().orEmpty())
+private fun CharacterOriginDimension(item: CharacterDetails, modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        Row {
+            Text(
+                text = stringResource(R.string.origin_dimension),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
+            CustomTextWithStyleMediumColorPrimary(text = item.originDimension?.uppercase().orEmpty())
+        }
+        CharacterLocation(item)
     }
-    CharacterLocation(item)
 }
 
 @Composable
-private fun CharacterLocation(item: CharacterDetails) {
-    Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_origin_spacer)))
-    Text(text = stringResource(R.string.location), style = MaterialTheme.typography.titleLarge)
-    Spacer(modifier = Modifier.padding(top = 5.dp))
-    Row {
-        Text(
-            text = stringResource(R.string.location_name),
-            style = MaterialTheme.typography.titleMedium
-        )
-        Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
-        CustomTextWithStyleMediumColorPrimary(text = item.locationName.uppercase())
-
+private fun CharacterLocation(item: CharacterDetails, modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_origin_spacer)))
+        Text(text = stringResource(R.string.location), style = MaterialTheme.typography.titleLarge)
+        Spacer(modifier = Modifier.padding(top = 5.dp))
+        Row {
+            Text(
+                text = stringResource(R.string.location_name),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
+            CustomTextWithStyleMediumColorPrimary(text = item.locationName?.uppercase().orEmpty())
+        }
+        CharacterLocationDimension(item)
     }
-    CharacterLocationDimension(item)
 }
 
 @Composable
-private fun CharacterLocationDimension(item: CharacterDetails) {
-    Row {
-        Text(
-            text = stringResource(R.string.location_dimension),
-            style = MaterialTheme.typography.titleMedium
-        )
-        Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
-        CustomTextWithStyleMediumColorPrimary(text = item.locationDimension?.uppercase().orEmpty())
+private fun CharacterLocationDimension(item: CharacterDetails, modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        Row {
+            Text(
+                text = stringResource(R.string.location_dimension),
+                style = MaterialTheme.typography.titleMedium
+            )
+            Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
+            CustomTextWithStyleMediumColorPrimary(text = item.locationDimension?.uppercase().orEmpty())
+        }
+        EpisodesList(item)
     }
-    EpisodesList(item)
 }
 
 @Composable
-private fun EpisodesList(item: CharacterDetails) {
+private fun EpisodesList(item: CharacterDetails, modifier: Modifier = Modifier) {
     LazyRow(
         contentPadding = PaddingValues(dimensionResource(R.dimen.character_list_item_padding)),
         horizontalArrangement = Arrangement.spacedBy(
             dimensionResource(R.dimen.character_list_grid_spacing)
-        )
+        ),
+        modifier = modifier
     ) {
         items(item.episodes.size ?: 0) { index ->
             val episode = item.episodes.get(index)
             EpisodeListItem(episode, index)
         }
     }
-
 }
 
 @Composable
-private fun EpisodeListItem(item: Episode, index: Int) {
+private fun EpisodeListItem(item: Episode, index: Int,modifier: Modifier = Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .size(dimensionResource(R.dimen.episode_item_size))
             .background(color = colorResource(R.color.episode_background_color))
     ) {
@@ -251,19 +264,17 @@ private fun EpisodeListItem(item: Episode, index: Int) {
 @Composable
 private fun CustomTextWithStyleMediumColorPrimary(
     text: String,
-    style: TextStyle = MaterialTheme.typography.titleMedium,
-    color: Color = MaterialTheme.colorScheme.primary
+    modifier: Modifier = Modifier,
+    style: TextStyle =
+        MaterialTheme.typography.titleMedium,
+    color: Color =
+        MaterialTheme.colorScheme.primary,
 ) {
     Text(
-        text = text.uppercase(),
+        text = text
+            .uppercase(),
         style = style,
-        color = color
+        color = color,
+        modifier = modifier
     )
 }
-
-
-
-
-
-
-

@@ -1,5 +1,4 @@
 package com.example.rickandmorty
-
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,9 +25,9 @@ class MainActivity : ComponentActivity() {
             RickAndMortyTheme {
                 Column(
                     modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .systemBarsPadding(),
+                    Modifier
+                        .fillMaxSize()
+                        .systemBarsPadding(),
                 ) {
                     NavigationController(viewModelFactory)
                 }

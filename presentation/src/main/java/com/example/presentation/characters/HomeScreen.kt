@@ -42,12 +42,13 @@ fun HomeScreen(
     allCharacters: StateFlow<DataState<PagingData<GetCharactersQuery.Result>>>,
     topBarTitle: String,
     onNavigateToCharacterDetails: (String) -> Unit
+    modifier: Modifier = Modifier
 ) {
     Scaffold(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         topBar = { RickAndMortyAppBar(topBarTitle) },
         content = { innerPadding ->
-            AllCharacters(allCharacters = allCharacters,Modifier.padding(innerPadding), onNavigateToCharacterDetails = onNavigateToCharacterDetails)
+            AllCharacters(allCharacters = allCharacters,modifier = Modifier.padding(innerPadding), onNavigateToCharacterDetails = onNavigateToCharacterDetails)
         },
     )
 }
@@ -56,7 +57,7 @@ fun HomeScreen(
 @Composable
 private fun AllCharacters(
     allCharacters: StateFlow<DataState<PagingData<GetCharactersQuery.Result>>>,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onNavigateToCharacterDetails: (String) -> Unit
 ) {
     val uistate = allCharacters.collectAsState().value
@@ -64,13 +65,20 @@ private fun AllCharacters(
         is Error -> {
             Text(text = uistate.exception.message.toString())
         }
+
         is Loading -> {
             CircularProgressIndicator(modifier = Modifier.size(dimensionResource(R.dimen.progress_bar_size)))
         }
+
         is Success<PagingData<GetCharactersQuery.Result>> -> {
             val charactersList = remember { flowOf(uistate.data) }.collectAsLazyPagingItems()
-            CharactersList(charactersList = charactersList,modifier.padding(), onNavigateToCharacterDetails = onNavigateToCharacterDetails)
+            CharactersList(
+                charactersList = charactersList,
+                modifier = modifier.padding(),
+                onNavigateToCharacterDetails = onNavigateToCharacterDetails
+            )
         }
+
         else -> Unit
     }
 }
@@ -79,13 +87,15 @@ private fun AllCharacters(
 private fun CharactersListItem(
     onNavigateToCharacterDetails : (String) -> Unit,
     item: GetCharactersQuery.Result?
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier =
-        Modifier
+        modifier
             .fillMaxWidth()
-            .aspectRatio(AspectRatios.AspectRatio_List_Item).clickable {
-                onNavigateToCharacterDetails(item?.character?.id?:"")
+            .aspectRatio(AspectRatios.AspectRatio_List_Item)
+            .clickable {
+                onNavigateToCharacterDetails(item?.character?.id ?: "")
             }
     ) {
         val painter = rememberAsyncImagePainter(item?.character?.image)
@@ -96,7 +106,8 @@ private fun CharactersListItem(
             modifier = Modifier.fillMaxSize(),
         )
         Text(
-            text = item?.character?.name?:"", style = MaterialTheme.typography.titleLarge,
+            text = item?.character?.name ?: "",
+            style = MaterialTheme.typography.titleLarge,
             color = MaterialTheme.colorScheme.onPrimary,
             modifier =
             Modifier
@@ -109,9 +120,11 @@ private fun CharactersListItem(
 
 @Composable
 private fun CharactersList(
-    charactersList: LazyPagingItems<GetCharactersQuery.Result>?,
-    modifier: Modifier,
-    onNavigateToCharacterDetails: (String) -> Unit
+    onNavigateToCharacterDetails:
+    (String) -> Unit,
+    charactersList:
+    LazyPagingItems<GetCharactersQuery.Result>?,
+    modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
@@ -125,11 +138,10 @@ private fun CharactersList(
         items(charactersList?.itemCount ?: 0) { index ->
             val item = charactersList?.get(index)
             CharactersListItem(
+                item = item,
                 onNavigateToCharacterDetails = onNavigateToCharacterDetails,
-                item = item
+
             )
         }
     }
 }
-
-

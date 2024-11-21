@@ -1,3 +1,5 @@
+package com.example.domain.paging
+
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.apollographql.apollo.ApolloClient

@@ -1,6 +1,7 @@
 package com.example.domain.characters.usecase
 
 import androidx.paging.PagingData
+import com.example.domain.usecases.CharacterUseCase
 import com.exmple.rickandmorty.GetCharactersQuery
 import com.exmple.rickandmorty.fragment.Character
 import com.exmple.rickandmorty.fragment.Location

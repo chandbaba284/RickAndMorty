@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.apollo)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.detekt.plugin)
 }
 
 android {
@@ -11,7 +12,6 @@ android {
 
     defaultConfig {
         minSdk = 24
-
     }
 
     buildTypes {
@@ -44,7 +44,7 @@ dependencies {
 }
 
 apollo {
-    service("rickAndMorty"){
+    service("rickAndMorty") {
         packageName.set("com.exmple.rickandmorty")
         introspection {
             endpointUrl.set("https://rickandmortyapi.com/graphql")

@@ -19,8 +19,7 @@ object CharacterModule {
 
     @Provides
     @Singleton
-    fun provideCharacterDetails(apolloClient: ApolloClient) : CharacterDetailsRepository{
+    fun provideCharacterDetails(apolloClient: ApolloClient): CharacterDetailsRepository {
         return CharacterDetailsRepositoryImpl(apolloClient)
     }
 }
-

@@ -46,9 +46,8 @@ class TestCharacterDetailsUseCase {
             val expectedOutPut = characterDetailsRepository.getCharacterDetailsById(characterId)
             val actualCharacters = characterDetailsUseCase.invoke(characterId)
 
-            //Then
+            // Then
             Truth.assertThat(actualCharacters).isEqualTo(expectedOutPut)
-
         }
     }
 
@@ -61,7 +60,7 @@ class TestCharacterDetailsUseCase {
             //When
             val expectedCharacters = characterDetailsRepository.getCharacterDetailsById(characterId)
             val actualCharacters = characterDetailsUseCase.invoke(characterId)
-            //Then
+            // Then
             Truth.assertThat(actualCharacters).isEqualTo(expectedCharacters)
 
         }

@@ -13,13 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 
 @Composable
-fun RickAndMortyAppBar(title: String) {
+fun RickAndMortyAppBar(title: String, modifier: Modifier = Modifier) {
     Row(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .height(dimensionResource(R.dimen.app_bar_height))
-                .background(MaterialTheme.colorScheme.surface),
+        modifier
+            .fillMaxWidth()
+            .height(dimensionResource(R.dimen.app_bar_height))
+            .background(MaterialTheme.colorScheme.surface),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {

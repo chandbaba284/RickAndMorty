@@ -12,7 +12,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class CharacterDetailsViewModel @Inject constructor(private val characterDetailsUseCase : CharacterDetailsUseCase, @IoDispatcher private val ioDispatcher: CoroutineDispatcher,) : ViewModel() {
+class CharacterDetailsViewModel @Inject constructor(
+    private val characterDetailsUseCase: CharacterDetailsUseCase,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+) : ViewModel() {
 
     private val _characterDetails : MutableStateFlow<DataState<CharacterDetails>> = MutableStateFlow(
         DataState.Loading)
