@@ -9,4 +9,7 @@
     <string name="location">Location:</string>
     <string name="location_name">Name:</string>
     <string name="location_dimension">Dimension:</string>
+    <string name="episode_name">EPISODE NAME</string>
+    <string name="air_date">AIR DATE</string>
+    <string name="characters">CHARACTERS</string>
 </resources>

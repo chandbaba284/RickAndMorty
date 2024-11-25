@@ -58,7 +58,7 @@ fun NavigationController(
           val episodeId = episodeDetails.episodeId
           viewModel.getEpisodeDetailsByUsingEpisodeId(episodeId)
           topBarTitle.value = viewModel.getEpisodeTitle()
-           EpisodeDetails(topBarTitle = topBarTitle.value)
+           EpisodeDetails(topBarTitle = topBarTitle.value,viewModel.episodeDetails)
 
         }
     }
