@@ -33,8 +33,8 @@ class MainActivity : ComponentActivity() {
                     topBar = { RickAndMortyAppBar(topBarTitle.value) },
                     content = { innerPadding ->
                         NavigationController(
-                            viewModelFactory,
-                            Modifier.padding(innerPadding),
+                            viewModelFactory = viewModelFactory,
+                            modifier = Modifier.padding(innerPadding),
                             onTopBarTitleChange = { title -> topBarTitle.value = title }
                         )
                     }
