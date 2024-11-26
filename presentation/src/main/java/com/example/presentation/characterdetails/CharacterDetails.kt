@@ -65,11 +65,8 @@ fun CharacterDetails(
     }
 }
 
-@Composable
-private fun CharacterDetailItems(
-    item: CharacterDetails,
-private fun CharacterDetailsScreen(characterDetailS: CharacterDetails, topBarTitle: String,    modifier: Modifier = Modifier
-){
+
+private fun CharacterDetailsScreen(characterDetailS: CharacterDetails, topBarTitle: String,    modifier: Modifier = Modifier){
     Scaffold(
         modifier = modifier.fillMaxSize(),
         topBar = { RickAndMortyAppBar(topBarTitle) },

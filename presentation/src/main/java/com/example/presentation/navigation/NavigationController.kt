@@ -2,7 +2,6 @@ package com.example.presentation.navigation
 
 import CharacterDetails
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -21,9 +20,9 @@ import com.example.presentation.viewmodel.CharactersViewModel
 
 @Composable
 fun NavigationController(
+    onTopBarTitleChange: (String) -> Unit,
     viewModelFactory: ViewModelProvider.Factory,
-    modifier: Modifier,
-    onTopBarTitleChanged : (String)-> Unit
+    modifier: Modifier = Modifier,
 ) {
     val navController = rememberNavController()
     val onNavigateCharacterDetails: (String) -> Unit =
@@ -36,7 +35,7 @@ fun NavigationController(
     ) {
         composable<RouteHome> {
             val viewModel: CharactersViewModel = viewModel(factory = viewModelFactory)
-            onTopBarTitleChanged(stringResource(R.string.app_name))
+            onTopBarTitleChange(stringResource(R.string.app_name))
             HomeScreen(
                 allCharacters = viewModel.charactersState,
                 onNavigateToCharacterDetails = onNavigateCharacterDetails
@@ -46,7 +45,7 @@ fun NavigationController(
             val characterDetails: RouteCharacterDetails = navBackStackEntry.toRoute()
             val viewModel: CharacterDetailsViewModel = viewModel(factory = viewModelFactory)
             viewModel.getCharacterDetails(characterDetails.characterId)
-            onTopBarTitleChanged(viewModel.getCharacterName())
+            onTopBarTitleChange(viewModel.getCharacterName())
             CharacterDetails(characterDetails = viewModel.characterDetails)
         }
     }
