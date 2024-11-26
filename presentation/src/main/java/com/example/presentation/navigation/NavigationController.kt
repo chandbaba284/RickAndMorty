@@ -1,9 +1,10 @@
 package com.example.presentation.navigation
 
 import CharacterDetails
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -21,22 +22,23 @@ import com.example.presentation.viewmodel.CharactersViewModel
 @Composable
 fun NavigationController(
     viewModelFactory: ViewModelProvider.Factory,
+    modifier: Modifier,
+    onTopBarTitleChanged : (String)-> Unit
 ) {
-    val topBarTitle = remember { mutableStateOf("") }
     val navController = rememberNavController()
     val onNavigateCharacterDetails: (String) -> Unit =
         { characterId: String -> navController.navigate(RouteCharacterDetails(characterId = characterId)) }
 
     NavHost(
         navController = navController,
-        startDestination = RouteHome
+        startDestination = RouteHome,
+        modifier = modifier.padding(),
     ) {
         composable<RouteHome> {
             val viewModel: CharactersViewModel = viewModel(factory = viewModelFactory)
-            topBarTitle.value = stringResource(R.string.app_name)
+            onTopBarTitleChanged(stringResource(R.string.app_name))
             HomeScreen(
                 allCharacters = viewModel.charactersState,
-                topBarTitle = topBarTitle.value,
                 onNavigateToCharacterDetails = onNavigateCharacterDetails
             )
         }
@@ -44,11 +46,8 @@ fun NavigationController(
             val characterDetails: RouteCharacterDetails = navBackStackEntry.toRoute()
             val viewModel: CharacterDetailsViewModel = viewModel(factory = viewModelFactory)
             viewModel.getCharacterDetails(characterDetails.characterId)
-            topBarTitle.value = viewModel.getCharacterName()
-            CharacterDetails(
-                characterDetails = viewModel.characterDetails,
-                topBarTitle = topBarTitle.value
-            )
+            onTopBarTitleChanged(viewModel.getCharacterName())
+            CharacterDetails(characterDetails = viewModel.characterDetails)
         }
     }
 }

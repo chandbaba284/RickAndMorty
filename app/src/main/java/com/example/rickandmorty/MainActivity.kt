@@ -1,13 +1,21 @@
 package com.example.rickandmorty
+
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.ViewModelProvider
+import com.example.presentation.RickAndMortyAppBar
 import com.example.presentation.RickAndMortyTheme
 import com.example.presentation.navigation.NavigationController
 import javax.inject.Inject
@@ -20,18 +28,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         (application as RickAndMortyApplication).appComponent.inject(this)
         enableEdgeToEdge()
-
         setContent {
+            val topBarTitle = remember { mutableStateOf("") }
             RickAndMortyTheme {
-                Column(
-                    modifier =
-                    Modifier
-                        .fillMaxSize()
-                        .systemBarsPadding(),
-                ) {
-                    NavigationController(viewModelFactory)
-                }
+                Scaffold(
+                    modifier = Modifier.fillMaxSize().systemBarsPadding(),
+                    topBar = { RickAndMortyAppBar(topBarTitle.value) },
+                    content = { innerPadding ->
+                        NavigationController(
+                            viewModelFactory,
+                            Modifier.padding(innerPadding),
+                            onTopBarTitleChanged = {title-> topBarTitle.value = title} )
+                    }
+                )
             }
+
         }
     }
 }

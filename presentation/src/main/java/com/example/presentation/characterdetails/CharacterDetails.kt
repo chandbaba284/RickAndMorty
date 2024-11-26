@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -67,6 +66,8 @@ fun CharacterDetails(
 }
 
 @Composable
+private fun CharacterDetailItems(
+    item: CharacterDetails,
 private fun CharacterDetailsScreen(characterDetailS: CharacterDetails, topBarTitle: String,    modifier: Modifier = Modifier
 ){
     Scaffold(
@@ -87,7 +88,7 @@ private fun CharacterDetailItems(
     val painter = rememberAsyncImagePainter(item.image)
 
     Column(
-        modifier = modifier.padding(paddingValues)
+        modifier = modifier
     ) {
         Image(
             painter = painter,

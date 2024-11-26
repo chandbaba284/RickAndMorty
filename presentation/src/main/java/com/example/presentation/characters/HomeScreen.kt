@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -48,7 +47,7 @@ fun HomeScreen(
         modifier = modifier.fillMaxSize(),
         topBar = { RickAndMortyAppBar(topBarTitle) },
         content = { innerPadding ->
-            AllCharacters(allCharacters = allCharacters,modifier = Modifier.padding(innerPadding), onNavigateToCharacterDetails = onNavigateToCharacterDetails)
+            AllCharacters(allCharacters = allCharacters,modifier = modifier.padding(innerPadding), onNavigateToCharacterDetails = onNavigateToCharacterDetails)
         },
     )
 }
@@ -56,6 +55,7 @@ fun HomeScreen(
 
 @Composable
 private fun AllCharacters(
+    onNavigateToCharacterDetails: (String) -> Unit,
     allCharacters: StateFlow<DataState<PagingData<GetCharactersQuery.Result>>>,
     modifier: Modifier = Modifier,
     onNavigateToCharacterDetails: (String) -> Unit
@@ -85,9 +85,10 @@ private fun AllCharacters(
 
 @Composable
 private fun CharactersListItem(
-    onNavigateToCharacterDetails : (String) -> Unit,
-    item: GetCharactersQuery.Result?
-    modifier: Modifier = Modifier
+    onNavigateToCharacterDetails: (String) -> Unit,
+    item: GetCharactersQuery.Result?,
+    modifier: Modifier = Modifier,
+
 ) {
     Box(
         modifier =
