@@ -281,6 +281,6 @@ private fun CustomTextWithStyleMediumColorPrimary(
     )
 }
 
-private object CharacterDetailsValues{
+private object CharacterDetailsValues {
     const val EPISODE_LIST_DEFAULT_SIZE = 0
 }

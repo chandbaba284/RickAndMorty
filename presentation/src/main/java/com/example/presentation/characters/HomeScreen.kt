@@ -28,7 +28,6 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.example.presentation.R
-import com.example.presentation.characters.HomeScreenValues
 import com.example.presentation.characters.HomeScreenValues.CHARACTER_LIST_DEFAULT_SIZE
 import com.example.presentation.characters.HomeScreenValues.HOME_SCREEN_GRID_CELLS
 import com.example.presentation.uistate.UiState
