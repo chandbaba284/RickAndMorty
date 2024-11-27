@@ -82,13 +82,11 @@ private fun CharacterDetailItems(
     paddingValues: PaddingValues,
     modifier: Modifier = Modifier
 ) {
-    val painter = rememberAsyncImagePainter(item.image)
-
     Column(
         modifier = modifier
     ) {
-        Image(
-            painter = painter,
+        AsyncImage(
+            model = item.image,
             contentDescription = "Grid Image",
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -97,7 +95,16 @@ private fun CharacterDetailItems(
         )
         Column(modifier = Modifier.padding(start = dimensionResource(R.dimen.character_list_grid_spacing))) {
             Text(text = item.name, style = MaterialTheme.typography.headlineLarge)
-            CharacterStatus(item)
+            item.apply {
+                CharacterStatus(this)
+                CharacterSpecies(this)
+                CharacterGender(this)
+                CharacterOrigin(this)
+                CharacterOriginDimension(this)
+                CharacterLocation(this)
+                CharacterLocationDimension(this)
+                EpisodesList(this)
+            }
         }
     }
 }
@@ -114,7 +121,6 @@ private fun CharacterStatus(item: CharacterDetails, modifier: Modifier = Modifie
             Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
             CustomTextWithStyleMediumColorPrimary(text = item.status?.uppercase().orEmpty())
         }
-        CharacterSpecies(item)
     }
 }
 
@@ -130,7 +136,6 @@ private fun CharacterSpecies(item: CharacterDetails, modifier: Modifier = Modifi
             Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
             CustomTextWithStyleMediumColorPrimary(text = item.species?.uppercase().orEmpty())
         }
-        CharacterGender(item)
     }
 }
 
@@ -146,7 +151,6 @@ private fun CharacterGender(item: CharacterDetails, modifier: Modifier = Modifie
             Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
             CustomTextWithStyleMediumColorPrimary(text = item.gender?.uppercase().orEmpty())
         }
-        CharacterOrigin(item)
     }
 }
 
@@ -164,7 +168,6 @@ private fun CharacterOrigin(item: CharacterDetails, modifier: Modifier = Modifie
             Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
             CustomTextWithStyleMediumColorPrimary(text = item.originName?.uppercase().orEmpty())
         }
-        CharacterOriginDimension(item)
     }
 }
 
@@ -177,9 +180,10 @@ private fun CharacterOriginDimension(item: CharacterDetails, modifier: Modifier 
                 style = MaterialTheme.typography.titleMedium
             )
             Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
-            CustomTextWithStyleMediumColorPrimary(text = item.originDimension?.uppercase().orEmpty())
+            CustomTextWithStyleMediumColorPrimary(
+                text = item.originDimension?.uppercase().orEmpty()
+            )
         }
-        CharacterLocation(item)
     }
 }
 
@@ -197,12 +201,14 @@ private fun CharacterLocation(item: CharacterDetails, modifier: Modifier = Modif
             Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
             CustomTextWithStyleMediumColorPrimary(text = item.locationName?.uppercase().orEmpty())
         }
-        CharacterLocationDimension(item)
     }
 }
 
 @Composable
-private fun CharacterLocationDimension(item: CharacterDetails, modifier: Modifier = Modifier) {
+private fun CharacterLocationDimension(
+    item: CharacterDetailsMapper,
+    modifier: Modifier = Modifier
+) {
     Column(modifier = modifier) {
         Row {
             Text(
@@ -210,9 +216,10 @@ private fun CharacterLocationDimension(item: CharacterDetails, modifier: Modifie
                 style = MaterialTheme.typography.titleMedium
             )
             Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
-            CustomTextWithStyleMediumColorPrimary(text = item.locationDimension?.uppercase().orEmpty())
+            CustomTextWithStyleMediumColorPrimary(
+                text = item.locationDimension?.uppercase().orEmpty()
+            )
         }
-        EpisodesList(item)
     }
 }
 
@@ -225,8 +232,8 @@ private fun EpisodesList(item: CharacterDetails, modifier: Modifier = Modifier) 
         ),
         modifier = modifier
     ) {
-        items(item.episodes.size ?: 0) { index ->
-            val episode = item.episodes.get(index)
+        items(item.episodes?.size ?: EPISODE_LIST_DEFAULT_SIZE) { index ->
+            val episode = item.episodes?.get(index)
             EpisodeListItem(episode, index)
         }
     }
@@ -263,16 +270,17 @@ private fun EpisodeListItem(item: Episode, index: Int,modifier: Modifier = Modif
 private fun CustomTextWithStyleMediumColorPrimary(
     text: String,
     modifier: Modifier = Modifier,
-    style: TextStyle =
-        MaterialTheme.typography.titleMedium,
-    color: Color =
-        MaterialTheme.colorScheme.primary,
+    style: TextStyle = MaterialTheme.typography.titleMedium,
+    color: Color = MaterialTheme.colorScheme.primary,
 ) {
     Text(
-        text = text
-            .uppercase(),
+        text = text.uppercase(),
         style = style,
         color = color,
         modifier = modifier
     )
+}
+
+private object CharacterDetailsValues{
+    const val EPISODE_LIST_DEFAULT_SIZE = 0
 }

@@ -1,9 +1,9 @@
 package com.example.presentation.characters
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,6 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,13 +26,15 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import coil.compose.rememberAsyncImagePainter
-import com.example.common.module.DataState
-import com.example.common.module.DataState.Error
-import com.example.common.module.DataState.Loading
-import com.example.common.module.DataState.Success
+import coil.compose.AsyncImage
 import com.example.presentation.R
-import com.example.presentation.RickAndMortyAppBar
+import com.example.presentation.characters.HomeScreenValues
+import com.example.presentation.characters.HomeScreenValues.CHARACTER_LIST_DEFAULT_SIZE
+import com.example.presentation.characters.HomeScreenValues.HOME_SCREEN_GRID_CELLS
+import com.example.presentation.uistate.UiState
+import com.example.presentation.uistate.UiState.Error
+import com.example.presentation.uistate.UiState.Loading
+import com.example.presentation.uistate.UiState.Success
 import com.exmple.rickandmorty.GetCharactersQuery
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
@@ -60,26 +63,32 @@ private fun AllCharacters(
     modifier: Modifier = Modifier,
     onNavigateToCharacterDetails: (String) -> Unit
 ) {
-    val uistate = allCharacters.collectAsState().value
-    when (uistate) {
-        is Error -> {
-            Text(text = uistate.exception.message.toString())
-        }
+    val uistate by remember { allCharacters }.collectAsState()
+    Column(modifier = modifier) {
+        when (uistate) {
+            is Error -> {
+                Text(text = (uistate as Error).exception.message.toString())
+            }
 
-        is Loading -> {
-            CircularProgressIndicator(modifier = Modifier.size(dimensionResource(R.dimen.progress_bar_size)))
-        }
+            is Loading -> {
+                CircularProgressIndicator(modifier = Modifier.size(dimensionResource(R.dimen.progress_bar_size)))
+            }
 
-        is Success<PagingData<GetCharactersQuery.Result>> -> {
-            val charactersList = remember { flowOf(uistate.data) }.collectAsLazyPagingItems()
-            CharactersList(
-                charactersList = charactersList,
-                modifier = modifier.padding(),
-                onNavigateToCharacterDetails = onNavigateToCharacterDetails
-            )
-        }
+            is Success<PagingData<GetCharactersQuery.Result>> -> {
+                val charactersList =
+                    remember {
+                        flowOf(
+                            (uistate as Success<PagingData<GetCharactersQuery.Result>>).data
+                        )
+                    }.collectAsLazyPagingItems()
+                CharactersList(
+                    charactersList = charactersList,
+                    onNavigateToCharacterDetails = onNavigateToCharacterDetails
+                )
+            }
 
-        else -> Unit
+            else -> Unit
+        }
     }
 }
 
@@ -99,9 +108,8 @@ private fun CharactersListItem(
                 onNavigateToCharacterDetails(item?.character?.id ?: "")
             }
     ) {
-        val painter = rememberAsyncImagePainter(item?.character?.image)
-        Image(
-            painter = painter,
+        AsyncImage(
+            model = item?.character?.image,
             contentDescription = "Grid Image",
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize(),
@@ -128,7 +136,7 @@ private fun CharactersList(
     modifier: Modifier = Modifier,
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
+        columns = GridCells.Fixed(HOME_SCREEN_GRID_CELLS),
         modifier = modifier
             .fillMaxSize()
             .padding(),
@@ -136,7 +144,7 @@ private fun CharactersList(
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.character_list_grid_spacing)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.character_list_grid_spacing)),
     ) {
-        items(charactersList?.itemCount ?: 0) { index ->
+        items(charactersList?.itemCount ?: CHARACTER_LIST_DEFAULT_SIZE) { index ->
             val item = charactersList?.get(index)
             CharactersListItem(
                 item = item,
@@ -145,4 +153,9 @@ private fun CharactersList(
             )
         }
     }
+}
+
+private object HomeScreenValues {
+    const val HOME_SCREEN_GRID_CELLS = 2
+    const val CHARACTER_LIST_DEFAULT_SIZE = 0
 }

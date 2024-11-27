@@ -22,21 +22,28 @@ class CharacterDetailsViewModel @Inject constructor(
     val characterDetails : StateFlow<DataState<CharacterDetails>> = _characterDetails
     var characterNameForTopBar= ""
         private set
+    var characterId = ""
+        private set
 
     fun getCharacterDetails(characterId : String){
         viewModelScope.launch(ioDispatcher) {
-          val result = characterDetailsUseCase.invoke(characterId)
-           when(result){
-               is DataState.Success ->{
-                   _characterDetails.emit(DataState.Success(result.data))
-               }
-               is DataState.Error -> {
-                  _characterDetails.emit(result)
-               }
-               DataState.Loading ->{
-                  _characterDetails.emit(DataState.Loading)
-               }
-           }
+            if (this@CharacterDetailsViewModel.characterId.isEmpty()){
+                val result = characterDetailsUseCase.invoke(characterId)
+                when(result){
+                    is DataState.Success ->{
+                        _characterDetails.emit(DataState.Success(result.data))
+                    }
+                    is DataState.Error -> {
+                        _characterDetails.emit(result)
+                    }
+                    DataState.Loading ->{
+                        _characterDetails.emit(DataState.Loading)
+                    }
+                }
+                this@CharacterDetailsViewModel.characterId = characterId
+
+            }
+
         }
     }
 
