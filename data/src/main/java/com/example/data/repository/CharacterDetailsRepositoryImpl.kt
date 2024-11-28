@@ -13,7 +13,6 @@ class CharacterDetailsRepositoryImpl(private val apolloClient: ApolloClient) :
     override suspend fun getCharacterDetailsById(id: String): DataState<CharacterDetails> {
         return try {
             val response = apolloClient.query(GetCharacterDetailsByIdQuery(id)).execute()
-            DataState.Loading
             if (response.hasErrors()) {
                 DataState.Error(IllegalStateException(response.errors?.joinToString { it.message }),
                     R.string.null_response_data
