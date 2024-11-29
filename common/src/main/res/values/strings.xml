@@ -2,5 +2,4 @@
 <resources>
     <string name="null_response_data">Response data is null or empty.</string>
     <string name="fetch_failed">Fetch Failed</string>
-
 </resources>

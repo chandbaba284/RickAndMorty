@@ -53,7 +53,7 @@ class TestCharacterDetailsViewModel {
                 assertThat(awaitItem()).isEqualTo(DataState.Loading)
                 val successState = awaitItem()
                 assertThat(successState).isInstanceOf(DataState.Success::class.java)
-                val actualResponse = (successState as DataState.Success).data
+                val actualResponse = (successState as DataState.Success)
                 val expectedCharacters = characterDetailsUseCase.invoke(characterId)
                 assertThat(actualResponse).isEqualTo(expectedCharacters)
             }
@@ -77,8 +77,9 @@ class TestCharacterDetailsViewModel {
                 assertThat(awaitItem()).isEqualTo(DataState.Loading)
                 val errorState = awaitItem()
                 val actualOutput = (errorState as DataState.Error).exception.message
-                val expectedCharacters = characterDetailsUseCase.invoke(characterId)
-                assertThat(actualOutput).isEqualTo(expectedCharacters)
+                val result = characterDetailsUseCase.invoke(characterId)
+                val expectedCharacters = result as DataState.Error
+                assertThat(actualOutput).isEqualTo(expectedCharacters.exception.message)
 
 
             }

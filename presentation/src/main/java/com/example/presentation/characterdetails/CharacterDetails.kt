@@ -91,7 +91,7 @@ private fun CharacterDetailItems(item: CharacterDetails, paddingValues: PaddingV
                 .height(dimensionResource(R.dimen.character_details_image_height)),
         )
         Column(modifier = Modifier.padding(start = dimensionResource(R.dimen.character_list_grid_spacing))) {
-            Text(text = item.name.orEmpty(), style = MaterialTheme.typography.headlineLarge)
+            Text(text = item.name, style = MaterialTheme.typography.headlineLarge)
             CharacterStatus(item)
         }
     }
@@ -155,7 +155,7 @@ private fun CharacterOrigin(item: CharacterDetails) {
             style = MaterialTheme.typography.titleMedium
         )
         Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
-        CustomTextWithStyleMediumColorPrimary(text = item.originName?.uppercase().orEmpty())
+        CustomTextWithStyleMediumColorPrimary(text = item.originName.uppercase())
 
     }
     CharacterOriginDimension(item)
@@ -186,7 +186,7 @@ private fun CharacterLocation(item: CharacterDetails) {
             style = MaterialTheme.typography.titleMedium
         )
         Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
-        CustomTextWithStyleMediumColorPrimary(text = item.locationName?.uppercase().orEmpty())
+        CustomTextWithStyleMediumColorPrimary(text = item.locationName.uppercase())
 
     }
     CharacterLocationDimension(item)
@@ -255,7 +255,7 @@ private fun CustomTextWithStyleMediumColorPrimary(
     color: Color = MaterialTheme.colorScheme.primary
 ) {
     Text(
-        text = text.uppercase().orEmpty(),
+        text = text.uppercase(),
         style = style,
         color = color
     )
