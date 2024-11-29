@@ -1,19 +1,16 @@
 package com.example.presentation.characters
 
 import app.cash.turbine.test
-import com.example.domain.mapper.CharacterDetailsMapper
+import com.example.common.module.DataState
+import com.example.domain.mapper.CharacterDetails
+import com.example.domain.mapper.Episode
 import com.example.domain.usecase.CharacterDetailsUseCase
-import com.example.presentation.uistate.UiState
 import com.example.presentation.viewmodel.CharacterDetailsViewModel
-import com.exmple.rickandmorty.fragment.Character
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Test
 
@@ -34,8 +31,8 @@ class TestCharacterDetailsViewModel {
         runTest(testDispatcher) {
             //Given
             val characterId = "1"
-            coEvery { characterDetailsUseCase.invoke(characterId) } returns Result.success(
-                CharacterDetailsMapper(
+            coEvery { characterDetailsUseCase.invoke(characterId) } returns DataState.Success(
+                CharacterDetails(
                     id = "1",
                     name = "Rick",
                     image = "",
@@ -45,7 +42,7 @@ class TestCharacterDetailsViewModel {
                     originName = "",
                     originDimension = "",
                     locationName = "",
-                    locationDimension = "", episodes = listOf(Character.Episode("", "", ""))
+                    locationDimension = "", episodes = listOf(Episode("", "", ""))
                 )
             )
             //When
@@ -53,14 +50,12 @@ class TestCharacterDetailsViewModel {
 
             //Then
             characterDetailsViewModel.characterDetails.test {
-                assertThat(awaitItem()).isEqualTo(UiState.Loading)
+                assertThat(awaitItem()).isEqualTo(DataState.Loading)
                 val successState = awaitItem()
-                assertThat(successState).isInstanceOf(UiState.Success::class.java)
-                val actualResponse = (successState as UiState.Success).data
-                characterDetailsUseCase.invoke(characterId)
-                    .onSuccess {
-                        assertThat(actualResponse).isEqualTo(it)
-                    }
+                assertThat(successState).isInstanceOf(DataState.Success::class.java)
+                val actualResponse = (successState as DataState.Success).data
+                val expectedCharacters = characterDetailsUseCase.invoke(characterId)
+                assertThat(actualResponse).isEqualTo(expectedCharacters)
             }
         }
     }
@@ -70,7 +65,7 @@ class TestCharacterDetailsViewModel {
         runTest(testDispatcher) {
             //Given
             val characterId = "-1"
-            coEvery { characterDetailsUseCase.invoke(characterId) } returns Result.failure(
+            coEvery { characterDetailsUseCase.invoke(characterId) } returns DataState.Error(
                 Exception(
                     "Character Details are Empty"
                 )
@@ -79,15 +74,12 @@ class TestCharacterDetailsViewModel {
             characterDetailsViewModel.getCharacterDetails(characterId)
             //Then
             characterDetailsViewModel.characterDetails.test {
-                assertThat(awaitItem()).isEqualTo(UiState.Loading)
+                assertThat(awaitItem()).isEqualTo(DataState.Loading)
                 val errorState = awaitItem()
-                val actualOutput = (errorState as UiState.Error).exception.message
-                characterDetailsUseCase.invoke(characterId)
-                    .onFailure {
-                        val expectedOutput = it.message
-                        assertThat(actualOutput).isEqualTo(expectedOutput)
+                val actualOutput = (errorState as DataState.Error).exception.message
+                val expectedCharacters = characterDetailsUseCase.invoke(characterId)
+                assertThat(actualOutput).isEqualTo(expectedCharacters)
 
-                    }
 
             }
         }

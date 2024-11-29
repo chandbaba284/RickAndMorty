@@ -7,19 +7,37 @@ fun GetCharacterDetailsByIdQuery.Character.toCharacterDetailsMapper(): Character
     val character = this.character
     val episodes = character.episode
     return CharacterDetails(
-        id = character.id ?: "",
-        name = character.name ?: "",
+        id = character.id,
+        name = character.name,
         image = character.image,
         status = character.status,
         species = character.species,
         gender = character.gender,
-        originName = character.origin?.name,
-        originDimension = character.origin?.dimension,
-        locationName = character.location?.location?.name,
-        locationDimension = character.location?.location?.dimension,
-        episodes = episodes
+        originName = character.origin.name,
+        originDimension = character.origin.dimension,
+        locationName = character.location.location.name,
+        locationDimension = character.location.location.dimension,
+        episodes = getEpisodes(episodes)
     )
 }
+
+
+fun getEpisodes(episodes: List<com.exmple.rickandmorty.fragment.Character.Episode>): List<Episode> {
+    val list: ArrayList<Episode> = ArrayList()
+    episodes.map { episode ->
+            list.add(
+                Episode(
+                    airDate = episode.air_date,
+                    episodeName = episode.name,
+                    season = episode.episode,
+                    id = episode.id
+                )
+            )
+    }
+    return list
+
+}
+
 
 fun GetEpisodeDetailsByIdQuery.Data.toEpisodeDetailsMapper(): EpisodeDetails {
     val episodeDetails = this.episode
@@ -36,9 +54,9 @@ fun List<GetEpisodeDetailsByIdQuery.Character?>?.toAllCharactersList(): List<Cha
     return this?.mapNotNull { character ->
         character?.let {
             Character(
-                characterId = it.id ?: "",
-                characterName = it.name ?: "Unknown",
-                image = it.image ?: ""
+                characterId = it.id,
+                characterName = it.name,
+                image = it.image
 
             )
         }

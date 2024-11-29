@@ -27,6 +27,7 @@ fragment character on Character{
         dimension
     }
     episode {
+        id
         air_date
         name
         episode

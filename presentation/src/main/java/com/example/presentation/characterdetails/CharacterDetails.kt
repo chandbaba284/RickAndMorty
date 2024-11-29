@@ -1,5 +1,4 @@
 package com.example.presentation.characterdetails
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -32,11 +31,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
+import com.example.common.module.DataState
 import com.example.domain.mapper.CharacterDetails
+import com.example.domain.mapper.Episode
 import com.example.presentation.R
 import com.example.presentation.RickAndMortyAppBar
-import com.example.common.module.DataState
-import com.exmple.rickandmorty.fragment.Character
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
@@ -214,8 +213,8 @@ private fun EpisodesList(item: CharacterDetails) {
             dimensionResource(R.dimen.character_list_grid_spacing)
         )
     ) {
-        items(item.episodes?.size ?: 0) { index ->
-            val episode = item.episodes?.get(index)
+        items(item.episodes.size ?: 0) { index ->
+            val episode = item.episodes.get(index)
             EpisodeListItem(episode, index)
         }
     }
@@ -223,7 +222,7 @@ private fun EpisodesList(item: CharacterDetails) {
 }
 
 @Composable
-private fun EpisodeListItem(item: Character.Episode?, index: Int) {
+private fun EpisodeListItem(item: Episode, index: Int) {
     Box(
         modifier = Modifier
             .size(dimensionResource(R.dimen.episode_item_size))
@@ -241,7 +240,7 @@ private fun EpisodeListItem(item: Character.Episode?, index: Int) {
                 color = MaterialTheme.colorScheme.onPrimary
             )
             Text(
-                text = item?.episode.orEmpty(),
+                text = item.season.orEmpty(),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onPrimary
             )
