@@ -1,13 +1,13 @@
 package com.example.domain.characters.usecase
 
-import com.example.domain.mapper.CharacterDetailsMapper
+import com.example.common.module.DataState
+import com.example.domain.mapper.CharacterDetails
+import com.example.domain.mapper.Episode
 import com.example.domain.repository.CharacterDetailsRepository
 import com.example.domain.usecase.CharacterDetailsUseCase
-import com.exmple.rickandmorty.fragment.Character
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.mockk
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Test
@@ -27,8 +27,8 @@ class TestCharacterDetailsUseCase {
         runTest {
             //Given
             val characterId = "1"
-            val characterDetails = Result.success(
-                CharacterDetailsMapper(
+            val characterDetails = DataState.Success(
+                CharacterDetails(
                     id = "1",
                     name = "Rick",
                     image = "",
@@ -38,7 +38,7 @@ class TestCharacterDetailsUseCase {
                     originName = "",
                     originDimension = "",
                     locationName = "",
-                    locationDimension = "", episodes = listOf(Character.Episode("","",""))
+                    locationDimension = "", episodes = listOf(Episode("","",""))
                 )
             )
             coEvery { characterDetailsRepository.getCharacterDetailsById(characterId)} returns characterDetails
@@ -57,7 +57,7 @@ class TestCharacterDetailsUseCase {
         runTest {
             //Given
             val characterId = "1"
-            coEvery { characterDetailsRepository.getCharacterDetailsById(characterId)} returns Result.failure(Exception("No Data Found"))
+            coEvery { characterDetailsRepository.getCharacterDetailsById(characterId)} returns DataState.Error(Exception("No Data Found"))
             //When
             val expectedCharacters = characterDetailsRepository.getCharacterDetailsById(characterId)
             val actualCharacters = characterDetailsUseCase.invoke(characterId)

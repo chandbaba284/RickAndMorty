@@ -1,5 +1,4 @@
 package com.example.presentation.characterdetails
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,25 +31,25 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import com.example.domain.mapper.CharacterDetailsMapper
+import com.example.common.module.DataState
+import com.example.domain.mapper.CharacterDetails
+import com.example.domain.mapper.Episode
 import com.example.presentation.R
 import com.example.presentation.RickAndMortyAppBar
-import com.example.presentation.characters.AllCharacters
-import com.example.presentation.uistate.UiState
-import com.exmple.rickandmorty.fragment.Character
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun CharacterDetails(
-    characterDetails: StateFlow<UiState<CharacterDetailsMapper>>,
+    characterDetails: StateFlow<DataState<CharacterDetails>>,
     topBarTitle : String
 ) {
     val uiState = characterDetails.collectAsState().value
     when (uiState) {
-        is UiState.Error -> {
-            Text(text = uiState.exception.message.toString())
+        is DataState.Error -> {
+            val message = stringResource(uiState.errorMessage)
+            Text(text = message)
         }
-        UiState.Loading -> {
+        DataState.Loading -> {
             Column(
                 modifier = Modifier.fillMaxSize(),
                 verticalArrangement = Arrangement.Center,
@@ -61,24 +59,24 @@ fun CharacterDetails(
             }
         }
 
-        is UiState.Success -> {
+        is DataState.Success -> {
             CharacterDetailsScreen(uiState.data,topBarTitle)
         }
     }
 }
 @Composable
-fun CharacterDetailsScreen(characterDetailsMapper: CharacterDetailsMapper,topBarTitle: String){
+private fun CharacterDetailsScreen(characterDetailS: CharacterDetails, topBarTitle: String){
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = { RickAndMortyAppBar(topBarTitle) },
         content = { innerPadding ->
-          CharacterDetailItems(characterDetailsMapper,innerPadding)
+          CharacterDetailItems(characterDetailS,innerPadding)
         },
     )
 }
 
 @Composable
-fun CharacterDetailItems(item: CharacterDetailsMapper,paddingValues: PaddingValues) {
+private fun CharacterDetailItems(item: CharacterDetails, paddingValues: PaddingValues) {
     val painter = rememberAsyncImagePainter(item.image)
 
     Column(
@@ -93,14 +91,14 @@ fun CharacterDetailItems(item: CharacterDetailsMapper,paddingValues: PaddingValu
                 .height(dimensionResource(R.dimen.character_details_image_height)),
         )
         Column(modifier = Modifier.padding(start = dimensionResource(R.dimen.character_list_grid_spacing))) {
-            Text(text = item.name.orEmpty(), style = MaterialTheme.typography.headlineLarge)
+            Text(text = item.name, style = MaterialTheme.typography.headlineLarge)
             CharacterStatus(item)
         }
     }
 }
 
 @Composable
-fun CharacterStatus(item: CharacterDetailsMapper) {
+private fun CharacterStatus(item: CharacterDetails) {
     Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_status_padding)))
     Row {
         Text(
@@ -115,7 +113,7 @@ fun CharacterStatus(item: CharacterDetailsMapper) {
 }
 
 @Composable
-fun CharacterSpecies(item: CharacterDetailsMapper) {
+private fun CharacterSpecies(item: CharacterDetails) {
     Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_spacer)))
 
     Row {
@@ -131,7 +129,7 @@ fun CharacterSpecies(item: CharacterDetailsMapper) {
 }
 
 @Composable
-fun CharacterGender(item: CharacterDetailsMapper) {
+private fun CharacterGender(item: CharacterDetails) {
     Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_spacer)))
 
     Row {
@@ -147,7 +145,7 @@ fun CharacterGender(item: CharacterDetailsMapper) {
 }
 
 @Composable
-fun CharacterOrigin(item: CharacterDetailsMapper) {
+private fun CharacterOrigin(item: CharacterDetails) {
     Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_origin_spacer)))
     Text(text = stringResource(R.string.origin), style = MaterialTheme.typography.titleLarge)
     Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_spacer)))
@@ -157,7 +155,7 @@ fun CharacterOrigin(item: CharacterDetailsMapper) {
             style = MaterialTheme.typography.titleMedium
         )
         Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
-        CustomTextWithStyleMediumColorPrimary(text = item.originName?.uppercase().orEmpty())
+        CustomTextWithStyleMediumColorPrimary(text = item.originName.uppercase())
 
     }
     CharacterOriginDimension(item)
@@ -165,7 +163,7 @@ fun CharacterOrigin(item: CharacterDetailsMapper) {
 }
 
 @Composable
-fun CharacterOriginDimension(item: CharacterDetailsMapper) {
+private fun CharacterOriginDimension(item: CharacterDetails) {
     Row {
         Text(
             text = stringResource(R.string.origin_dimension),
@@ -178,7 +176,7 @@ fun CharacterOriginDimension(item: CharacterDetailsMapper) {
 }
 
 @Composable
-fun CharacterLocation(item: CharacterDetailsMapper) {
+private fun CharacterLocation(item: CharacterDetails) {
     Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_origin_spacer)))
     Text(text = stringResource(R.string.location), style = MaterialTheme.typography.titleLarge)
     Spacer(modifier = Modifier.padding(top = 5.dp))
@@ -188,14 +186,14 @@ fun CharacterLocation(item: CharacterDetailsMapper) {
             style = MaterialTheme.typography.titleMedium
         )
         Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
-        CustomTextWithStyleMediumColorPrimary(text = item.locationName?.uppercase().orEmpty())
+        CustomTextWithStyleMediumColorPrimary(text = item.locationName.uppercase())
 
     }
     CharacterLocationDimension(item)
 }
 
 @Composable
-fun CharacterLocationDimension(item: CharacterDetailsMapper) {
+private fun CharacterLocationDimension(item: CharacterDetails) {
     Row {
         Text(
             text = stringResource(R.string.location_dimension),
@@ -208,15 +206,15 @@ fun CharacterLocationDimension(item: CharacterDetailsMapper) {
 }
 
 @Composable
-fun EpisodesList(item: CharacterDetailsMapper) {
+private fun EpisodesList(item: CharacterDetails) {
     LazyRow(
         contentPadding = PaddingValues(dimensionResource(R.dimen.character_list_item_padding)),
         horizontalArrangement = Arrangement.spacedBy(
             dimensionResource(R.dimen.character_list_grid_spacing)
         )
     ) {
-        items(item.episodes?.size ?: 0) { index ->
-            val episode = item.episodes?.get(index)
+        items(item.episodes.size ?: 0) { index ->
+            val episode = item.episodes.get(index)
             EpisodeListItem(episode, index)
         }
     }
@@ -224,7 +222,7 @@ fun EpisodesList(item: CharacterDetailsMapper) {
 }
 
 @Composable
-fun EpisodeListItem(item: Character.Episode?, index: Int) {
+private fun EpisodeListItem(item: Episode, index: Int) {
     Box(
         modifier = Modifier
             .size(dimensionResource(R.dimen.episode_item_size))
@@ -242,7 +240,7 @@ fun EpisodeListItem(item: Character.Episode?, index: Int) {
                 color = MaterialTheme.colorScheme.onPrimary
             )
             Text(
-                text = item?.episode.orEmpty(),
+                text = item.season.orEmpty(),
                 style = MaterialTheme.typography.titleLarge,
                 color = MaterialTheme.colorScheme.onPrimary
             )
@@ -251,13 +249,13 @@ fun EpisodeListItem(item: Character.Episode?, index: Int) {
 }
 
 @Composable
-fun CustomTextWithStyleMediumColorPrimary(
+private fun CustomTextWithStyleMediumColorPrimary(
     text: String,
     style: TextStyle = MaterialTheme.typography.titleMedium,
     color: Color = MaterialTheme.colorScheme.primary
 ) {
     Text(
-        text = text.uppercase().orEmpty(),
+        text = text.uppercase(),
         style = style,
         color = color
     )

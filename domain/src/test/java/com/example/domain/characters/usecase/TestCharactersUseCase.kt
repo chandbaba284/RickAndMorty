@@ -12,10 +12,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import repository.CharactersRepository
@@ -36,56 +34,49 @@ class TestCharactersUseCase {
     @Test
     fun givenValidCharacters_whenGetCharactersCalled_thenReturnsMatchingCharacterList() =
         runTest(testDispatcher) {
-            coEvery { repository.getCharacters() } returns flowOf(getCharacters())
+            //Given
+            val items =
+                listOf(
+                    GetCharactersQuery.Result(
+                        "",
+                        Character(
+                            name = "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            location = Character.Location("", Location("", "", "")),
+                            Character.Origin("", ""),
+                            episode = listOf(Character.Episode("", "", "", ""))
+                        ),
+                    ),
+                    GetCharactersQuery.Result(
+                        "",
+                        Character(
+                            name = "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            Character.Location(
+                                "",
+                                Location("", "", ""),
+                            ),
+                            Character.Origin("", ""),
+                            episode = listOf(Character.Episode("", "", "", ""))
+                        ),
+
+                        ),
+                )
+
+            //When
+            coEvery { repository.getCharacters() } returns flowOf(PagingData.from(items))
+            //Then
             val expectedCharacters = repository.getCharacters().toList()
             val result = useCase.invoke().toList()
-            println(expectedCharacters)
-            println(result)
             Truth.assertThat(expectedCharacters).isEqualTo(result)
         }
-
-    @After
-    fun tearDown() {
-        Dispatchers.resetMain() // Reset after tests
-    }
-
-    private fun getCharacters(): PagingData<GetCharactersQuery.Result> {
-        val items =
-            listOf(
-                GetCharactersQuery.Result(
-                    "",
-                    Character(
-                        name = "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        location = Character.Location("", Location("", "", "")),
-                        Character.Origin("",""), episode = listOf(Character.Episode("","",""))
-                    ),
-                ),
-                GetCharactersQuery.Result(
-                    "",
-                    Character(
-                        name = "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        "",
-                        Character.Location(
-                            "",
-                            Location("", "", ""),
-                            ),
-                        Character.Origin("",""), episode = listOf(Character.Episode("","",""))
-
-
-                    ),
-                ),
-            )
-
-        return PagingData.from(items)
-    }
 
 }

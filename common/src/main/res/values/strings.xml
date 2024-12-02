@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="null_response_data">Response data is null or empty.</string>
+    <string name="fetch_failed">Fetch Failed</string>
+</resources>
