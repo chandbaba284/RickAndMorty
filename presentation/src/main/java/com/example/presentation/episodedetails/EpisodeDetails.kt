@@ -21,17 +21,17 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
+import com.example.common.module.DataState
 import com.example.domain.mapper.Character
-import com.example.domain.mapper.EpisodeDetailsMapper
+import com.example.domain.mapper.EpisodeDetails
 import com.example.presentation.R
 import com.example.presentation.RickAndMortyAppBar
-import com.example.presentation.uistate.UiState
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun EpisodeDetails(
     topBarTitle: String,
-    episodeDetails: StateFlow<UiState<EpisodeDetailsMapper>>,
+    episodeDetails: StateFlow<DataState<EpisodeDetails>>,
     modifier: Modifier = Modifier
 ) {
     val episodeInfo = episodeDetails.collectAsState().value
@@ -40,11 +40,11 @@ fun EpisodeDetails(
         topBar = { RickAndMortyAppBar(topBarTitle) },
         content = { innerPadding ->
             when (episodeInfo) {
-                is UiState.Error -> {
+                is DataState.Error -> {
                     Text(text = episodeInfo.exception.message.toString())
                 }
 
-                UiState.Loading -> {
+                DataState.Loading -> {
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
@@ -54,8 +54,8 @@ fun EpisodeDetails(
                     }
                 }
 
-                is UiState.Success -> {
-                    EpisodeName(episodeInfo.data, modifier.padding(innerPadding))
+                is DataState.Success -> {
+                    EpisodeScreen(episodeInfo.data, modifier = Modifier.padding(innerPadding))
 
                 }
             }
@@ -64,7 +64,18 @@ fun EpisodeDetails(
 }
 
 @Composable
-private fun EpisodeName(episodeInfo: EpisodeDetailsMapper, modifier: Modifier = Modifier) {
+private fun EpisodeScreen(episodeDetails: EpisodeDetails,modifier: Modifier = Modifier) {
+    Column(modifier = modifier) {
+        EpisodeName(episodeDetails, modifier.padding())
+        EpisodeAirDate(episodeDetails)
+        CharactersList(episodeDetails.characters)
+    }
+
+
+}
+
+@Composable
+private fun EpisodeName(episodeInfo: EpisodeDetails, modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
     ) {
@@ -80,12 +91,11 @@ private fun EpisodeName(episodeInfo: EpisodeDetailsMapper, modifier: Modifier = 
             modifier = Modifier.padding(top = dimensionResource(R.dimen.episode_details_spacing_between_title_value))
         )
         Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_status_padding)))
-        EpisodeAirDate(episodeInfo)
     }
 }
 
 @Composable
-private fun EpisodeAirDate(episodeInfo: EpisodeDetailsMapper, modifier: Modifier = Modifier) {
+private fun EpisodeAirDate(episodeInfo: EpisodeDetails, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
         Text(
             text = stringResource(R.string.air_date),
@@ -99,7 +109,6 @@ private fun EpisodeAirDate(episodeInfo: EpisodeDetailsMapper, modifier: Modifier
             modifier = Modifier.padding(top = dimensionResource(R.dimen.episode_details_spacing_between_title_value))
         )
         Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_status_padding)))
-        CharactersList(episodeInfo.characters)
     }
 }
 

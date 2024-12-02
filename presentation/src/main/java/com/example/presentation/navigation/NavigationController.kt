@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.presentation.R
 import com.example.presentation.characterdetails.CharacterDetails
+import com.example.presentation.characters.HomeScreen
 import com.example.presentation.episodedetails.EpisodeDetails
 import com.example.presentation.navigation.routes.RouteCharacterDetails
 import com.example.presentation.navigation.routes.RouteEpisodeDetails
@@ -58,7 +59,7 @@ fun NavigationController(
           val episodeId = episodeDetails.episodeId
           viewModel.getEpisodeDetailsByUsingEpisodeId(episodeId)
           topBarTitle.value = viewModel.getEpisodeTitle()
-           EpisodeDetails(topBarTitle = topBarTitle.value,viewModel.episodeDetails)
+           EpisodeDetails(topBarTitle = topBarTitle.value,episodeDetails = viewModel.episodeDetails)
 
         }
     }

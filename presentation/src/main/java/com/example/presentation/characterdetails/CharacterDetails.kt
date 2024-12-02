@@ -1,5 +1,6 @@
 package com.example.presentation.characterdetails
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -253,7 +254,7 @@ private fun EpisodeListItem(item: Episode, index: Int, modifier: Modifier = Modi
         modifier = modifier
             .size(dimensionResource(R.dimen.episode_item_size))
             .background(color = colorResource(R.color.episode_background_color))
-            .clickable(onClick = {onNavigateToEpisodeDetails(item?.episodeId.orEmpty())})
+            .clickable(onClick = { onNavigateToEpisodeDetails(item?.id.orEmpty()) })
     ) {
         Column(
             modifier = Modifier.matchParentSize(),
