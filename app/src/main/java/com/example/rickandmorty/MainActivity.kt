@@ -34,7 +34,9 @@ class MainActivity : ComponentActivity() {
             RickAndMortyTheme {
                 var topBarTitle by remember { mutableStateOf("") }
                 Scaffold(
-                    modifier = Modifier.fillMaxSize().systemBarsPadding(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .systemBarsPadding(),
                     topBar = { TopAppBar(title = { RickAndMortyAppBar(topBarTitle) }) },
                     content = { innerPadding ->
                         NavigationController(

@@ -1,6 +1,5 @@
 package com.example.presentation.navigation
 
-import CharacterDetails
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -12,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.presentation.R
+import com.example.presentation.characterdetails.CharacterDetails
 import com.example.presentation.characters.HomeScreen
 import com.example.presentation.navigation.routes.RouteCharacterDetails
 import com.example.presentation.navigation.routes.RouteHome

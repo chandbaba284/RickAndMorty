@@ -14,18 +14,17 @@ import org.junit.Test
 
 class TestCharacterDetailsUseCase {
     private lateinit var characterDetailsUseCase: CharacterDetailsUseCase
-    private  var characterDetailsRepository : CharacterDetailsRepository = mockk()
-
+    private var characterDetailsRepository: CharacterDetailsRepository = mockk()
 
     @Before
-    fun setUp(){
+    fun setUp() {
         characterDetailsUseCase = CharacterDetailsUseCase(characterDetailsRepository)
     }
 
     @Test
-    fun givenCharacterDetails_whenGetCharacterDetailsCalled_thenMatchResultOfUseCase(){
+    fun givenCharacterDetails_whenGetCharacterDetailsCalled_thenMatchResultOfUseCase() {
         runTest {
-            //Given
+            // Given
             val characterId = "1"
             val characterDetails = DataState.Success(
                 CharacterDetails(
@@ -38,11 +37,11 @@ class TestCharacterDetailsUseCase {
                     originName = "",
                     originDimension = "",
                     locationName = "",
-                    locationDimension = "", episodes = listOf(Episode("","",""))
+                    locationDimension = "", episodes = listOf(Episode("", "", ""))
                 )
             )
-            coEvery { characterDetailsRepository.getCharacterDetailsById(characterId)} returns characterDetails
-            //When
+            coEvery { characterDetailsRepository.getCharacterDetailsById(characterId) } returns characterDetails
+            // When
             val expectedOutPut = characterDetailsRepository.getCharacterDetailsById(characterId)
             val actualCharacters = characterDetailsUseCase.invoke(characterId)
 
@@ -52,19 +51,18 @@ class TestCharacterDetailsUseCase {
     }
 
     @Test
-    fun givenCharacterDetails_whenGetCharacterIdIsWrongShouldReturnException(){
+    fun givenCharacterDetails_whenGetCharacterIdIsWrongShouldReturnException() {
         runTest {
-            //Given
+            // Given
             val characterId = "1"
-            coEvery { characterDetailsRepository.getCharacterDetailsById(characterId)} returns DataState.Error(Exception("No Data Found"))
-            //When
+            coEvery {
+                characterDetailsRepository.getCharacterDetailsById(characterId)
+            } returns DataState.Error(Exception("No Data Found"))
+            // When
             val expectedCharacters = characterDetailsRepository.getCharacterDetailsById(characterId)
             val actualCharacters = characterDetailsUseCase.invoke(characterId)
             // Then
             Truth.assertThat(actualCharacters).isEqualTo(expectedCharacters)
-
         }
     }
-
-
 }

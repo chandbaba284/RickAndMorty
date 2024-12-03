@@ -2,7 +2,6 @@ package com.example.common.module
 
 import androidx.annotation.StringRes
 
-
 sealed class DataState<out T> {
     object Loading : DataState<Nothing>()
 
@@ -12,6 +11,6 @@ sealed class DataState<out T> {
 
     data class Error(
         val exception: Exception,
-        @StringRes var errorMessage : Int = -1
+        @StringRes var errorMessage: Int = -1
     ) : DataState<Nothing>()
 }

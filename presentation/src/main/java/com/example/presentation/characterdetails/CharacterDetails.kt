@@ -1,5 +1,5 @@
 package com.example.presentation.characterdetails
-import androidx.compose.foundation.Image
+
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,6 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -29,61 +31,62 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import coil.compose.rememberAsyncImagePainter
+import coil.compose.AsyncImage
 import com.example.common.module.DataState
 import com.example.domain.mapper.CharacterDetails
 import com.example.domain.mapper.Episode
 import com.example.presentation.R
-import com.example.presentation.RickAndMortyAppBar
+import com.example.presentation.characterdetails.CharacterDetailsValues.EPISODE_LIST_DEFAULT_SIZE
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun CharacterDetails(
     characterDetails: StateFlow<DataState<CharacterDetails>>,
-    topBarTitle : String,
     modifier: Modifier = Modifier
 ) {
     val uiState = characterDetails.collectAsState().value
-    when (uiState) {
-        is DataState.Error -> {
-            val message = stringResource(uiState.errorMessage)
-            Text(text = message)
-        }
-        DataState.Loading -> {
-            Column(
-                modifier = modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                CircularProgressIndicator(modifier = Modifier.size(dimensionResource(R.dimen.progress_bar_size)))
+    Column(
+        modifier = modifier
+    ) {
+        when (uiState) {
+            is DataState.Error -> {
+                val message = stringResource(uiState.errorMessage)
+                Text(text = message)
             }
-        }
 
-        is DataState.Success -> {
-            CharacterDetailsScreen(uiState.data,topBarTitle)
+            DataState.Loading -> {
+                ProgressBar()
+            }
+
+            is DataState.Success -> {
+                CharacterDetailItems(uiState.data)
+            }
         }
     }
 }
 
-
-private fun CharacterDetailsScreen(characterDetailS: CharacterDetails, topBarTitle: String,    modifier: Modifier = Modifier){
-    Scaffold(
-        modifier = modifier.fillMaxSize(),
-        topBar = { RickAndMortyAppBar(topBarTitle) },
-        content = { innerPadding ->
-          CharacterDetailItems(characterDetailS,innerPadding)
-        },
-    )
+@Composable
+private fun ProgressBar(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxSize(), // Ensures the Column fills the entire screen
+        verticalArrangement = Arrangement.Center, // Centers content vertically
+        horizontalAlignment = Alignment.CenterHorizontally // Centers content horizontally
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier
+                .size(dimensionResource(R.dimen.progress_bar_size)) // Sets the specific size
+        )
+    }
 }
 
 @Composable
 private fun CharacterDetailItems(
     item: CharacterDetails,
-    paddingValues: PaddingValues,
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier.verticalScroll(rememberScrollState())
     ) {
         AsyncImage(
             model = item.image,
@@ -93,7 +96,7 @@ private fun CharacterDetailItems(
                 .fillMaxWidth()
                 .height(dimensionResource(R.dimen.character_details_image_height)),
         )
-        Column(modifier = Modifier.padding(start = dimensionResource(R.dimen.character_list_grid_spacing))) {
+        Column(modifier = Modifier.padding(dimensionResource(R.dimen.character_list_grid_spacing))) {
             Text(text = item.name, style = MaterialTheme.typography.headlineLarge)
             item.apply {
                 CharacterStatus(this)
@@ -206,7 +209,7 @@ private fun CharacterLocation(item: CharacterDetails, modifier: Modifier = Modif
 
 @Composable
 private fun CharacterLocationDimension(
-    item: CharacterDetailsMapper,
+    item: CharacterDetails,
     modifier: Modifier = Modifier
 ) {
     Column(modifier = modifier) {
@@ -232,15 +235,15 @@ private fun EpisodesList(item: CharacterDetails, modifier: Modifier = Modifier) 
         ),
         modifier = modifier
     ) {
-        items(item.episodes?.size ?: EPISODE_LIST_DEFAULT_SIZE) { index ->
-            val episode = item.episodes?.get(index)
+        items(item.episodes.size ?: EPISODE_LIST_DEFAULT_SIZE) { index ->
+            val episode = item.episodes.get(index)
             EpisodeListItem(episode, index)
         }
     }
 }
 
 @Composable
-private fun EpisodeListItem(item: Episode, index: Int,modifier: Modifier = Modifier) {
+private fun EpisodeListItem(item: Episode, index: Int, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .size(dimensionResource(R.dimen.episode_item_size))

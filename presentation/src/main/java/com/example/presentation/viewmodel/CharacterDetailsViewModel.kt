@@ -17,33 +17,33 @@ class CharacterDetailsViewModel @Inject constructor(
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
-    private val _characterDetails : MutableStateFlow<DataState<CharacterDetails>> = MutableStateFlow(
-        DataState.Loading)
-    val characterDetails : StateFlow<DataState<CharacterDetails>> = _characterDetails
-    var characterNameForTopBar= ""
+    private val _characterDetails: MutableStateFlow<DataState<CharacterDetails>> = MutableStateFlow(
+        DataState.Loading
+    )
+    val characterDetails: StateFlow<DataState<CharacterDetails>> = _characterDetails
+    var characterNameForTopBar = ""
         private set
     var characterId = ""
         private set
 
-    fun getCharacterDetails(characterId : String){
+    fun getCharacterDetails(characterId: String) {
         viewModelScope.launch(ioDispatcher) {
-            if (this@CharacterDetailsViewModel.characterId.isEmpty()){
+            if (this@CharacterDetailsViewModel.characterId.isEmpty()) {
                 val result = characterDetailsUseCase.invoke(characterId)
-                when(result){
-                    is DataState.Success ->{
+                when (result) {
+                    is DataState.Success -> {
+                        characterNameForTopBar = result.data.name
                         _characterDetails.emit(DataState.Success(result.data))
                     }
                     is DataState.Error -> {
                         _characterDetails.emit(result)
                     }
-                    DataState.Loading ->{
+                    DataState.Loading -> {
                         _characterDetails.emit(DataState.Loading)
                     }
                 }
                 this@CharacterDetailsViewModel.characterId = characterId
-
             }
-
         }
     }
 

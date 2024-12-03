@@ -1,4 +1,4 @@
-package com.example.domain.usecases
+package com.example.domain.usecase
 
 import androidx.paging.PagingData
 import com.exmple.rickandmorty.GetCharactersQuery

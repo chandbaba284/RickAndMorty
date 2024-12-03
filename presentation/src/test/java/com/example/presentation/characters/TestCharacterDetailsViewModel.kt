@@ -79,11 +79,7 @@ class TestCharacterDetailsViewModel {
                 val result = characterDetailsUseCase.invoke(characterId)
                 val expectedCharacters = result as DataState.Error
                 assertThat(actualOutput).isEqualTo(expectedCharacters.exception.message)
-
-
             }
         }
     }
-
 }
-
