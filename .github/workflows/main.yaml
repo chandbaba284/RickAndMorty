@@ -35,8 +35,8 @@ jobs:
             ${{ runner.os }}-gradle
 
       # Step 4: Lint check
-      - name: Run Kotlinter check
-        run: ./gradlew lintKotlin
+      - name: Run Detekt (Linting)
+        run: ./gradlew detekt
 
       # Step 5: Build the project
       - name: Build with Gradle
@@ -50,3 +50,5 @@ jobs:
       # Step 7: Run unit tests
       - name: Run unit tests
         run: ./gradlew test
+
+

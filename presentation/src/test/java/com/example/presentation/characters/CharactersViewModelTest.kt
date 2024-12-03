@@ -3,12 +3,12 @@ package com.example.presentation.characters
 import androidx.paging.PagingData
 import app.cash.turbine.test
 import com.example.common.module.DataState
+import com.example.domain.usecase.CharacterUseCase
 import com.example.presentation.viewmodel.CharactersViewModel
 import com.exmple.rickandmorty.GetCharactersQuery
 import com.exmple.rickandmorty.fragment.Character
 import com.exmple.rickandmorty.fragment.Location
 import com.google.common.truth.Truth.assertThat
-import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
@@ -21,7 +21,6 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.Before
 import org.junit.Test
-import usecases.CharacterUseCase
 
 class CharactersViewModelTest {
     private var useCase: CharacterUseCase = mockk(relaxed = true)
@@ -31,17 +30,15 @@ class CharactersViewModelTest {
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
-        MockKAnnotations.init(this)
         Dispatchers.setMain(testDispatcher)
-        charactersViewModel = CharactersViewModel(useCase)
-
+        charactersViewModel = CharactersViewModel(useCase, testDispatcher)
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun givenValidCharacters_whenInvokeIsCalledInUseCase_thenListSizeShouldMatchWithStateFlowItemsSize() =
         runTest(testDispatcher) {
-            //Given
+            // Given
             val items =
                 listOf(
                     GetCharactersQuery.Result(
@@ -54,7 +51,7 @@ class CharactersViewModelTest {
                             "",
                             "",
                             location = Character.Location("", Location("", "", "")),
-                            Character.Origin("",""), episode = listOf(Character.Episode("","","",""))
+                            Character.Origin("", ""), episode = listOf(Character.Episode("", "", "", ""))
                         ),
                     ),
                     GetCharactersQuery.Result(
@@ -70,16 +67,16 @@ class CharactersViewModelTest {
                                 "",
                                 Location("", "", ""),
                             ),
-                            Character.Origin("",""), episode = listOf(Character.Episode("","","",""))
+                            Character.Origin("", ""), episode = listOf(Character.Episode("", "", "", ""))
                         ),
 
-                        ),
+                    ),
                 )
 
             val pagedData = PagingData.from(items)
-            //When
+            // When
             coEvery { useCase.invoke() } returns flowOf(pagedData)
-            //Then
+            // Then
             charactersViewModel.charactersState.test {
                 charactersViewModel.fetchData()
                 assertThat(awaitItem()).isEqualTo(DataState.Loading)
@@ -90,10 +87,6 @@ class CharactersViewModelTest {
                 val actualCharacters = flowOf((successState as DataState.Success).data).toList()
                 assertThat(actualCharacters.size).isEqualTo(expectedCharacters.size)
                 cancelAndConsumeRemainingEvents()
-
             }
         }
-
-
-
 }

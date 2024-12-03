@@ -5,7 +5,6 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.apollo)
     alias(libs.plugins.kotlin.serialization)
-
 }
 
 android {
@@ -15,7 +14,6 @@ android {
     defaultConfig {
         minSdk = 24
         targetSdk = 34
-
     }
 
     buildTypes {
@@ -55,9 +53,8 @@ dependencies {
     implementation(libs.apollo.runtime)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
-    testImplementation (libs.androidx.core.testing)
+    testImplementation(libs.androidx.core.testing)
     testImplementation(libs.turbine)
     testImplementation(libs.truth)
     implementation(libs.kotlinx.serialization.json)
-
 }

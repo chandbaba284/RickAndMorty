@@ -19,7 +19,6 @@ annotation class MainDispatcher
 @Retention(AnnotationRetention.BINARY)
 annotation class DefaultDispatcher
 
-
 @Module
 object DispatchersModule {
 
@@ -37,5 +36,4 @@ object DispatchersModule {
     @Provides
     @Singleton
     fun provideDefaultDispatcher(): CoroutineDispatcher = Dispatchers.Default
-
 }

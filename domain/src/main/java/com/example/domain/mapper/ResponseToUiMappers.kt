@@ -21,24 +21,22 @@ fun GetCharacterDetailsByIdQuery.Character.toCharacterDetailsMapper(): Character
     )
 }
 
-
 private fun getEpisodes(episodes: List<com.exmple.rickandmorty.fragment.Character.Episode>): List<Episode> {
     val list: ArrayList<Episode> = ArrayList()
     episodes.map { episode ->
-            list.add(
-                Episode(
-                    airDate = episode.air_date,
-                    episodeName = episode.name,
-                    season = episode.episode,
-                    id = episode.id
-                )
+        list.add(
+            Episode(
+                airDate = episode.air_date,
+                episodeName = episode.name,
+                season = episode.episode,
+                id = episode.id
             )
+        )
     }
     return list
-
 }
 
- fun GetEpisodeDetailsByIdQuery.Data.toEpisodeDetailsMapper(): EpisodeDetails {
+fun GetEpisodeDetailsByIdQuery.Data.toEpisodeDetailsMapper(): EpisodeDetails {
     val episodeDetails = this.episode
     val characters = episodeDetails?.characters
     return EpisodeDetails(

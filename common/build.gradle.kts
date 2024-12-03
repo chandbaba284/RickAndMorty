@@ -11,7 +11,6 @@ android {
 
     defaultConfig {
         minSdk = 24
-
     }
 
     buildTypes {
@@ -44,7 +43,7 @@ dependencies {
 }
 
 apollo {
-    service("rickAndMorty"){
+    service("rickAndMorty") {
         packageName.set("com.exmple.rickandmorty")
         introspection {
             endpointUrl.set("https://rickandmortyapi.com/graphql")

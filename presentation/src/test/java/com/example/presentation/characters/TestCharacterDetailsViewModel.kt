@@ -19,7 +19,6 @@ class TestCharacterDetailsViewModel {
     private lateinit var characterDetailsViewModel: CharacterDetailsViewModel
     private val testDispatcher = StandardTestDispatcher()
 
-
     @Before
     fun setUp() {
         characterDetailsViewModel =
@@ -29,7 +28,7 @@ class TestCharacterDetailsViewModel {
     @Test
     fun givenCharacterDetails_whenInvokeDetails_shouldEmitSuccess() {
         runTest(testDispatcher) {
-            //Given
+            // Given
             val characterId = "1"
             coEvery { characterDetailsUseCase.invoke(characterId) } returns DataState.Success(
                 CharacterDetails(
@@ -45,10 +44,10 @@ class TestCharacterDetailsViewModel {
                     locationDimension = "", episodes = listOf(Episode("", "", ""))
                 )
             )
-            //When
+            // When
             characterDetailsViewModel.getCharacterDetails(characterId)
 
-            //Then
+            // Then
             characterDetailsViewModel.characterDetails.test {
                 assertThat(awaitItem()).isEqualTo(DataState.Loading)
                 val successState = awaitItem()
@@ -63,16 +62,16 @@ class TestCharacterDetailsViewModel {
     @Test
     fun givenWrongCharacterId_whenInvokeIsCalledInUseCase_shouldEmitError() {
         runTest(testDispatcher) {
-            //Given
+            // Given
             val characterId = "-1"
             coEvery { characterDetailsUseCase.invoke(characterId) } returns DataState.Error(
                 Exception(
                     "Character Details are Empty"
                 )
             )
-            //When
+            // When
             characterDetailsViewModel.getCharacterDetails(characterId)
-            //Then
+            // Then
             characterDetailsViewModel.characterDetails.test {
                 assertThat(awaitItem()).isEqualTo(DataState.Loading)
                 val errorState = awaitItem()
@@ -80,11 +79,7 @@ class TestCharacterDetailsViewModel {
                 val result = characterDetailsUseCase.invoke(characterId)
                 val expectedCharacters = result as DataState.Error
                 assertThat(actualOutput).isEqualTo(expectedCharacters.exception.message)
-
-
             }
         }
     }
-
 }
-

@@ -3,10 +3,9 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.apollo)
-    alias(libs.plugins.kotlinter)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.detekt.plugin)
 }
-
 
 android {
     namespace = "com.example.rickandmorty"
@@ -18,7 +17,6 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-
     }
 
     buildTypes {
@@ -28,7 +26,6 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-             
         }
     }
     compileOptions {
@@ -41,9 +38,7 @@ android {
     buildFeatures {
         compose = true
     }
-
 }
-
 
 dependencies {
     implementation(project(":data"))
@@ -70,4 +65,3 @@ dependencies {
     ksp(libs.dagger.compiler)
     implementation(libs.androidx.navigation.compose)
 }
-

@@ -1,10 +1,10 @@
 [versions]
-agp = "8.7.1"
+agp = "8.7.2"
 apolloRuntime = "4.0.1"
 coilCompose = "2.4.0"
 coreTesting = "2.2.0"
 dagger = "2.52"
-kotlin = "2.0.0"
+kotlin = "2.0.10"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -23,6 +23,10 @@ lifecycleLivedataKtx = "2.6.2"
 truth = "1.1.3"
 turbine = "1.0.0"
 kotlinx_serialization = "1.6.3"
+detect = "1.23.7"
+detektcompose = "0.4.16+"
+
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -56,6 +60,9 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx_serialization" }
+detekt = { module = "io.nlopez.compose.rules:detekt", version.ref = "detektcompose" }
+detekt-format = {module = "io.gitlab.arturbosch.detekt:detekt-formatting" , version.ref = "detect"}
+
 
 
 [plugins]
@@ -67,6 +74,8 @@ apollo = {id = "com.apollographql.apollo",version = "4.0.1"}
 ksp = {id = "com.google.devtools.ksp",version = "2.0.0-1.0.22"}
 androidLibrary = { id = "com.android.library"}
 kotlin-serialization = {id = "org.jetbrains.kotlin.plugin.serialization",version.ref = "kotlin"}
+detekt-plugin = { id = "io.gitlab.arturbosch.detekt", version.ref = "detect" }
+
 
 
 

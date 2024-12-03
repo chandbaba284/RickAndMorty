@@ -11,7 +11,6 @@ android {
 
     defaultConfig {
         minSdk = 24
-
     }
 
     buildTypes {
@@ -45,8 +44,7 @@ dependencies {
     ksp(libs.dagger.compiler)
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.mockk)
-    testImplementation (libs.androidx.core.testing)
+    testImplementation(libs.androidx.core.testing)
     testImplementation(libs.turbine)
     testImplementation(libs.truth)
-
 }
