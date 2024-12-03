@@ -24,6 +24,8 @@ import com.example.common.module.DataState
 import com.example.domain.mapper.Character
 import com.example.domain.mapper.EpisodeDetails
 import com.example.presentation.R
+import com.example.presentation.episodedetails.EpisodeDetailsValues.CHARACTERS_GRID_CELL_COUNT
+import com.example.presentation.episodedetails.EpisodeDetailsValues.EPISODE_LIST_DEFAULT_SIZE
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
@@ -121,7 +123,7 @@ private fun CharactersList(characters: List<Character>?, modifier: Modifier = Mo
 @Composable
 private fun CharactersListItem(characters: List<Character>?, modifier: Modifier = Modifier) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
+        columns = GridCells.Fixed(CHARACTERS_GRID_CELL_COUNT),
         modifier = modifier
             .fillMaxSize()
             .padding(),
@@ -129,7 +131,7 @@ private fun CharactersListItem(characters: List<Character>?, modifier: Modifier 
         horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.character_list_grid_spacing)),
         verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.character_list_grid_spacing))
     ) {
-        items(characters?.size ?: 0) { index ->
+        items(characters?.size ?: EPISODE_LIST_DEFAULT_SIZE) { index ->
             val item = characters?.get(index)
             AsyncImage(
                 model = item?.image,
@@ -139,4 +141,9 @@ private fun CharactersListItem(characters: List<Character>?, modifier: Modifier 
             )
         }
     }
+}
+
+private object  EpisodeDetailsValues {
+    const val EPISODE_LIST_DEFAULT_SIZE = 0
+    const val CHARACTERS_GRID_CELL_COUNT = 2
 }
