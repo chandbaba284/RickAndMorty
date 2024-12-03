@@ -143,7 +143,7 @@ private fun CharactersListItem(characters: List<Character>?, modifier: Modifier 
     }
 }
 
-private object  EpisodeDetailsValues {
+private object EpisodeDetailsValues {
     const val EPISODE_LIST_DEFAULT_SIZE = 0
     const val CHARACTERS_GRID_CELL_COUNT = 2
 }
