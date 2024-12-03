@@ -21,7 +21,6 @@ class EpisodeDetailsViewModel @Inject constructor(val episodeDetailsUseCase: Epi
     var episodeTitleForTopBar = ""
         private set
 
-
     fun getEpisodeDetailsByUsingEpisodeId(episodeId: String) {
         viewModelScope.launch {
             val result = episodeDetailsUseCase.invoke(episodeId)

@@ -4,5 +4,5 @@ import com.example.common.module.DataState
 import com.example.domain.mapper.EpisodeDetails
 
 interface EpisodeDetailsRepository {
-    suspend fun getEpisodeDetailsById(id : String) : DataState<EpisodeDetails>
+    suspend fun getEpisodeDetailsById(id: String): DataState<EpisodeDetails>
 }

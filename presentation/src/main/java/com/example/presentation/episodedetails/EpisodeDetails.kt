@@ -11,7 +11,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -25,53 +24,48 @@ import com.example.common.module.DataState
 import com.example.domain.mapper.Character
 import com.example.domain.mapper.EpisodeDetails
 import com.example.presentation.R
-import com.example.presentation.RickAndMortyAppBar
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun EpisodeDetails(
-    topBarTitle: String,
     episodeDetails: StateFlow<DataState<EpisodeDetails>>,
     modifier: Modifier = Modifier
 ) {
     val episodeInfo = episodeDetails.collectAsState().value
-    Scaffold(
-        modifier = Modifier.fillMaxSize(),
-        topBar = { RickAndMortyAppBar(topBarTitle) },
-        content = { innerPadding ->
-            when (episodeInfo) {
-                is DataState.Error -> {
-                    Text(text = episodeInfo.exception.message.toString())
-                }
+    Column(
+        modifier = modifier
+    ) {
+        when (episodeInfo) {
+            is DataState.Error -> {
+                Text(text = episodeInfo.exception.message.toString())
+            }
 
-                DataState.Loading -> {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        CircularProgressIndicator(modifier = Modifier.size(dimensionResource(R.dimen.progress_bar_size)))
-                    }
-                }
-
-                is DataState.Success -> {
-                    EpisodeScreen(episodeInfo.data, modifier = Modifier.padding(innerPadding))
-
+            DataState.Loading -> {
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    CircularProgressIndicator(modifier = Modifier.size(dimensionResource(R.dimen.progress_bar_size)))
                 }
             }
-        },
-    )
+
+            is DataState.Success -> {
+                EpisodeScreen(episodeInfo.data)
+            }
+        }
+    }
 }
 
 @Composable
-private fun EpisodeScreen(episodeDetails: EpisodeDetails,modifier: Modifier = Modifier) {
+private fun EpisodeScreen(episodeDetails: EpisodeDetails, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        EpisodeName(episodeDetails, modifier.padding())
-        EpisodeAirDate(episodeDetails)
-        CharactersList(episodeDetails.characters)
+        episodeDetails.apply {
+            EpisodeName(this)
+            EpisodeAirDate(this)
+            CharactersList(this.characters)
+        }
     }
-
-
 }
 
 @Composable
@@ -121,7 +115,6 @@ private fun CharactersList(characters: List<Character>?, modifier: Modifier = Mo
             modifier = Modifier.padding(top = dimensionResource(R.dimen.episode_details_topbar_padding))
         )
         CharactersListItem(characters)
-
     }
 }
 
@@ -145,8 +138,5 @@ private fun CharactersListItem(characters: List<Character>?, modifier: Modifier 
                 modifier = Modifier.fillMaxSize(),
             )
         }
-
-
     }
-
 }

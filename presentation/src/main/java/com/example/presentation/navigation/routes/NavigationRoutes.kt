@@ -9,4 +9,4 @@ object RouteHome
 data class RouteCharacterDetails(val characterId: String)
 
 @Serializable
-data class  RouteEpisodeDetails(val episodeId : String)
+data class RouteEpisodeDetails(val episodeId: String)

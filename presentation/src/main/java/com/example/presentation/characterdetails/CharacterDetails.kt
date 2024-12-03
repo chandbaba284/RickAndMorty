@@ -1,6 +1,5 @@
 package com.example.presentation.characterdetails
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -44,7 +43,6 @@ import kotlinx.coroutines.flow.StateFlow
 @Composable
 fun CharacterDetails(
     characterDetails: StateFlow<DataState<CharacterDetails>>,
-    topBarTitle : String,
     onNavigateToEpisodeDetails: (String) -> Unit,
     modifier: Modifier = Modifier
 
@@ -64,7 +62,7 @@ fun CharacterDetails(
             }
 
             is DataState.Success -> {
-                CharacterDetailItems(uiState.data)
+                CharacterDetailItems(item = uiState.data, onNavigateToEpisodeDetails = onNavigateToEpisodeDetails)
             }
         }
     }
@@ -88,8 +86,8 @@ private fun ProgressBar(modifier: Modifier = Modifier) {
 @Composable
 private fun CharacterDetailItems(
     item: CharacterDetails,
+    onNavigateToEpisodeDetails: (String) -> Unit,
     modifier: Modifier = Modifier,
-    onNavigateToEpisodeDetails: (String) -> Unit
 ) {
     Column(
         modifier = modifier.verticalScroll(rememberScrollState())
@@ -112,7 +110,7 @@ private fun CharacterDetailItems(
                 CharacterOriginDimension(this)
                 CharacterLocation(this)
                 CharacterLocationDimension(this)
-                EpisodesList(this)
+                EpisodesList(item = this, onNavigateToEpisodeDetails = onNavigateToEpisodeDetails)
             }
         }
     }
@@ -233,7 +231,11 @@ private fun CharacterLocationDimension(
 }
 
 @Composable
-private fun EpisodesList(item: CharacterDetails, modifier: Modifier = Modifier) {
+private fun EpisodesList(
+    item: CharacterDetails,
+    onNavigateToEpisodeDetails: (String) -> Unit,
+    modifier: Modifier = Modifier
+) {
     LazyRow(
         contentPadding = PaddingValues(dimensionResource(R.dimen.character_list_item_padding)),
         horizontalArrangement = Arrangement.spacedBy(
@@ -243,18 +245,23 @@ private fun EpisodesList(item: CharacterDetails, modifier: Modifier = Modifier) 
     ) {
         items(item.episodes.size ?: EPISODE_LIST_DEFAULT_SIZE) { index ->
             val episode = item.episodes.get(index)
-            EpisodeListItem(episode, index)
+            EpisodeListItem(item = episode, index = index, onNavigateToEpisodeDetails = onNavigateToEpisodeDetails)
         }
     }
 }
 
 @Composable
-private fun EpisodeListItem(item: Episode, index: Int, modifier: Modifier = Modifier) {
+private fun EpisodeListItem(
+    item: Episode,
+    index: Int,
+    onNavigateToEpisodeDetails: (String) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     Box(
         modifier = modifier
             .size(dimensionResource(R.dimen.episode_item_size))
             .background(color = colorResource(R.color.episode_background_color))
-            .clickable(onClick = { onNavigateToEpisodeDetails(item?.id.orEmpty()) })
+            .clickable(onClick = { onNavigateToEpisodeDetails(item.id) })
     ) {
         Column(
             modifier = Modifier.matchParentSize(),

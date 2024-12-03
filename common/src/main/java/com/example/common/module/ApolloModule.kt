@@ -14,7 +14,7 @@ object ApolloModule {
 
     @Provides
     @Singleton
-    fun provideApolloClient(httpClient : OkHttpClient): ApolloClient {
+    fun provideApolloClient(httpClient: OkHttpClient): ApolloClient {
         val apolloClient =
             ApolloClient
                 .Builder()

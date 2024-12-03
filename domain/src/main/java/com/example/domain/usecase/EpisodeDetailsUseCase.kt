@@ -6,7 +6,7 @@ import com.example.domain.repository.EpisodeDetailsRepository
 import javax.inject.Inject
 
 class EpisodeDetailsUseCase @Inject constructor(private val episodeDetailsRepository: EpisodeDetailsRepository) {
-    suspend fun invoke(episodeId : String): DataState<EpisodeDetails> {
+    suspend fun invoke(episodeId: String): DataState<EpisodeDetails> {
         return episodeDetailsRepository.getEpisodeDetailsById(episodeId)
     }
 }
