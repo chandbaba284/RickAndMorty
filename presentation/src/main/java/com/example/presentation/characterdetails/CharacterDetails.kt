@@ -28,16 +28,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.example.common.module.DataState
 import com.example.domain.mapper.CharacterDetails
 import com.example.domain.mapper.Episode
 import com.example.presentation.R
 import com.example.presentation.characterdetails.CharacterDetailsValues.EPISODE_LIST_DEFAULT_SIZE
+import com.example.presentation.dimens
 import kotlinx.coroutines.flow.StateFlow
 
 @Composable
@@ -78,7 +77,7 @@ private fun ProgressBar(modifier: Modifier = Modifier) {
     ) {
         CircularProgressIndicator(
             modifier = Modifier
-                .size(dimensionResource(R.dimen.progress_bar_size)) // Sets the specific size
+                .size(MaterialTheme.dimens.progressBarSize) // Sets the specific size
         )
     }
 }
@@ -98,9 +97,9 @@ private fun CharacterDetailItems(
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(dimensionResource(R.dimen.character_details_image_height)),
+                .height(MaterialTheme.dimens.characterDetailsImageHeight),
         )
-        Column(modifier = Modifier.padding(dimensionResource(R.dimen.character_list_grid_spacing))) {
+        Column(modifier = Modifier.padding(MaterialTheme.dimens.mediumLineHeight)) {
             Text(text = item.name, style = MaterialTheme.typography.headlineLarge)
             item.apply {
                 CharacterStatus(this)
@@ -119,13 +118,13 @@ private fun CharacterDetailItems(
 @Composable
 private fun CharacterStatus(item: CharacterDetails, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_status_padding)))
+        Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.mediumLineHeight))
         Row {
             Text(
                 text = stringResource(R.string.status),
                 style = MaterialTheme.typography.titleMedium
             )
-            Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
+            Spacer(modifier = Modifier.size(MaterialTheme.dimens.mediumLineHeight))
             CustomTextWithStyleMediumColorPrimary(text = item.status?.uppercase().orEmpty())
         }
     }
@@ -134,13 +133,13 @@ private fun CharacterStatus(item: CharacterDetails, modifier: Modifier = Modifie
 @Composable
 private fun CharacterSpecies(item: CharacterDetails, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_spacer)))
+        Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.mediumLineHeight))
         Row {
             Text(
                 text = stringResource(R.string.species),
                 style = MaterialTheme.typography.titleMedium
             )
-            Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
+            Spacer(modifier = Modifier.size(MaterialTheme.dimens.mediumLineHeight))
             CustomTextWithStyleMediumColorPrimary(text = item.species?.uppercase().orEmpty())
         }
     }
@@ -149,13 +148,13 @@ private fun CharacterSpecies(item: CharacterDetails, modifier: Modifier = Modifi
 @Composable
 private fun CharacterGender(item: CharacterDetails, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_spacer)))
+        Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.mediumLineHeight))
         Row {
             Text(
                 text = stringResource(R.string.gender),
                 style = MaterialTheme.typography.titleMedium
             )
-            Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
+            Spacer(modifier = Modifier.size(MaterialTheme.dimens.mediumLineHeight))
             CustomTextWithStyleMediumColorPrimary(text = item.gender?.uppercase().orEmpty())
         }
     }
@@ -164,16 +163,16 @@ private fun CharacterGender(item: CharacterDetails, modifier: Modifier = Modifie
 @Composable
 private fun CharacterOrigin(item: CharacterDetails, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_origin_spacer)))
+        Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.largeLineHeight))
         Text(text = stringResource(R.string.origin), style = MaterialTheme.typography.titleLarge)
-        Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_spacer)))
+        Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.mediumLineHeight))
         Row {
             Text(
                 text = stringResource(R.string.origin_name),
                 style = MaterialTheme.typography.titleMedium
             )
-            Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
-            CustomTextWithStyleMediumColorPrimary(text = item.originName?.uppercase().orEmpty())
+            Spacer(modifier = Modifier.size(MaterialTheme.dimens.mediumLineHeight))
+            CustomTextWithStyleMediumColorPrimary(text = item.originName.uppercase().orEmpty())
         }
     }
 }
@@ -186,7 +185,7 @@ private fun CharacterOriginDimension(item: CharacterDetails, modifier: Modifier 
                 text = stringResource(R.string.origin_dimension),
                 style = MaterialTheme.typography.titleMedium
             )
-            Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
+            Spacer(modifier = Modifier.size(MaterialTheme.dimens.mediumLineHeight))
             CustomTextWithStyleMediumColorPrimary(
                 text = item.originDimension?.uppercase().orEmpty()
             )
@@ -197,15 +196,14 @@ private fun CharacterOriginDimension(item: CharacterDetails, modifier: Modifier 
 @Composable
 private fun CharacterLocation(item: CharacterDetails, modifier: Modifier = Modifier) {
     Column(modifier = modifier) {
-        Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_origin_spacer)))
+        Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.largeLineHeight))
         Text(text = stringResource(R.string.location), style = MaterialTheme.typography.titleLarge)
-        Spacer(modifier = Modifier.padding(top = 5.dp))
         Row {
             Text(
                 text = stringResource(R.string.location_name),
                 style = MaterialTheme.typography.titleMedium
             )
-            Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
+            Spacer(modifier = Modifier.size(MaterialTheme.dimens.mediumLineHeight))
             CustomTextWithStyleMediumColorPrimary(text = item.locationName?.uppercase().orEmpty())
         }
     }
@@ -222,7 +220,7 @@ private fun CharacterLocationDimension(
                 text = stringResource(R.string.location_dimension),
                 style = MaterialTheme.typography.titleMedium
             )
-            Spacer(modifier = Modifier.size(dimensionResource(R.dimen.character_details_spacer)))
+            Spacer(modifier = Modifier.size(MaterialTheme.dimens.mediumLineHeight))
             CustomTextWithStyleMediumColorPrimary(
                 text = item.locationDimension?.uppercase().orEmpty()
             )
@@ -237,9 +235,9 @@ private fun EpisodesList(
     modifier: Modifier = Modifier
 ) {
     LazyRow(
-        contentPadding = PaddingValues(dimensionResource(R.dimen.character_list_item_padding)),
+        contentPadding = PaddingValues(MaterialTheme.dimens.mediumLineHeight),
         horizontalArrangement = Arrangement.spacedBy(
-            dimensionResource(R.dimen.character_list_grid_spacing)
+            MaterialTheme.dimens.mediumLineHeight
         ),
         modifier = modifier
     ) {
@@ -259,7 +257,7 @@ private fun EpisodeListItem(
 ) {
     Box(
         modifier = modifier
-            .size(dimensionResource(R.dimen.episode_item_size))
+            .size(MaterialTheme.dimens.episodeItemSize)
             .background(color = colorResource(R.color.episode_background_color))
             .clickable(onClick = { onNavigateToEpisodeDetails(item.id) })
     ) {

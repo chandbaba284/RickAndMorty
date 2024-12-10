@@ -23,16 +23,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.example.common.module.DataState
-import com.example.presentation.R
 import com.example.presentation.characters.HomeScreenValues.CHARACTER_LIST_DEFAULT_SIZE
 import com.example.presentation.characters.HomeScreenValues.HOME_SCREEN_GRID_CELLS
+import com.example.presentation.dimens
 import com.exmple.rickandmorty.GetCharactersQuery
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
@@ -96,7 +95,7 @@ private fun ProgressBar(modifier: Modifier = Modifier) {
     ) {
         CircularProgressIndicator(
             modifier = Modifier
-                .size(dimensionResource(R.dimen.progress_bar_size)) // Sets the specific size
+                .size(MaterialTheme.dimens.progressBarSize) // Sets the specific size
         )
     }
 }
@@ -130,7 +129,7 @@ private fun CharactersListItem(
             modifier =
             Modifier
                 .align(Alignment.BottomCenter)
-                .padding(dimensionResource(R.dimen.character_list_item_padding)),
+                .padding(MaterialTheme.dimens.mediumLineHeight),
         )
     }
 }
@@ -148,9 +147,9 @@ private fun CharactersList(
         modifier = modifier
             .fillMaxSize()
             .padding(),
-        contentPadding = PaddingValues(dimensionResource(R.dimen.character_list_grid_padding)),
-        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.character_list_grid_spacing)),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.character_list_grid_spacing)),
+        contentPadding = PaddingValues(MaterialTheme.dimens.mediumLineHeight),
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.mediumLineHeight),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.mediumLineHeight),
     ) {
         items(charactersList?.itemCount ?: CHARACTER_LIST_DEFAULT_SIZE) { index ->
             val item = charactersList?.get(index)

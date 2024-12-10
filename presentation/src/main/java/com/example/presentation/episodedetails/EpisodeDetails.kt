@@ -17,13 +17,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
 import com.example.common.module.DataState
 import com.example.domain.mapper.Character
 import com.example.domain.mapper.EpisodeDetails
 import com.example.presentation.R
+import com.example.presentation.dimens
 import com.example.presentation.episodedetails.EpisodeDetailsValues.CHARACTERS_GRID_CELL_COUNT
 import com.example.presentation.episodedetails.EpisodeDetailsValues.EPISODE_LIST_DEFAULT_SIZE
 import kotlinx.coroutines.flow.StateFlow
@@ -48,7 +48,7 @@ fun EpisodeDetails(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    CircularProgressIndicator(modifier = Modifier.size(dimensionResource(R.dimen.progress_bar_size)))
+                    CircularProgressIndicator(modifier = Modifier.size(MaterialTheme.dimens.progressBarSize))
                 }
             }
 
@@ -78,15 +78,15 @@ private fun EpisodeName(episodeInfo: EpisodeDetails, modifier: Modifier = Modifi
         Text(
             text = stringResource(R.string.episode_name),
             style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(top = dimensionResource(R.dimen.episode_details_topbar_padding))
+            modifier = Modifier.padding(top = MaterialTheme.dimens.mediumLineHeight)
         )
         Text(
             text = episodeInfo.title.orEmpty(),
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(top = dimensionResource(R.dimen.episode_details_spacing_between_title_value))
+            modifier = Modifier.padding(top = MaterialTheme.dimens.mediumLineHeight)
         )
-        Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_status_padding)))
+        Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.mediumLineHeight))
     }
 }
 
@@ -96,15 +96,15 @@ private fun EpisodeAirDate(episodeInfo: EpisodeDetails, modifier: Modifier = Mod
         Text(
             text = stringResource(R.string.air_date),
             style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(top = dimensionResource(R.dimen.episode_details_topbar_padding))
+            modifier = Modifier.padding(top = MaterialTheme.dimens.mediumLineHeight)
         )
         Text(
             text = episodeInfo.airDate.orEmpty(),
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(top = dimensionResource(R.dimen.episode_details_spacing_between_title_value))
+            modifier = Modifier.padding(top = MaterialTheme.dimens.mediumLineHeight)
         )
-        Spacer(modifier = Modifier.padding(top = dimensionResource(R.dimen.character_details_status_padding)))
+        Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.mediumLineHeight ))
     }
 }
 
@@ -114,7 +114,7 @@ private fun CharactersList(characters: List<Character>?, modifier: Modifier = Mo
         Text(
             text = stringResource(R.string.characters),
             style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(top = dimensionResource(R.dimen.episode_details_topbar_padding))
+            modifier = Modifier.padding(top = MaterialTheme.dimens.mediumLineHeight)
         )
         CharactersListItem(characters)
     }
@@ -127,9 +127,9 @@ private fun CharactersListItem(characters: List<Character>?, modifier: Modifier 
         modifier = modifier
             .fillMaxSize()
             .padding(),
-        contentPadding = PaddingValues(dimensionResource(R.dimen.character_list_grid_padding)),
-        horizontalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.character_list_grid_spacing)),
-        verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.character_list_grid_spacing))
+        contentPadding = PaddingValues(MaterialTheme.dimens.mediumLineHeight),
+        horizontalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.mediumLineHeight),
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.dimens.mediumLineHeight)
     ) {
         items(characters?.size ?: EPISODE_LIST_DEFAULT_SIZE) { index ->
             val item = characters?.get(index)
