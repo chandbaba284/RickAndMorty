@@ -104,7 +104,7 @@ private fun EpisodeAirDate(episodeInfo: EpisodeDetails, modifier: Modifier = Mod
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(top = MaterialTheme.dimens.mediumLineHeight)
         )
-        Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.mediumLineHeight ))
+        Spacer(modifier = Modifier.padding(top = MaterialTheme.dimens.mediumLineHeight))
     }
 }
 
