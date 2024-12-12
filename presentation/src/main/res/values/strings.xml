@@ -12,4 +12,5 @@
     <string name="episode_name">EPISODE NAME</string>
     <string name="air_date">AIR DATE</string>
     <string name="characters">CHARACTERS</string>
+    <string name="unavailable">Unavailable</string>
 </resources>

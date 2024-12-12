@@ -18,8 +18,7 @@ class EpisodeDetailsViewModel @Inject constructor(val episodeDetailsUseCase: Epi
     )
     val episodeDetails: StateFlow<DataState<EpisodeDetails>> = _episodeDetails
 
-    var episodeTitleForTopBar = ""
-        private set
+    private var episodeTitleForTopBar = ""
 
     fun getEpisodeDetailsByUsingEpisodeId(episodeId: String) {
         viewModelScope.launch {

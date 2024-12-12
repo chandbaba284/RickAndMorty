@@ -81,7 +81,7 @@ private fun EpisodeName(episodeInfo: EpisodeDetails, modifier: Modifier = Modifi
             modifier = Modifier.padding(top = dimensionResource(R.dimen.episode_details_topbar_padding))
         )
         Text(
-            text = episodeInfo.title.orEmpty(),
+            text = episodeInfo.title,
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(top = dimensionResource(R.dimen.episode_details_spacing_between_title_value))
@@ -99,7 +99,7 @@ private fun EpisodeAirDate(episodeInfo: EpisodeDetails, modifier: Modifier = Mod
             modifier = Modifier.padding(top = dimensionResource(R.dimen.episode_details_topbar_padding))
         )
         Text(
-            text = episodeInfo.airDate.orEmpty(),
+            text = episodeInfo.airDate.ifEmpty { stringResource(R.string.unavailable) },
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(top = dimensionResource(R.dimen.episode_details_spacing_between_title_value))

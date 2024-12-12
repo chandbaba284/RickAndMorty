@@ -36,16 +36,13 @@ fun NavigationController(
         composable<RouteHome> {
             val viewModel: CharactersViewModel = viewModel(factory = viewModelFactory)
             onTopBarTitleChange(stringResource(R.string.app_name))
-            val onNavigateCharacterDetails: (
-                String
-            ) -> Unit = { characterId: String ->
-                navController.navigate(
-                    RouteCharacterDetails(characterId = characterId)
-                )
-            }
             HomeScreen(
                 allCharacters = viewModel.charactersState,
-                onNavigateToCharacterDetails = onNavigateCharacterDetails
+                onNavigateToCharacterDetails = { characterId ->
+                    navController.navigate(
+                        RouteCharacterDetails(characterId)
+                    )
+                }
             )
         }
         composable<RouteCharacterDetails> { navBackStackEntry ->
@@ -53,12 +50,13 @@ fun NavigationController(
             val viewModel: CharacterDetailsViewModel = viewModel(factory = viewModelFactory)
             viewModel.getCharacterDetails(characterDetails.characterId)
             onTopBarTitleChange(viewModel.getCharacterName())
-            val onNavigateToEpisodeDetails: (
-                String
-            ) -> Unit = { episodeId: String -> navController.navigate(RouteEpisodeDetails(episodeId = episodeId)) }
             CharacterDetails(
                 characterDetails = viewModel.characterDetails,
-                onNavigateToEpisodeDetails = onNavigateToEpisodeDetails
+                onNavigateToEpisodeDetails = { episodeId ->
+                    navController.navigate(
+                        RouteEpisodeDetails(episodeId = episodeId)
+                    )
+                }
             )
         }
         composable<RouteEpisodeDetails> { navBackStackEntry ->
