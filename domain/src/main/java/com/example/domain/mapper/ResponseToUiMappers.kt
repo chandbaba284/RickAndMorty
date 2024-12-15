@@ -42,12 +42,12 @@ fun GetEpisodeDetailsByIdQuery.Data.toEpisodeDetailsMapper(): EpisodeDetails {
     return EpisodeDetails(
         id = episodeDetails?.id ?: "",
         airDate = episodeDetails?.air_date ?: "",
-        title = episodeDetails?.name,
+        title = episodeDetails?.name ?: "",
         characters = characters.toAllCharactersList()
     )
 }
 
-fun List<GetEpisodeDetailsByIdQuery.Character?>?.toAllCharactersList(): List<Character> {
+private fun List<GetEpisodeDetailsByIdQuery.Character?>?.toAllCharactersList(): List<Character> {
     return this?.mapNotNull { character ->
         character?.let {
             Character(

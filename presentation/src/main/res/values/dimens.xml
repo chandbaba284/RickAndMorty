@@ -10,5 +10,8 @@
     <dimen name="character_details_spacer">5dp</dimen>
     <dimen name="character_details_origin_spacer">15dp</dimen>
     <dimen name="episode_item_size">120dp</dimen>
+    <dimen name="episode_details_topbar_padding">16dp</dimen>
+    <dimen name="episode_details_spacing_between_title_value">5dp</dimen>
+    <dimen name="character_spacing_episodes">5dp</dimen>
 
 </resources>

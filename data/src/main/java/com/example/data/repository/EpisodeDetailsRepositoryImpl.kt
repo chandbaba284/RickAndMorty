@@ -5,12 +5,13 @@ import com.example.common.R
 import com.example.common.module.DataState
 import com.example.domain.mapper.EpisodeDetails
 import com.example.domain.mapper.toEpisodeDetailsMapper
+import com.example.domain.repository.EpisodeDetailsRepository
 import com.exmple.rickandmorty.GetEpisodeDetailsByIdQuery
 
-class EpisodeDetailsRepositoryImpl(private val apolloClient: ApolloClient) {
-    suspend fun getEpisodeDetails(episodeId: String): DataState<EpisodeDetails> {
+class EpisodeDetailsRepositoryImpl(private val apolloClient: ApolloClient) : EpisodeDetailsRepository {
+    override suspend fun getEpisodeDetailsById(id: String): DataState<EpisodeDetails> {
         return try {
-            val response = apolloClient.query(GetEpisodeDetailsByIdQuery(episodeId)).execute()
+            val response = apolloClient.query(GetEpisodeDetailsByIdQuery(id)).execute()
             if (response.hasErrors()) {
                 DataState.Error(
                     IllegalStateException(response.errors?.joinToString { it.message }),
