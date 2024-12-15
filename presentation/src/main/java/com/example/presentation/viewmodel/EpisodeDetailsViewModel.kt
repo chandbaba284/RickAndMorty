@@ -3,14 +3,19 @@ package com.example.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.common.module.DataState
+import com.example.data.di.IoDispatcher
 import com.example.domain.mapper.EpisodeDetails
 import com.example.domain.usecase.EpisodeDetailsUseCase
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class EpisodeDetailsViewModel @Inject constructor(val episodeDetailsUseCase: EpisodeDetailsUseCase) :
+class EpisodeDetailsViewModel @Inject constructor(
+    private val episodeDetailsUseCase: EpisodeDetailsUseCase,
+    @IoDispatcher val ioDispatcher: CoroutineDispatcher
+) :
     ViewModel() {
 
     private val _episodeDetails: MutableStateFlow<DataState<EpisodeDetails>> = MutableStateFlow(
@@ -22,7 +27,7 @@ class EpisodeDetailsViewModel @Inject constructor(val episodeDetailsUseCase: Epi
         private set
 
     fun getEpisodeDetailsByUsingEpisodeId(episodeId: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             val result = episodeDetailsUseCase.invoke(episodeId)
             _episodeDetails.emit(DataState.Loading)
             when (result) {
