@@ -6,6 +6,7 @@ import com.example.common.module.DataState
 import com.example.data.di.IoDispatcher
 import com.example.domain.mapper.CharacterDetails
 import com.example.domain.usecase.CharacterDetailsUseCase
+import dagger.assisted.Assisted
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,6 +16,7 @@ import javax.inject.Inject
 class CharacterDetailsViewModel @Inject constructor(
     private val characterDetailsUseCase: CharacterDetailsUseCase,
     @IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @Assisted private var characterId: String
 ) : ViewModel() {
 
     private val _characterDetails: MutableStateFlow<DataState<CharacterDetails>> = MutableStateFlow(
@@ -23,12 +25,11 @@ class CharacterDetailsViewModel @Inject constructor(
     val characterDetails: StateFlow<DataState<CharacterDetails>> = _characterDetails
     var characterNameForTopBar = ""
         private set
-    var characterId = ""
-        private set
 
-    fun getCharacterDetails(characterId: String) {
+
+    fun getCharacterDetails(character: String) {
         viewModelScope.launch(ioDispatcher) {
-            if (this@CharacterDetailsViewModel.characterId.isEmpty()) {
+            if (characterId.isEmpty()) {
                 val result = characterDetailsUseCase.invoke(characterId)
                 when (result) {
                     is DataState.Success -> {
@@ -42,7 +43,7 @@ class CharacterDetailsViewModel @Inject constructor(
                         _characterDetails.emit(DataState.Loading)
                     }
                 }
-                this@CharacterDetailsViewModel.characterId = characterId
+                characterId = character
             }
         }
     }

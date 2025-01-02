@@ -20,7 +20,7 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(CharacterDetailsViewModel::class)
-    abstract fun bindCharacterDetailsViewModel(myViewModel: CharacterDetailsViewModel): ViewModel
+    abstract fun bindCharacterDetailsViewModel(factory : CharacterDetailsViewModelFactory): CharacterDetailsViewModelFactory
 
     @Binds
     @IntoMap
